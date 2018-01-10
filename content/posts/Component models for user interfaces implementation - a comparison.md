@@ -624,7 +624,7 @@ remains within the conceptual framework without modification.
 There is no need for lifecycle management component-wise. Component are just functions. Events 
 and behaviours exists as long as they are necessary, and picked up by the runtime when there is 
 no more reference of them.
-
+  
 ## Testing
 Component can be tested via mocking of the interfaces with the external systems (`sources` and 
 `drivers`).

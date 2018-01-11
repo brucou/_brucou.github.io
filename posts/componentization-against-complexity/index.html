@@ -91,7 +91,8 @@ Complexity resists to a uniformally useful definition. However, it is generally 
 
 <p>As a side note, a user interface itself is precisely an attempt at shielding the user from the complexity of underlying systems so he can focus on the domain at hand and the tasks it encompasses. In other words, the user interface <strong>abstracts</strong> out the underlying system layer. As a matter of fact, most advances against accidental complexity (in <strong>any</strong> field) are made by better and/or more powerful abstractions.</p>
 
-<p>We can list a short range of abstractions taking aim at specific sources of complexity, at the system implementation level :</p>
+<p>As a matter of fact, we can list a short range of abstractions taking aim at specific sources of
+complexity, at the system implementation level :</p>
 
 <ul>
 <li>domain : domain modeling</li>
@@ -116,7 +117,7 @@ Complexity resists to a uniformally useful definition. However, it is generally 
 
 <ul>
 <li>Eliminate all unnecessary details and get to the essential elements of the problem and express them clearly and concisely as invariants</li>
-<li>Encapsulate that which vary and express them as variants.  The variants of abstractly equivalent behaviors are grouped into appropriate taxonomy of abstract classes and subclasses</li>
+<li>Encapsulate those which vary and express them as variants.  The variants of abstractly equivalent behaviors are grouped into an appropriate taxonomy of abstract classes and subclasses</li>
 <li>Define the dynamics of the system in terms of the  interplay between the invariants and the variants.  Sometimes the invariants/variants interplays can be straightforward, but more than often they can be subtle like the case when an invariant can be expressed in terms of many variants</li>
 </ul>
 
@@ -124,7 +125,7 @@ Complexity resists to a uniformally useful definition. However, it is generally 
 
 <p><img src="https://www.clear.rice.edu/comp310/JavaResources/frameworks/frameworks.png" alt="Component framework" /></p>
 
-<p>Hence, in essence, component frameworks break the system down into variant &ldquo;components&rdquo; that represent abstract processing that the system supports. These components are generally thought of as &ldquo;pluggable&rdquo; in the sense that the system can be configured with a set of components to accomplish a particular task or set of tasks.   In many systems, the components can dynamically swapped in and out.   The framework, on the other hand, is the invariant &ldquo;superstructure&rdquo; that manages the components, providing services to each component that, when combined with the services/behaviors supplied by that component, create the net behavior defined by that component in that framework.    The framework has the effect of decoupling or isolating the components from each other since it the component interactions are handled by the framework in a manner that is opaque to the components.</p>
+<p>Hence, in essence, component frameworks break the system down into variant &ldquo;components&rdquo; that represent abstract processing that the system supports. These components are generally thought of as &ldquo;pluggable&rdquo; in the sense that the system can be configured with a set of components to accomplish a particular task or set of tasks.   In many systems, the components can dynamically swapped in and out.   The framework, on the other hand, is the invariant &ldquo;superstructure&rdquo; that manages the components, providing services to each component that, when combined with the services/behaviors supplied by that component, create the net behavior defined by that component in that framework.    The framework has the effect of decoupling or isolating the components <strong>from each other</strong> while coupling them to the framework.</p>
 
 <h1 id="benefits">Benefits</h1>
 

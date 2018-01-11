@@ -435,7 +435,8 @@ search-as-you-type component might keep track of the length of the search key, a
 <h2 id="concurrency-management">Concurrency management</h2>
 
 <p>User interfaces are inherently concurrent due to their interfacing with <strong>distributed</strong> systems,
-and the ability for the user to continue to perform inputs irrespectively of the in-process action.</p>
+and the ability for the user to continue to perform inputs triggering new actions irrespectively of
+the in-process action.</p>
 
 <p>This often leads to a host of concurrency problems, among which :</p>
 
@@ -470,8 +471,7 @@ that action result never occurs</li>
 <p>This is further compounded by :</p>
 
 <ul>
-<li>modern applications straying away from javascript&rsquo;s single-threaded
-model, with the use of web workers.</li>
+<li>modern applications straying away from javascript&rsquo;s single-threaded model, with the use of web workers.</li>
 <li>some applications being also concurrent by design (collaborative applications, multi-windows
 applications, etc.)</li>
 </ul>

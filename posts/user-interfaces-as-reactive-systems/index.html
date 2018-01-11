@@ -116,13 +116,14 @@ For instance, when the interaction between systems becomes too complex (too many
 
 <p>Because most reactive systems are stateful, the relation $\sim$ is not in general a <strong>deterministic</strong> (the same output associated for the same input, as opposed to probabilistic functions) <strong>function</strong> (which can only associate <strong>ONE</strong> output to an input).</p>
 
-<p>In addition to this, many frameworks for implementing user interfaces (<code>Angular2</code>, <code>Ember</code>,
+<p>Many frameworks for implementing user interfaces (<code>Angular2</code>, <code>Ember</code>,
 <code>Ractive</code>, <code>React</code>, etc.) make use of callback <strong>procedures</strong><sup class="footnote-ref" id="fnref:defProcedure"><a rel="footnote" href="#fn:defProcedure">1</a></sup>, or event handlers, which, when triggered by an event, perform the corresponding action. A few important issues stem from that choice :</p>
 
 <ul>
 <li>having the procedure directly handling in the same bundle different concerns such as input validation, performing triggered actions, error management, updating local state, makes it harder to trace, debug and reason about the program execution. The concurrent nature of user interfaces magnifies this issue.</li>
 <li>procedures also do not compose as easily as pure functions, which limits the use of componentization techniques to reduce complexity and increase reuse.</li>
-<li>while generally optimized and efficient, the low-level description such frameworks offer is very far from the specification of the systems, making implementation error prone and certification activities very difficult.</li>
+<li>while generally optimized, efficient, and thorough, the low-level description such frameworks
+offer is very far from the specification of the systems, making implementation error-prone and certification activities very difficult.</li>
 </ul>
 
 <p>However, when the reactive relation can be made into a deterministic function, by separating events and actions from their representation, and making local state explicit, miscellaneous implementation methods borrowing at various degrees from functional programming techniques, have some nice characteristics. We will focus in what follows on such implementation techniques.</p>
@@ -308,7 +309,8 @@ visualization of such traces.</p>
 </ul></li>
 </ul>
 
-<p>The $states$ stream hence has a recursive definition. Lazily-evaluated languages will allow for expressing $states$ quite naturally as a fixed point for $x \rightarrow next(x, events)$, while imperative languages will directly use equation (1).</p>
+<p>The $states$ stream hence has a recursive definition. Lazily-evaluated languages will allow for expressing $states$ quite naturally as a fixed point for $x \rightarrow next(x, events)$, while imperative languages may directly use
+equation (1).</p>
 
 <p>Assuming the function $next$ have been determined, the reactive system behaviour is then entirely described by the following equations, which are those corresponding to a class of automata called state transducer<sup class="footnote-ref" id="fnref:transducer"><a rel="footnote" href="#fn:transducer">2</a></sup> :</p>
 
@@ -328,7 +330,7 @@ visualization of such traces.</p>
 <p>A major reference for specification and implementation techniques based on the state machine formalism can be found in <em>Constructing the User Interface With State charts</em> by Ian Horrocks<sup class="footnote-ref" id="fnref:Horrocks"><a rel="footnote" href="#fn:Horrocks">3</a></sup>.
 Alternatively, an introduction to the technique can be found in this <a href="https://medium.com/@asolove/pure-ui-control-ac8d1be97a8d">medium article</a></p>
 
-<p><strong>TODO</strong> : add my example of the calculator instead</p>
+<p><strong>TODO</strong> : add my code example of the CD player instead</p>
 
 <h3 id="example-1">Example</h3>
 
@@ -403,7 +405,7 @@ let node vend drink cost v = (o1, o2) where
     end  
 </code></pre>
 
-<h3 id="an-imperative-approach">An imperative approach</h3>
+<h3 id="an-imperative-language-approach">An imperative language approach</h3>
 
 <p>A similar, though more relaxed approach, is taken by <code>cyclejs</code> which further collapses the $states$ stream into the $actions$ streams, by considering that state change is itself an action over the internal state of the system. The previous equations are then reduced to $actions_i = f_i(states, events)$<sup class="footnote-ref" id="fnref:cycle"><a rel="footnote" href="#fn:cycle">6</a></sup>. To keep the equivalence to the original formulation, this approach however requires to clearly and consistently define the timing of the internal state update action vs. actions on the interfaced external systems : the internal state update must be executed before the next event is processed<sup class="footnote-ref" id="fnref:instantStateUpdate"><a rel="footnote" href="#fn:instantStateUpdate">7</a></sup>. In the cycle framework, <code>App :: Sources -&gt; Sinks</code>, where <code>Sources</code> contains any necessary accessor/factory methods for the state of the system and events admitted by the system, and <code>Sinks</code> holds the actions triggered by the events.</p>
 
@@ -426,9 +428,9 @@ f : fetch remote data
 + : state update
 </code></pre>
 
-<p>Implementation of reactive systems which allows to obtain the trace of a run as a sequence of <code>
-(event, action)</code> (or any equivalent format) allow to reduce testing of such systems to checking an
-actual trace vs. a set of expected traces.</p>
+<p>Implementations of reactive systems which allow to obtain the trace of a run as a sequence of <code>
+(event, action)</code> (or any equivalent format) also allow to reduce testing of such systems to checking
+ an actual trace vs. a set of expected traces.</p>
 
 <h1 id="conclusion">Conclusion</h1>
 
@@ -509,7 +511,7 @@ Rationale behind functional synchronous programming for reactive systems, domain
 <li><a href="#reactive-systems-as-a-system-of-equations">Reactive systems as a system of equations</a>
 <ul>
 <li><a href="#example-2">Example</a></li>
-<li><a href="#an-imperative-approach">An imperative approach</a></li>
+<li><a href="#an-imperative-language-approach">An imperative language approach</a></li>
 </ul></li>
 <li><a href="#visualization">Visualization</a></li>
 </ul></li>

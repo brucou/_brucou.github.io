@@ -225,13 +225,14 @@ $combine([adaptInput, f, adaptOutput])$.</p>
 
 <p>Those combinators are themselves specialization of a generic combinator, here called <code>m</code>, with <code>m :: CombinatorSpecs -&gt; Settings -&gt; Array&lt;Component&gt; -&gt; Component</code>, which can also be written <code>m :: CombinatorSpecs -&gt; Combinator</code>. That is, one can see <code>m</code> both as a combinator factory, or a component factory.</p>
 
-<p>We have so far implemented a list of combinators which allow to realize the following composition :</p>
+<p>We have so far implemented a list of combinators which allow to realize the following
+type of composition :</p>
 
 <ul>
 <li>merge reactive functions</li>
 <li>switch reactive functions according to events</li>
 <li>recursively switching reactive functions according to route (i.e. nested routing)</li>
-<li>merge a list of reactive function based on a template and incoming array</li>
+<li>merge a list of reactive functions based on a template and incoming array</li>
 <li>extend a reactive function to process additional events or add extra parameterization</li>
 <li>build a set of reactive functions into a state machine</li>
 <li>sequential composition of &ldquo;reactive&rdquo; functions (in quotes here, because the
@@ -379,15 +380,16 @@ option easy to handle in the program.</p>
 
 <p>Depending on the underlying repository, <code>Query</code> can return just a snapshot (normal case), or a
 live query (updating with the remote repository). For instance, with <code>Firebase</code>, <code>Query</code> could
-return a live query. For database which do not support live updates, it is however possible to
+return a live query. For databases which do not support live updates, it is however possible to
 simulate it, by using a <code>Command</code> or <code>Action</code> driver, which notifies of the new value every time
-there is an update on a dependency of the query. Please refer to the <a href="/posts/applying-componentization-to-reactive-systems---sample-application/#step-4-projecttasklist-component">examples</a> to see that
+there is an update on a dependency of the query. Please refer to the <a href="/posts/applying-componentization-to-reactive-systems---sample-application/#step-4-projecttasklist-component">examples (<code>function 
+getStateInStore</code>)</a> to see that
 technique in application.</p>
 
 <h4 id="local-state">Local state</h4>
 
 <p>Local state comes from different sources, originating in different local systems with which the
-user is interacting. Of particular interest are the application, the page, the browser.</p>
+user is interacting. Of particular interest are the application, the page, and the browser.</p>
 
 <p>Page and browser state can be retrieved by the appropriate interfaces defined by their
 specifications. We will focus here on explaining how to manage local state related to the
@@ -400,7 +402,7 @@ Typically, this involves copying locally some remotely stored domain data, in ad
 initializing some application-specific properties at start-up time. State, evolving over time, is
 conveniently modelized as a behaviour.</p>
 
-<p>We recommend to generate the necessary pieces of state as close as possible of where it is needed
+<p>We recommend to generate the necessary pieces of state as close as possible to where it is needed
  in the component hierarchy. The figure reproduced thereafter serves to illustrate that point.
  The top-level state is passed down the hierarchy, where it is massaged into new pieces of state
  by the <code>InjectSourcesAndSettings</code> combinator. As components <code>A</code> and <code>B</code> needs the same piece of
@@ -425,15 +427,17 @@ some factory in <code>Sources</code> (<code>Query</code> driver for instance - s
 <h3 id="transient-state">Transient state</h3>
 
 <p>This is a piece of state which last only as long as the component that created it in the first
-place. Transient state has no need to kept around and is recreated when needed. As an example, a
+place. Transient state has no need to be kept around and is recreated when needed. As an example, a
 search-as-you-type component might keep track of the length of the search key, and perform search
  API calls only when that length has reach a minimum value. The length of the entered search key
  would be transient state. Transient state is generally created through the stream <code>scan</code> operator.</p>
 
 <h2 id="concurrency-management">Concurrency management</h2>
 
-<p>User interfaces are inherently concurrent due to their interfacing with distributed systems. This
-often leads to a host of concurrency problems :</p>
+<p>User interfaces are inherently concurrent due to their interfacing with <strong>distributed</strong> systems,
+and the ability for the user to continue to perform inputs irrespectively of the in-process action.</p>
+
+<p>This often leads to a host of concurrency problems, among which :</p>
 
 <ul>
 <li>consistency
@@ -446,10 +450,6 @@ actions, if the user interface is not carefully designed or implemented</li>
 <li>race conditions
 
 <ul>
-<li>when user can input actions faster than the system can execute them, and those actions have
-an effect on the user interface, the user can be led to realize inputs based on stale data.
-This is a cas of read-write concurrency : a value can be read through the user interface, and
-triggered actions can update that value remotely.</li>
 <li>lost update : two user-triggered actions, fired in close sequence, write to the same piece of
 data (write-write concurrency). Under some conditions, one of the two writes can be lost.</li>
 </ul></li>
@@ -467,23 +467,31 @@ that action result never occurs</li>
 </ul></li>
 </ul>
 
-<p>This is further compounded by modern applications straying away from javascript&rsquo;s single-threaded
-model, with the use of web workers. Some applications are also strongly concurrent (collaborative
- applications, multi-windows applications, etc.).</p>
+<p>This is further compounded by :</p>
+
+<ul>
+<li>modern applications straying away from javascript&rsquo;s single-threaded
+model, with the use of web workers.</li>
+<li>some applications being also concurrent by design (collaborative applications, multi-windows
+applications, etc.)</li>
+</ul>
 
 <p>For simple synchronization cases, keeping track of concurrent actions execution in some local
-variable(s) may do. For more complex control-flow cases, we offer the <a href="http://brucou.github.io/projects/component-combinators/efsm/"><code>FSM</code> combinator</a>, which implements a state machine, which add control flow capabilities to shared memory. While state machines allow to manage an intermediate level of complexity, it is still a rather low-level tool for concurrency control.<br />
-  A more powerful option would be to make use of a specific DSL for concurrency (like <a href="http://reo.project.cwi.nl/reo/">Reo</a> or <a href="https://mozart.github.io/mozart-v1/doc-1.4.0/tutorial/node8.html#chapter.concurrency">Oz</a>) to express the concurrency requirements separately for the sequential computations. The latter option would however require a different architecture than the one we are presently discussing, and as such, we do not pursue this option.</p>
+variable(s) may do (shared-memory concurrency). For more complex control-flow cases, we offer the <a href="http://brucou.github.io/projects/component-combinators/efsm/"><code>FSM</code> combinator</a>, which implements a state machine, which add control flow capabilities to the shared memory concurrency model. While state machines allow to manage a higher level of complexity, they remains a rather low-level tool for concurrency control.
+  Declarative concurrency is a simpler concurrency model (for instance through a specific DSL for
+  concurrency (like <a href="http://reo.project.cwi.nl/reo/">Reo</a> or <a href="https://mozart.github.io/mozart-v1/doc-1.4.0/tutorial/node8.html#chapter.concurrency">Oz</a>) to express the concurrency requirements separately for the sequential computations. The latter option would however require a different architecture than the one we are presently discussing, and as
+  such, we do not pursue this option here.</p>
 
 <p>Also worth mentioning, <code>cyclejs</code> matches each action handler (driver) to a moniker (sink name).
 This brings the following concurrency issue : if two, somehow dependent actions, have to be executed, they must be collected into a single new action. Imagine a user action which leads to some remote data updates, and then a
-change of route. The change of route might happen even if the data update has failed, or before the data
-update is successfully performed. There is no mechanism to differentiate the processing in either
- case. In short, sinks must represent <strong>independent</strong> actions.</p>
+change of route. Passing both actions in the same tick means the change of route might happen even
+ if the data update has failed, or before the data update is successfully performed while it was specified to happen only after. In short, sinks best represent <strong>independent</strong> actions. If actions are linked, they must either be
+ passed one by one, with the adecuate control flow implemented, or coordinated through a new
+ action capturing that dependency in its execution.</p>
 
 <h2 id="error-management">Error management</h2>
 
-<p>Leaving aside unexpected errors, or exception, there are expected errors which are part of the
+<p>Leaving aside unexpected errors, or exceptions, there are expected errors which are part of the
 specification of a reactive system. For instance, a user tries to book a trip but the
 reservation system is not responding, or the seat that was available while browser is no longer
 available when booking. Those errors generally prevent the system to move from one state (<code>booking</code>)
@@ -502,16 +510,21 @@ available when booking. Those errors generally prevent the system to move from o
 <li>which ensures for each subsystem a reduction in complexity
 (simpler specifications, smaller size of the reactive system, few interactions with other subsystems i.e. intercomponent dependency)</li>
 <li>which can be reassembled in a way that is easy to reason about and trace</li>
-<li>can be parameterized without modification (open-closed principle), so futures changes in the overall reactive system have a higher change to result mainly in changes in parameterization of subsystems.</li>
+<li>can be parameterized without modification (open-closed principle), so futures changes in the overall reactive system have a higher chance to result mainly in changes in parameterization of subsystems</li>
 <li>highly cohesive, loosely coupled to ensure adaptability<sup class="footnote-ref" id="fnref:adaptability"><a rel="footnote" href="#fn:adaptability">2</a></sup></li>
 </ul>
 
-<p>In our reactive system, <code>cyclejs</code> context: for component construction and interfacing, functions are used, exposing a fixed interface, differentiating parameterization concern and dataflow concern in their inputs; a port metaphor is used for interfacing components; combinators are used for parallel and sequential composition; component lifecycle is handled by the framework which by means of <em>start</em> and <em>stop</em> functionalities.</p>
+<p>In our reactive system, <code>cyclejs</code> context: for component construction and interfacing, functions are used, exposing a fixed interface, differentiating parameterization concern and input interface concern in their inputs; a port metaphor is used for interfacing components; combinators are used for parallel and sequential composition; component lifecycle is handled by the framework which by means of <em>start</em> (here <code>run</code>) and <em>stop</em> functionalities.</p>
 
 <p>A range of generic combinators have been defined, which allows to handle a series of concerns,
-including sequential composition, data injection, control flow, routing, iteration, change
-propagation, etc. They are tools which can be used to for concurrency control, state management,
-and error management for the application at hand.</p>
+including sequential composition, data injection, control flow, routing, list management, change
+propagation, etc. They are tools which can be used to for concurrency control (however imperfect
+they be), state management, and error management for the application at hand.</p>
+
+<h1 id="possible-improvements">Possible improvements</h1>
+
+<p>The list of possible improvements is large (cf. the <a href="https://github.com/brucou/component-combinators#roadmap-v05">roadmap</a> for a partial list). At the conceptual level, for instance, it will be interesting to come up with a better concurrency model (cf. <code>Redux-saga</code>) fitting within the limits of the architecture. At a more practical level, error
+management could be improved to facilitate more user-friendly options, for instance <code>React</code>-inspired <a href="https://reactjs.org/docs/error-boundaries.html">fallback UI</a>).</p>
 
 <h1 id="bibliography">Bibliography</h1>
 
@@ -581,6 +594,7 @@ and error management for the application at hand.</p>
 <li><a href="#error-management">Error management</a></li>
 </ul></li>
 <li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#possible-improvements">Possible improvements</a></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>

@@ -1080,10 +1080,13 @@ which is not derived from other components, but only from <code>sources</code> a
 <li>having clear specifications as per the reactive behaviour to implement
 
 <ul>
-<li>from the equation <code>actions = f(state, events)</code> :</li>
+<li>from the equation <code>actions = f(state, events)</code> :
+
+<ul>
 <li>identify the relevant events the component reacts to</li>
 <li>identify the actions to trigger in response to events</li>
 <li>identify the necessary pieces of state to compute the actions from the events</li>
+</ul></li>
 </ul></li>
 <li>decide on the parameterization of the component
 
@@ -1217,18 +1220,21 @@ process is as follows :</p>
 <li>is a container component necessary ?</li>
 <li>what are the contracts which settings or component tree must fulfill?</li>
 <li>how are combined components&rsquo; sinks?</li>
-<li>default combining functions are sufficient</li>
-<li>specific combining functions are necessary</li>
+<li>are default combining functions sufficient ?</li>
+<li>are specific combining functions  necessary ?</li>
 </ul></li>
 <li>implement the sought behaviour
 
 <ul>
 <li>reuse as much as possible existing combinators</li>
-<li>select the most appropriate form of the <code>m</code> combinator (out of the three reducing patterns)</li>
-<li>for instance <code>= m(componentCombinatorSpec, componentCombinatorSettings,
+<li>select the most appropriate form of the <code>m</code> combinator (out of the three reducing patterns)
+
+<ul>
+<li>reminder : <code>= m(componentCombinatorSpec, componentCombinatorSettings,
 childrenComponents | componentTree)</code></li>
 <li>understanding <code>m</code> default reducing functions is paramount : often times, they have the
 behaviour that is sought for</li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -1245,7 +1251,7 @@ status of the checkbox (checked/unchecked).</p>
 
 <p>That generic UI checkbox can then be reused in different contexts, within the application, or in
 other applications, by specifying how the clicks translates into actions on the given domain
-model. The UI checkbox component is <strong>adapted</strong> to the application under development.</p>
+model : the UI checkbox component is <strong>adapted</strong> to the application under development.</p>
 
 <p>In other cases, the generalized component will be specialized (the <code>m</code> combinator is such a case,
  where the programmer can specialize the reduction of the component tree to one of three patterns).</p>
@@ -1286,7 +1292,7 @@ documented. That could be the case for example for UI components, such as those 
 previously. This could also be the case if domain experts have succeeded in identifying repeating
  patterns in their domain, and produced a domain-specific component library. In the general case,
   the software designer will have to find and assess the abstraction/generalization opportunities presented to
- him. Those opportunities are generally identified while refactoring. As explained in a former <a href="/posts/componentization-against-complexity/#barriers-to-reuse">article</a>, refactoring for reuse has a
+ him. Those opportunities are generally identified while refactoring. As explained in a <a href="/posts/componentization-against-complexity/#barriers-to-reuse">former article</a>, refactoring for reuse has a
  cost, and the possible benefits to be derived have to be weighted against that cost.</p>
 
 <p>For illustration purposes, here is part of the source code for the <code>CheckBox</code> component.</p>

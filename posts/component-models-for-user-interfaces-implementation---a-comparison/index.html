@@ -72,7 +72,7 @@ We will now compare our proposed component model to Angular2 and React component
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/components">components</a>
-			23 min read
+			26 min read
 	</h5>
 	
 </hgroup>
@@ -351,8 +351,6 @@ appear on the screen. Components can be defined either as a function (termed fun
   return &lt;h1&gt;Hello, {props.name}&lt;/h1&gt;;
 }
 </code></pre>
-
-<p>TODO : hugo shortcode for adding title to code</p>
 
 <p><strong>class-based component</strong></p>
 
@@ -673,8 +671,6 @@ easy to reason about our component and application.</p>
 
 <p>Component combinators follow a syntax conceptually similar to <code>JSX</code>. For instance :</p>
 
-<p><strong>TODO</strong> title SidePanel</p>
-
 <pre><code class="language-javascript">export const SidePanel =
   m({}, {}, [Div('.app__l-side'), [
     Navigation({}, [
@@ -691,7 +687,7 @@ easy to reason about our component and application.</p>
   ]]);
 </code></pre>
 
-<p>could be written :</p>
+<p>is essentially equivalent to :</p>
 
 <pre><code class="language-javascript">export const SidePanel = 
   &lt;Div class='app__l-side'&gt;
@@ -759,9 +755,120 @@ no more reference of them.</p>
 <h2 id="testing-2">Testing</h2>
 
 <p>Component can be tested via mocking of the interfaces with the external systems (<code>sources</code> and
-<code>drivers</code>).</p>
+<code>drivers</code>). Given that the component tree is explicit, unit-testing a component involves :</p>
+
+<ul>
+<li>testing its children components</li>
+<li>testing the parent component</li>
+</ul>
+
+<p>Testing children components before the parent allow to isolate bugs more quickly, and forces to
+have a working specification of every component, which is a good practice. Unlike <code>Angular2</code>, the
+ children components are not injected, which means that they cannot be mocked or spyed on. This
+ in turns means that we cannot do white-box testing where we test that the parent component is
+ correctly calling its children component with the right arguments.</p>
+
+<p>To test the parent, as any component, including the application, the main technique is to mock
+ the interface with the external input systems, i.e. <code>sources</code>, and the event streams which serve
+  as input to the component under test. This requires that every driver author needs to supply, in
+ addition to the driver code, and documentation, a mock object. The complexity of testing will be
+  directly linked to the complexity of configuring the necessary set of mock objects. The actions
+   computed by the reactive function under the test can then be observed and compared with the
+   expectd results (no need to mock the driver themselves).</p>
+
+<p>We have for instance made available a <code>document</code> driver, which is simply injecting the
+  <code>document</code> object into the <code>sources</code> parameter. The mock version of the driver addresses common
+   needs (such as simulating an event on a target element). However, a full mock would mean<br />
+   re-implementing large pans of the interface of <code>document</code> object, which is an error-prone,
+   time-consuming endeavour.</p>
+
+<p>We have designed a <code>runTestScenario</code> helper which facilitates passing inputs, and analyzing
+   outputs. Here are an example of tests written for a button component :</p>
+
+<pre><code class="language-javascript">QUnit.test(&quot;Good settings : empty settings&quot;, function exec_test(assert) {
+  const done = assert.async(2);
+
+  const testData = buttonTestSpace.GoodSettings.EmptySettings.caseEmpmtyAndTwoChildren;
+
+  const inputs = [
+    { [EVENT_SOURCE1]: { diagram: 'a-b-c|', values: eventSourcesTestValues } },
+    { [EVENT_SOURCE2]: { diagram: '-A-B-C|', values: eventSourcesTestValues } },
+    {
+      [`DOM!${SOME_SELECTOR}@${SOME_DOM_EVENT_NAME}`]: {
+        diagram: 'x-y-z', values: DOMeventsTestValuesSomeSelector
+      }
+    },
+    {
+      [`DOM!${ANOTHER_SELECTOR}@${ANOTHER_DOM_EVENT_NAME}`]: {
+        diagram: '-x-y-z', values: DOMeventsTestValuesAnotherSelector
+      }
+    },
+  ];
+  const ATTRS = 'tabindex=&quot;0&quot;';
+
+  const testResults = {
+    [NON_DOM_SINK]: {
+      outputs: [
+        `${SEP} ${NON_DOM_SINK}-a`, `${SEP} ${NON_DOM_SINK}-A`,
+        `${SEP} ${NON_DOM_SINK}-b`, `${SEP} ${NON_DOM_SINK}-B`,
+        `${SEP} ${NON_DOM_SINK}-c`, `${SEP} ${NON_DOM_SINK}-C`,
+      ],
+      successMessage: `sink ${NON_DOM_SINK} produces the expected values`,
+    },
+    [DOM_SINK]: {
+      outputs: [
+        `&lt;div class=\&quot;ui button\&quot; ${ATTRS}&gt;&lt;span&gt;${DOM_SINK} ${SEP} a&lt;/span&gt;&lt;span&gt;${DOM_SINK} ${SEP} a&lt;/span&gt;&lt;/div&gt;`,
+        `&lt;div class=\&quot;ui button\&quot; ${ATTRS}&gt;&lt;span&gt;${DOM_SINK} ${SEP} b&lt;/span&gt;&lt;span&gt;${DOM_SINK} ${SEP} a&lt;/span&gt;&lt;/div&gt;`,
+        `&lt;div class=\&quot;ui button\&quot; ${ATTRS}&gt;&lt;span&gt;${DOM_SINK} ${SEP} b&lt;/span&gt;&lt;span&gt;${DOM_SINK} ${SEP} b&lt;/span&gt;&lt;/div&gt;`,
+        `&lt;div class=\&quot;ui button\&quot; ${ATTRS}&gt;&lt;span&gt;${DOM_SINK} ${SEP} c&lt;/span&gt;&lt;span&gt;${DOM_SINK} ${SEP} b&lt;/span&gt;&lt;/div&gt;`,
+        `&lt;div class=\&quot;ui button\&quot; ${ATTRS}&gt;&lt;span&gt;${DOM_SINK} ${SEP} c&lt;/span&gt;&lt;span&gt;${DOM_SINK} ${SEP} c&lt;/span&gt;&lt;/div&gt;`,
+      ],
+      transform: convertVNodesToHTML,
+      successMessage: `sink ${DOM_SINK} produces the expected values`,
+    },
+  };
+
+  runTestScenario(inputs, testResults, makeButtonComponent(testData, { SEP: SEP }), {
+    tickDuration: 5,
+    waitForFinishDelay: 50,
+    analyzeTestResults : analyzeTestResults(assert, done),
+    mocks: {
+      DOM: makeMockDOMSource
+    },
+    sourceFactory: {
+      [`DOM!${SOME_SELECTOR}@${SOME_DOM_EVENT_NAME}`]: subjectFactory,
+      [`DOM!${SOME_SELECTOR}@${ANOTHER_DOM_EVENT_NAME}`]: subjectFactory,
+    },
+    errorHandler: function (err) {
+      done(err)
+    }
+  })
+});
+</code></pre>
+
+<p>Note the syntax <code>DOM!${SOME_SELECTOR}@${SOME_DOM_EVENT_NAME}</code> to simulate an event on an element
+of a given selector. Note also the use of time diagrams to simulate a timed-sequence of inputs.</p>
+
+<p>While this works, we believe that unit-testing a component is still a pain point, which must be
+remediated further. Not having to mock the drivers is nice, but having to mock the <code>sources</code>
+generates some unavoidable complexity.</p>
+
+<p>It is of course possible to test with an automation tool such as <code>selenium</code> which works with a
+real DOM, just as with <code>Angular2</code> and <code>React</code>.</p>
 
 <h2 id="conclusion-2">Conclusion</h2>
+
+<p>Our component model generalized <code>React</code>&rsquo;s, by also taking responsibilities for any actions the
+user must undertake. While <code>React</code> focuses on the view, our component manages the full set of
+actions. Of course, there are architectures (for <code>React</code>, for instance <code>React</code> +
+<code>Redux</code>/<code>Thunk</code>/<code>Saga</code>; for <code>Angular2</code>, <code>ngrx</code> and its large ecosystem) which seek to palliate
+this. We however feel pretty comfortable that we do this in a way fundamentally simpler than
+those two library/framework.</p>
+
+<p>Additionally, we separate the action representation from the actual execution of
+the action, while both <code>React</code> and <code>Angular2</code> directly performs the actions triggered by user
+inputs. There are advantages to that which are fully exploited yet. On one side orchestrating
+actions (what <a href="https://github.com/redux-saga/redux-saga"><code>redux-saga</code></a> does) becomes universally possible with a state machine (we offer the <code>FSM</code> combinator for this).</p>
 
 <h1 id="conclusion-3">Conclusion</h1>
 

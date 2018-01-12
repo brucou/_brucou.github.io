@@ -2,7 +2,7 @@
 other = "Latest posts"
 
 [latestRest]
-other = "Candidate posts"
+other = "Pending posts"
 
 [license]
 other = "License"

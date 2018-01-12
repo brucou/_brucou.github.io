@@ -7,7 +7,7 @@
 		<title>Component models for user interfaces implementation - a comparison - Technuflexions</title>
 
 		<meta name="description" content="Abstract In the previous articles, we have presented our proposed component model for user interfaces implementation, which relies on a cyclejs architecture, and is based on streams and reactive programming techniques.
-We will now compare our proposed component model to Angular2 and React component models. We will not compare it to cyclejs component model as it does not have a proper one : while it is possible to breakdown a component into smaller components, there is no generic or structured mechanism to glue them together &ndash; it has to be done manually each time.">
+We will now compare our proposed component model to Angular2 and React component models. We will not compare it to cyclejs component model as it does not have a proper one : while it is possible to breakdown a component into smaller components, there is no generic or structured mechanism to glue them together &mdash; it has to be done manually each time.">
 
 
 		
@@ -90,7 +90,7 @@ We will now compare our proposed component model to Angular2 and React component
 <p>We will now compare our proposed component model to <code>Angular2</code> and <code>React</code> component models. We will
   not compare it to <code>cyclejs</code> component model as it does not have a proper one : while it is
   possible to breakdown a component into smaller components, there is no generic or structured
-  mechanism to glue them together &ndash; it has to be done manually each time. In addition
+  mechanism to glue them together &mdash; it has to be done manually each time. In addition
   standard <code>cyclejs</code> conflates the interfaces with the external systems (<code>sources</code>) with the
   parameterization of components (for instance adding miscellaneous <code>prop$</code> source). It is
   precisely for that reason that we have come to propose our componentization model.</p>
@@ -867,8 +867,8 @@ those two library/framework.</p>
 
 <p>Additionally, we separate the action representation from the actual execution of
 the action, while both <code>React</code> and <code>Angular2</code> directly performs the actions triggered by user
-inputs. There are advantages to that which are fully exploited yet. On one side orchestrating
-actions (what <a href="https://github.com/redux-saga/redux-saga"><code>redux-saga</code></a> does) becomes universally possible with a state machine (we offer the <code>FSM</code> combinator for this).</p>
+inputs. There are advantages to that which are not fully exploited yet. On one side orchestrating
+actions (what <a href="https://github.com/redux-saga/redux-saga"><code>redux-saga</code></a> does) becomes possible with a state machine (we offer the <code>FSM</code> combinator for this), which, while a low-level tool, compensates with its genericity.</p>
 
 <h1 id="conclusion-3">Conclusion</h1>
 

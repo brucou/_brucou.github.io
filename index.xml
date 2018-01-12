@@ -30,7 +30,7 @@ Target audience This blog is not intended for a massive audience, though it aims
       
       <guid>http://brucou.github.io/posts/component-models-for-user-interfaces-implementation---a-comparison/</guid>
       <description>Abstract In the previous articles, we have presented our proposed component model for user interfaces implementation, which relies on a cyclejs architecture, and is based on streams and reactive programming techniques.
-We will now compare our proposed component model to Angular2 and React component models. We will not compare it to cyclejs component model as it does not have a proper one : while it is possible to breakdown a component into smaller components, there is no generic or structured mechanism to glue them together &amp;ndash; it has to be done manually each time.</description>
+We will now compare our proposed component model to Angular2 and React component models. We will not compare it to cyclejs component model as it does not have a proper one : while it is possible to breakdown a component into smaller components, there is no generic or structured mechanism to glue them together &amp;mdash; it has to be done manually each time.</description>
     </item>
     
     <item>

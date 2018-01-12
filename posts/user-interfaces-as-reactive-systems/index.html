@@ -312,7 +312,8 @@ visualization of such traces.</p>
 <p>The $states$ stream hence has a recursive definition. Lazily-evaluated languages will allow for expressing $states$ quite naturally as a fixed point for $x \rightarrow next(x, events)$, while imperative languages may directly use
 equation (1).</p>
 
-<p>Assuming the function $next$ have been determined, the reactive system behaviour is then entirely described by the following equations, which are those corresponding to a class of automata called state transducer<sup class="footnote-ref" id="fnref:transducer"><a rel="footnote" href="#fn:transducer">2</a></sup> :</p>
+<p>Assuming the function $next$ has been determined, the reactive system behaviour is then entirely
+described by the following equations, which are those corresponding to a class of automata called state transducer<sup class="footnote-ref" id="fnref:transducer"><a rel="footnote" href="#fn:transducer">2</a></sup> :</p>
 
 <ul>
 <li>$states = next(states, events)$

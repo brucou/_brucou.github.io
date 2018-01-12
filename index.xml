@@ -74,6 +74,16 @@ This covers the case of components which do not output action sinks but intermed
     </item>
     
     <item>
+      <title>Bloggin with hugo</title>
+      <link>http://brucou.github.io/scratch/using-hugo-for-my-blog/</link>
+      <pubDate>Sat, 09 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/scratch/using-hugo-for-my-blog/</guid>
+      <description>Background Hugo is a static website generator, in the same vein as Jekyll or Hexo. A website can be understood as :
+ a server with the usual concerns (routing, authentication, content delivery, etc.) hosted content (html, js, css, etc.)  A static website generator has, as its mission, the generation of the hosted content from other content. Hence it can be specified by f, a function so that, given a content c, returns the hosted content constituting the target website : f(c) = h.</description>
+    </item>
+    
+    <item>
       <title>GUI testing</title>
       <link>http://brucou.github.io/scratch/gui_testing/</link>
       <pubDate>Thu, 02 Nov 2017 00:00:00 +0000</pubDate>
@@ -241,16 +251,6 @@ Complexity resists to a uniformally useful definition. However, it is generally 
       <guid>http://brucou.github.io/posts/user-interfaces-as-reactive-systems/</guid>
       <description>Background As the name suggests, user interfaces allow a user to interface with other systems, with the idea that this interface will present some sought-for advantages vs. direct interaction with the mentioned systems.
 For instance, when the interaction between systems becomes too complex (too many commands or sequences of commands, too many parameters, outputs difficult to exploit in their raw form, etc.), a user interface can help to reduce the cognitive load and the risk of errors on the user side.</description>
-    </item>
-    
-    <item>
-      <title>Using Hugo for my blog</title>
-      <link>http://brucou.github.io/scratch/using-hugo-for-my-blog/</link>
-      <pubDate>Tue, 09 May 2017 08:06:49 +0100</pubDate>
-      
-      <guid>http://brucou.github.io/scratch/using-hugo-for-my-blog/</guid>
-      <description>Background Hugo is a static website generator, in the same vein as Jekyll or Hexo. A website can be understood as :
- a server with the usual concerns (routing, authentication, content delivery, etc.) hosted content (html, js, css, etc.)  A static website generator has, as its mission, the generation of the hosted content from other content. Hence it can be specified by f, a function so that, given a content c, returns the hosted content constituting the target website : f(c) = h.</description>
     </item>
     
     <item>

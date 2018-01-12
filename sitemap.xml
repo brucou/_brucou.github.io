@@ -10,6 +10,20 @@
   </url>
   
   <url>
+    <loc>http://brucou.github.io/scratch/cyclejs---keeping-event-handlers-coupled-to-view-description-without-loosing-testability/</loc>
+    <lastmod>2018-01-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://brucou.github.io/scratch/cyclejs----concurrency-control---a-study-of-architectural-alternatives/</loc>
+    <lastmod>2018-01-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://brucou.github.io/posts/component-models-for-user-interfaces-implementation---a-comparison/</loc>
     <lastmod>2018-01-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -240,7 +254,7 @@
   
   <url>
     <loc>http://brucou.github.io/scratch/</loc>
-    <lastmod>2017-11-02T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

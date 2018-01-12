@@ -71,7 +71,7 @@
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/components">components</a>
-			31 min read
+			32 min read
 	</h5>
 	
 </hgroup>
@@ -1342,6 +1342,34 @@ previously. This could also be the case if domain experts have succeeded in iden
 the desired sink.</p>
 
 <h1 id="conclusion">Conclusion</h1>
+
+<p>We have seen while implementing the sample application how to address common issues arising when
+implementing a web application :</p>
+
+<ul>
+<li><strong>routing</strong> : a quintessential requirement such as routing is very naturally expressed with
+the <code>OnRoute</code> combinator.</li>
+<li><strong>state management</strong> : state can be injected at any point of the component tree and becomes
+visible to any component down the injection point. Alternatively, state can also be kept at the
+global level, through the use of in-memory store.</li>
+<li><strong>change propagation</strong> : at the lowest level, using streams as the corner stone of our
+architecture solves the issue of updating a variable (behaviour) when one of its dependencies
+change. <em>Live queries</em> can then be built on top of read and write drivers as exemplified in the
+sample application. Additionally, we offer the <code>ForEach</code> combinator, to execute a given logic on
+a every change of a behaviour.</li>
+<li><strong>communication between components</strong> : parent-child communication may occur through passing
+settings and sources, child-parent communication and communication between components with no
+direct ascendency relationship in the component tree may occur via shared state.</li>
+<li><strong>lists</strong> : list of things are dealt with reactively with the <code>ListOf</code> and <code>ForEach</code> combinators.</li>
+</ul>
+
+<p>While these were not encountered in the present sample application, our combinator library also
+helps deal with :</p>
+
+<ul>
+<li><strong>control flow</strong> : Two combinators (<code>Switch</code> and <code>FSM</code>) allow to implement both simple and
+complex control flow logic. A <a href="https://github.com/brucou/component-combinators/tree/master/examples/volunteerApplication">realistic example</a> for the <code>FSM</code> combinator showcases the advantage of state machines to that purpose.</li>
+</ul>
 
 <p>We have showcased our componentization model, and the accompanying combinator library. By
 dividing the target reactive system into smaller components, and expliciting the event-state-action

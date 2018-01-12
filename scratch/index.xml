@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 brucou</copyright>
-    <lastBuildDate>Thu, 02 Nov 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://brucou.github.io/scratch/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>cyclejs - coupling event handlers to view description, while keeping testability</title>
+      <link>http://brucou.github.io/scratch/cyclejs---keeping-event-handlers-coupled-to-view-description-without-loosing-testability/</link>
+      <pubDate>Fri, 12 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/scratch/cyclejs---keeping-event-handlers-coupled-to-view-description-without-loosing-testability/</guid>
+      <description>Having event handlers declared together with the view  In sources, inject a subject factory In component, with that subject factory, create subject  subject will have automatically generatd unique id from the trace settings property  In view, with helper function, link the event listener to the subject in component, returns the subject when testing, send values through the subject  think some more I am close - conclusion : whatever I do is the same as what I have, - event@selector is necessary to test anyways.</description>
+    </item>
+    
+    <item>
+      <title>cyclejs and concurrency control - a study of architectural alternatives</title>
+      <link>http://brucou.github.io/scratch/cyclejs----concurrency-control---a-study-of-architectural-alternatives/</link>
+      <pubDate>Fri, 12 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/scratch/cyclejs----concurrency-control---a-study-of-architectural-alternatives/</guid>
+      <description>concurrency control cf. Redux saga - all actions in one sink - several concurrent processes listening on actions - coordinated by ? shared-memory? message-passing? streams (declarative concurrncy)? investigate - https://redux-saga.js.org/, https://redux-saga.js.org/docs/recipes/, http://konkle.us/master-complex-redux-workflows-with-sagas/
+cf. Concepts, Techniques, and Models of Computer Programming ou PROGRAMMATION Concepts, techniques et modèles for concurrency models</description>
+    </item>
     
     <item>
       <title>GUI testing</title>

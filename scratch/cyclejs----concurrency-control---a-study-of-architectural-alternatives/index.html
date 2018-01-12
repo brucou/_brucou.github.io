@@ -4,9 +4,10 @@
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="generator" content="Hugo 0.31.1" />
-		<title>Tag: Functional Programming - Technuflexions</title>
+		<title>cyclejs and concurrency control - a study of architectural alternatives - Technuflexions</title>
 
-		<meta name="description" content="">
+		<meta name="description" content="concurrency control cf. Redux saga - all actions in one sink - several concurrent processes listening on actions - coordinated by ? shared-memory? message-passing? streams (declarative concurrncy)? investigate - https://redux-saga.js.org/, https://redux-saga.js.org/docs/recipes/, http://konkle.us/master-complex-redux-workflows-with-sagas/
+cf. Concepts, Techniques, and Models of Computer Programming ou PROGRAMMATION Concepts, techniques et modèles for concurrency models">
 
 
 		
@@ -60,74 +61,48 @@
 <main class="container">
 
 <article>
-	<header>
-		<hgroup id="brand">
-	<h5>Tag:</h5>
-	<h1>Functional Programming</h1>
+	<header><hgroup id="brand">
+	<h1>cyclejs and concurrency control - a study of architectural alternatives</h1>
+	<h5>
+		<time datetime="2018-01-12 00:00:00 &#43;0000 UTC">Jan 12, 2018</time>
+		-
+			
+			<a href="/tags/functional%20programming">functional programming</a>
+			
+			<a href="/tags/reactive%20programming">reactive programming</a>
+			
+			<a href="/tags/components">components</a>
+			1 min read
+	</h5>
 	
 </hgroup>
 <hr class="sep" />
-
-		
-	</header>
-	<ul class="no-bullet">
-	    
-	    <li>
-	<span><time datetime="2017-08-12 00:00:00 &#43;0000 UTC">Aug 12, 2017</time></span>
-	<a href="http://brucou.github.io/projects/component-combinators/switch/">Switch</a>
-</li>
-
-	    
-	    <li>
-	<span><time datetime="2017-07-07 00:00:00 &#43;0000 UTC">Jul 07, 2017</time></span>
-	<a href="http://brucou.github.io/posts/a-componentization-framework-for-cyclejs/">A componentization model for cyclejs</a>
-</li>
-
-	    
-	    <li>
-	<span><time datetime="2017-07-01 00:00:00 &#43;0000 UTC">Jul 01, 2017</time></span>
-	<a href="http://brucou.github.io/posts/componentization-against-complexity/">Componentization against complexity</a>
-</li>
-
-	    
-	    <li>
-	<span><time datetime="2017-06-15 00:00:00 &#43;0000 UTC">Jun 15, 2017</time></span>
-	<a href="http://brucou.github.io/projects/component-combinators/efsm/">Extended finite state machine</a>
-</li>
-
-	    
-	    <li>
-	<span><time datetime="2017-06-15 00:00:00 &#43;0000 UTC">Jun 15, 2017</time></span>
-	<a href="http://brucou.github.io/projects/component-combinators/runtestscenario/">runTestScenario</a>
-</li>
-
-	    
-	    <li>
-	<span><time datetime="2017-06-11 00:00:00 &#43;0000 UTC">Jun 11, 2017</time></span>
-	<a href="http://brucou.github.io/posts/user-interfaces-as-reactive-systems/">User interfaces as reactive systems</a>
-</li>
-
-	    
-	    <li>
-	<span><time datetime="2017-05-09 00:00:00 &#43;0000 UTC">May 09, 2017</time></span>
-	<a href="http://brucou.github.io/projects/component-combinators/mm/">m - the generic component combinator</a>
-</li>
-
-	    
-	</ul>
+</header>
 	
-<nav class="pagination">
-    
-    <a href="/tags/functional-programming/page/2/">
-    <img class="icon-text" src="/img/prev.svg"/>
-    </a>
-    
-    <span>3</span>
-    
-</nav>
 
+<h1 id="concurrency-control">concurrency control</h1>
 
+<p>cf. Redux saga
+- all actions in one sink
+- several concurrent processes listening on actions
+- coordinated by ? shared-memory? message-passing? streams (declarative concurrncy)? investigate
+- <a href="https://redux-saga.js.org/">https://redux-saga.js.org/</a>, <a href="https://redux-saga.js.org/docs/recipes/">https://redux-saga.js.org/docs/recipes/</a>, <a href="http://konkle.us/master-complex-redux-workflows-with-sagas/">http://konkle.us/master-complex-redux-workflows-with-sagas/</a></p>
+
+<p>cf. Concepts, Techniques, and Models of Computer Programming ou PROGRAMMATION Concepts,
+techniques et modèles for concurrency models</p>
+
+	<nav>
+	
+		<a class="prev-post" href="http://brucou.github.io/scratch/gui_testing/">
+			<img class="icon-text" src="/img/prev.svg"/>GUI testing</a>
+	
+	
+		<a class="next-post" href="http://brucou.github.io/scratch/cyclejs---keeping-event-handlers-coupled-to-view-description-without-loosing-testability/">cyclejs - coupling event handlers to view description, while keeping testability<img class="icon-text" src="/img/next.svg"/>
+		</a>
+	
+	</nav>
 </article>
+
 
 			<hr class="sep" />
 		</main>
@@ -162,6 +137,14 @@
 		
 		<script>hljs.initHighlightingOnLoad();</script>
 		
+			<script type="text/javascript">
+              window.MathJax = {
+                showProcessingMessages: false,
+                messageStyle: 'none',
+                tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+              };
+			</script>
+			<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
 			<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
             <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
             <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>

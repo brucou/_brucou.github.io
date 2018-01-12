@@ -71,7 +71,7 @@
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/components">components</a>
-			30 min read
+			31 min read
 	</h5>
 	
 </hgroup>
@@ -742,7 +742,7 @@ export const  =
 <ul>
 <li><code>ProjectTaskListContainer</code> is a container component which allocates children content into their
 slots and applies some styling</li>
-<li><code>ToggleButton</code> handle the tasks filter (values to be picked within <code>All</code>, <code>Open</code>, <code>Done</code>)</li>
+<li><code>ToggleButton</code> handles the tasks filter (values to be picked within <code>All</code>, <code>Open</code>, <code>Done</code>)</li>
 <li><code>EnterTask</code> allows the user to enter a new task for the active project</li>
 <li><code>TaskList</code> displays a list of project tasks, taking into account the task filter set by the user</li>
 </ul>
@@ -890,13 +890,15 @@ actions), and the <code>ToggleButton</code> component (illustrating local state 
 <p>We will use the in-memory store driver to keep track of the task filter. As the
  task filter will also be used by the <code>TaskList</code> component to filter out the project&rsquo;s tasks,
  it needs to be accessible by several components which are not in a parent/child relationship.
- There are basically two ways to handle this. The first one is to create and inject that piece
- of state at the closest ancestor level (this would be here at <code>ProjectTaskList</code> level). The second
- one is to create that piece of state at the global level (i.e. cutting across the component
- hierarchy - that is what the in-memory store is),
- and access it anywhere necessary. We chose the second solution for didactic purposes
- (injecting <code>tasksFilter$</code>), as an example of use of the in-memory store driver. Concretely, the
- breakdown is as follows :</p>
+ There are basically two ways to handle this :</p>
+
+<ul>
+<li>The first one is to create and inject that piece of state at the closest ancestor level (this would be here at <code>ProjectTaskList</code> level).</li>
+<li>The second one is to create that piece of state at the global level (i.e. cutting across the component
+hierarchy - that is what the in-memory store is), and access it anywhere necessary.</li>
+</ul>
+
+<p>We chose the second solution for didactic purposes (injecting <code>tasksFilter$</code>), as an example of use of the in-memory store driver. Concretely, the breakdown is as follows :</p>
 
 <pre><code class="language-javascript">export const ToggleButton =
   InjectSourcesAndSettings({

@@ -142,7 +142,7 @@ complexity, at the system implementation level :</p>
 
 <ul>
 <li>components can be replaced easily, by a better or equivalent version, as long as its
-interface its kept (<a href="https://tuhrig.de/programming-to-an-interface/">program to an interface, not to an implementation</a><br /></li>
+interface its kept (<a href="https://tuhrig.de/programming-to-an-interface/">program to an interface, not to an implementation</a>)<br /></li>
 </ul></li>
 <li>reliability
 
@@ -198,7 +198,7 @@ interface its kept (<a href="https://tuhrig.de/programming-to-an-interface/">pro
 <li>stability
 
 <ul>
-<li>Foreign clients are not tied to the release cycle of a system. For them, a module’s behaviour must remain unchanged (or upward compatible) for years, probably for the lifetime of their system</li>
+<li>Foreign clients are not tied to the release cycle of a system. Ideally for them, a module’s behaviour should remain unchanged (or upward compatible) for years, probably for the lifetime of their system</li>
 </ul></li>
 </ul>
 
@@ -208,7 +208,8 @@ interface its kept (<a href="https://tuhrig.de/programming-to-an-interface/">pro
 
 <p>To use a component, the client must understand its behaviour. This is not just the functional specification, but also the resource consumption, the exceptions it raises, its customization facilities, its bugs, and what workarounds to use when it doesn’t behave as expected or desired.</p>
 
-<p>Furthermore, because the written spec is often quite inadequate, there is uncertainty about the cost to discover the things that aren’t in the spec, and about the cost to deal with the surprises that turn up. If the module has been around for a while and has many satisfied users, these risks are of course smaller, but it’s difficult to reach this happy state.</p>
+<p>Furthermore, because the written spec is often quite inadequate, there is uncertainty about the cost to discover the things that are not in the spec, and about the cost to deal with the surprises that turn up. If the module has been around for a while and has many satisfied users, these risks are of course smaller, but it is difficult to reach this happy
+state.</p>
 
 <h2 id="conflicting-world-views">Conflicting world views</h2>
 
@@ -218,7 +219,7 @@ interface its kept (<a href="https://tuhrig.de/programming-to-an-interface/">pro
 
 <h2 id="componentization-is-a-strategic-decision">Componentization is a strategic decision</h2>
 
-<p>The option of componentization to implement a reactive system, must, like any architectural decision, be weighted in the context of the specific implementing company/project/team. A start-up who will anyways trash its minimum viable product the next year after receiving funding  might prefer avoid going through the trouble, while companies which are constantly developing software might want to invest in carefully designed components.</p>
+<p>The option of componentization to implement a reactive system, must, like any architectural decision, be weighted in the context of the specific implementing company/project/team. A start-up who will anyways trash its minimum viable product the next year after receiving funding  might prefer to avoid going through the trouble, while companies which are constantly developing software might want to invest in carefully designed components.</p>
 
 <h1 id="conclusion">Conclusion</h1>
 

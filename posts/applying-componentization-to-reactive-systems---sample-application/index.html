@@ -235,7 +235,6 @@ and the methods applicable to them are defined</li>
         modules: defaultModules
       })),
       document: documentDriver,
-      queue$: makeQueueDriver(fbRoot.child('!queue'), 'responses', 'tasks', { debug: true }),
       domainQuery: makeDomainQueryDriver(repository, domainObjectsQueryMap),
       domainAction$: makeDomainActionDriver(repository, domainActionsConfig),
       storeAccess: makeDomainQueryDriver(inMemoryStore, inMemoryStoreQueryMap),
@@ -321,16 +320,20 @@ those sources of events and pieces of state will be used by the whole applicatio
 
 <ul>
 <li>the querying for domain entities related to the projects and the user through the query
-driver</li>
+driver (for instance <code>domainQuery.getCurrent(PROJECTS)</code>)</li>
 <li>the use of <code>Div('.app')</code> as a container for the list of components (main and side
 panels). Full explanation of the feature can be found at the <a href="/projects/component-combinators/m-component---merge-default-functions/#regular-dom-merge">corresponding documentation page</a> (the container here acts as parent component). In short, all DOM trees
 returned by the enclosed components will be inserted within the DOM tree of the container.</li>
 <li>the distinction between the route change event, and the route state which is a behaviour<sup class="footnote-ref" id="fnref:behaviour"><a rel="footnote" href="#fn:behaviour">1</a></sup>. The
 general, and very important rule, is to <strong>systematically</strong> decide whether a reactive entity of
 interest is modelized better by an event or a behaviour, and to apply the corresponding marker
-(<code>share()</code> for events, <code>shareReplay(1)</code> for behaviours). Failing to do this is the origin of a
-large portion of bugs encountered when manipulating streams.</li>
+(<code>share()</code> for events, <code>shareReplay(1)</code> for behaviours)<sup class="footnote-ref" id="fnref:marker"><a rel="footnote" href="#fn:marker">2</a></sup>. Failing to do this is the origin
+of a large portion of bugs encountered when manipulating streams.</li>
 </ul>
+
+<p>events and behaviours, and enforce their usage, effectively prohibiting direct manipulation of
+the underlying streams. We do not follow this option however, to avoid adding extra syntax. We
+might reconsider later on, based on feedback.</p>
 
 <p>For the full code and running demo, see <a href="https://github.com/brucou/component-combinators/tree/project-management-app-step-1/examples/AllInDemo">here</a>.</p>
 
@@ -343,7 +346,7 @@ large portion of bugs encountered when manipulating streams.</li>
 <ul>
 <li><code>MainPanel</code> can be implemented fairly independently from <code>SidePanel</code></li>
 <li>the only reason for change of <code>SidePanel</code> that would affect <code>MainPanel</code> is a change in the
-route associated to the projects<sup class="footnote-ref" id="fnref:routechange"><a rel="footnote" href="#fn:routechange">2</a></sup></li>
+route associated to the projects<sup class="footnote-ref" id="fnref:routechange"><a rel="footnote" href="#fn:routechange">3</a></sup></li>
 <li>both components share no common events or actions or logic. We took our initial reactive system, split it in two, smaller, largely independent subsystems, whose complexity is strictly lower than the original system, and
 easier to write</li>
 </ul>
@@ -464,13 +467,10 @@ to write ad-hoc combinators, and components which displays a list of items.</p>
 <h2 id="slots-and-container-components">Slots and container components</h2>
 
 <p>Combinators accept either a list of components (<code>Array&lt;Component&gt;</code>), or a container and a list of
-components (<code>[ContainerComponent, Array&lt;ChildrenComponent&gt;]</code>). The container component is used to
-give to apply some processing to the children components&rsquo; sinks. Unless otherwise specified, the
-default processing is to merge all non-DOM actions from the children components&rsquo; sinks, and to
-merge DOM sinks from the children components&rsquo; sinks following a slot mechanism à la web components.</p>
+components (<code>[ContainerComponent, Array&lt;ChildrenComponent&gt;]</code>). The container component is used to apply some processing to the children components&rsquo; sinks. Unless otherwise specified, the default processing is to merge all non-DOM actions from the children components&rsquo; sinks, and to merge DOM sinks from the children components&rsquo; sinks following a slot mechanism à la web components.</p>
 
 <p>The container component may define a slot or location, where children DOM sinks will be inserted.
- The container component hence provides a template, and the children DOM sinks provides the
+ The container component hence provides a template, and the children DOM sinks provide the
  content filling that template. For more details of the slot mechanism, see the <a href="/projects/component-combinators/m-component---merge-default-functions/#slotted-dom-merge">documentation</a>. A
  simple way to set a slot for the DOM content for children components is to use the <a href="/projects/components-combinators/inslot"><code>InSlot</code></a> combinator.</p>
 
@@ -1344,6 +1344,8 @@ dividing the target reactive system into smaller components, and expliciting the
 <ol>
 <li id="fn:behaviour">The reason why we need both the route change event and the route state is that sometimes we want to get the current route without reacting to a route change, and the best way to achieve this is to use <code>shareReplay(1)</code> in connection with <code>sample</code> or <code>withLatestFrom</code>. 
  <a class="footnote-return" href="#fnref:behaviour"><sup>[return]</sup></a></li>
+<li id="fn:marker">A good way to enforce this is to build on top of the stream library constructors for 
+ <a class="footnote-return" href="#fnref:marker"><sup>[return]</sup></a></li>
 <li id="fn:routechange">The corresponding change could be anticipated by designing the main panel to allow for parameterization of these routes. This would ensure that a change in <code>SidePanel</code> does not entail a change in <code>MainPanel</code> implementation, but rather a change in parameterization (we have decided not to refactor our sample application in that direction though, to not distract the learner with implementation details)
  <a class="footnote-return" href="#fnref:routechange"><sup>[return]</sup></a></li>
 </ol>

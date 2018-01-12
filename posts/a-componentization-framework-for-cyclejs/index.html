@@ -85,7 +85,7 @@ The first figure shows a classification framework for software component models,
 
 <p>A component framework or platform provides both a systematic method to construct components, possibly from other components (namely dealing with interfacing, binding and interactions between components), and a systematic interface between component and the component framework, by which components can be introspected, instantiated, executed, destroyed (namely dealing with component lifecycle)<sup class="footnote-ref" id="fnref:classification"><a rel="footnote" href="#fn:classification">1</a></sup>.</p>
 
-<p>The first figure shows a classification framework for software component models, emphasizing the miscellaneous responsibilities of a component model. We will not examine here the third point(extra-functional properties).</p>
+<p>The first figure shows a classification framework for software component models, emphasizing the miscellaneous responsibilities of a component model.</p>
 
 <p><img src="https://i.imgur.com/9yziyvB.png" alt="Classification framework for software component models" /></p>
 
@@ -163,7 +163,7 @@ and events are represented as streams</li>
 <li>As any component used to derive another component can itself have been derived, parallel composition naturally leads to the manipulation of component trees</li>
 </ul>
 
-<p>There are usually many ways to perform that decomposition. The idea in every case is to reach functions $f_{m.n&hellip;}$ whose complexity is easily manageable. If we understand that part of complexity of such functions emanates from the top-level $f$, while another part stems from the interaction of $f_{m.n&hellip;}$s with the larger reactive system, we see that there is a sweet spot where the function is &lsquo;small&rsquo; enough to be manageable but not too small so it has to be coupled with many other functions to achieve a given functionality (coupling increases complexity).</p>
+<p>There are usually many ways to perform that decomposition. The idea in every case is to reach functions $f_{m.n&hellip;}$ whose complexity is easily manageable. If we understand that part of complexity of such functions emanates from the top-level $f$, while another part stems from the interaction of $f_{m.n&hellip;}$s with the larger reactive system, we see that there is a sweet spot where the function is &lsquo;small&rsquo; enough to be manageable but not too small so it has to be coupled with many other functions to achieve a given functionality (<strong>coupling increases complexity</strong>).</p>
 
 <h2 id="sequential-composition">Sequential composition</h2>
 
@@ -426,10 +426,10 @@ some factory in <code>Sources</code> (<code>Query</code> driver for instance - s
 
 <h3 id="transient-state">Transient state</h3>
 
-<p>This is a piece of state which last only as long as the component that created it in the first
+<p>This is a piece of state which lasts only as long as the component that created it in the first
 place. Transient state has no need to be kept around and is recreated when needed. As an example, a
 search-as-you-type component might keep track of the length of the search key, and perform search
- API calls only when that length has reach a minimum value. The length of the entered search key
+ API calls only when that length has reached a minimum value. The length of the entered search key
  would be transient state. Transient state is generally created through the stream <code>scan</code> operator.</p>
 
 <h2 id="concurrency-management">Concurrency management</h2>
@@ -517,7 +517,7 @@ available when booking. Those errors generally prevent the system to move from o
 <p>In our reactive system, <code>cyclejs</code> context: for component construction and interfacing, functions are used, exposing a fixed interface, differentiating parameterization concern and input interface concern in their inputs; a port metaphor is used for interfacing components; combinators are used for parallel and sequential composition; component lifecycle is handled by the framework which by means of <em>start</em> (here <code>run</code>) and <em>stop</em> functionalities.</p>
 
 <p>A range of generic combinators have been defined, which allows to handle a series of concerns,
-including sequential composition, data injection, control flow, routing, list management, change
+including sequential composition, state injection, control flow, routing, list management, change
 propagation, etc. They are tools which can be used to for concurrency control (however imperfect
 they be), state management, and error management for the application at hand.</p>
 

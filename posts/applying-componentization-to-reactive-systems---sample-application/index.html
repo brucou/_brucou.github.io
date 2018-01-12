@@ -269,6 +269,9 @@ those sources of events and pieces of state will be used by the whole applicatio
   for several components combinators to filter the sinks returned from children components, so we
    put it at the top level for the same DRY reasons.</p>
 
+<p>The <code>settings</code> and <code>sources</code> inheritance mechanism is described in the documentation for the
+   <code>m</code> combinator and the <a href="/projects/component-combinators/injectsourcesandsettings/"><code>InjectSourcesAndSettings</code> combinator</a>.</p>
+
 <p>The corresponding code includes :</p>
 
 <pre><code class="language-javascript">export const App = InjectSourcesAndSettings({
@@ -936,9 +939,9 @@ export function tasksFilter$(sources, settings) {
 </code></pre>
 
 <p>Note how we combine the store read and write drivers (<code>storeAccess</code>, <code>storeUpdate$</code>) to get<br />
-a <code>taskFilter$</code> which emits the current value of the task filter and then the new values of the
-task filter, every time that value changes. To ensure this, we listen on responses to
-im-memory entity update requests. Such responses are objects which hold the updated entity in the
+a <em>live</em> <code>taskFilter$</code> which emits the current value of the task filter and then the new values of
+the task filter, every time that value changes. To ensure this, we listen on responses to
+in-memory entity update requests. Such responses are objects which hold the updated entity in the
 <code>response</code> property. For extra details, refer to the <a href="https://github.com/brucou/component-combinators/blob/master/examples/AllInDemo/src/inMemoryStore/index.js#L21">configuration</a>
  of the in-memory driver, and at the documentation for the <a href="/projects/component-combinators/actiondriver/">domain <code>Action</code> driver</a>.</p>
 
@@ -1178,14 +1181,20 @@ from the elements that originate them.</li>
 </table>
 
 <p>We assure the unicity of the selector for the click event, by coupling the corresponding element
-to the project link, which is unique as per the specification.</p>
+to the project link, which is unique as per the specification. This is a tradeoff of <code>cyclejs</code>&rsquo;s
+architectural choice to separate the event creation from the declaration of the view structure.
+As a matter of fact, the view is conceptually tightly coupled to the event handlers, and forcing
+the decoupling of the two results in having to define unequivocally, for each event handler, the DOM element to
+which it relates. On the positive side of that tradeoff, we are able to test components, by
+mocking their inputs. For readability and DRY reasons, we recommend to isolate the <code>css</code> selector by
+which event handler and element are coupled into a separate variable.</p>
 
 <p>This leads to the implementation below :</p>
 
 <pre><code class="language-javascript">function NavigationItem(sources, settings) {
   const { url$ } = sources;
   const { project: { title, link } } = settings;
-  const linkSanitized = link.replace(/\//i, '_');
+  const linkSelector = '.navigation-section__link.' + link.replace(/\//i, '_');
 
   const state$ = url$
     .map(url =&gt; url.indexOf(link) &gt; -1)
@@ -1196,13 +1205,13 @@ to the project link, which is unique as per the specification.</p>
       const isLinkActiveClass = isLinkActive ? '.navigation-section__link--active' : '';
 
       return a(
-        `${isLinkActiveClass}.navigation-item.navigation-section__link.${linkSanitized}`,
+        `${isLinkActiveClass}.navigation-item${linkSelector}`,
         { attrs: { href: link }, slot: 'navigation-item' },
         title)
     }),
     // NOTE : we avoid having to isolate by using the link which MUST be unique over the whole
     // application (unicity of a route)
-    router: sources.DOM.select(`.navigation-section__link.${linkSanitized}`).events('click')
+    router: sources.DOM.select(`${linkSelector}`).events('click')
       .do(preventDefault)
       .map(always('/' + link + '/'))
   }
@@ -1297,7 +1306,7 @@ previously. This could also be the case if domain experts have succeeded in iden
  him. Those opportunities are generally identified while refactoring. As explained in a <a href="/posts/componentization-against-complexity/#barriers-to-reuse">former article</a>, refactoring for reuse has a
  cost, and the possible benefits to be derived have to be weighted against that cost.</p>
 
-<p>For illustration purposes, here is part of the source code for the <code>CheckBox</code> component.</p>
+<p>For illustration purposes, here is part of the source code for the <code>CheckBox</code> component:</p>
 
 <pre><code class="language-javascript">export function CheckBox(sources, settings) {
   const { checkBox: { label: _label, namespace, isChecked } } = settings;

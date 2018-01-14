@@ -72,7 +72,7 @@ We will now compare our proposed component model to Angular2 and React component
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/components">components</a>
-			26 min read
+			27 min read
 	</h5>
 	
 </hgroup>
@@ -734,8 +734,7 @@ easy to reason about our component and application.</p>
 
 <ul>
 <li>a component may send an event to a pub/sub driver, and another component might listen to it.
-Note that while this pattern is possible, it is not often used in practice. Communication
-through shared state is likely preferable, due to the equational reasoning it facilitates.<br /></li>
+Note that while this pattern is possible, it is not often used in practice</li>
 </ul></li>
 </ul>
 
@@ -859,19 +858,35 @@ real DOM, just as with <code>Angular2</code> and <code>React</code>.</p>
 
 <h2 id="conclusion-2">Conclusion</h2>
 
-<p>Our component model generalized <code>React</code>&rsquo;s, by also taking responsibilities for any actions the
-user must undertake. While <code>React</code> focuses on the view, our component manages the full set of
-actions. Of course, there are architectures (for <code>React</code>, for instance <code>React</code> +
-<code>Redux</code>/<code>Thunk</code>/<code>Saga</code>; for <code>Angular2</code>, <code>ngrx</code> and its large ecosystem) which seek to palliate
-this. We however feel pretty comfortable that we do this in a way fundamentally simpler than
-those two library/framework.</p>
+<p>While <code>React</code> makes the view declarative ($view = f(state)$), our stream-based <code>cyclejs</code>
+architecture makes the whole application declarative ($actions = f (states, events)$). Streams
+abstract out both asynchrony and change propagation, allowing to reason about a system
+equationally. While there are architectures (<code>React</code> +<code>Redux</code>/<code>Thunk</code>/<code>Saga</code>; <code>Angular2</code> + <code>ngrx</code>
+and its large ecosystem) which seek to extend declarativeness beyond the view, we however feel pretty comfortable that we do this in a way <strong>fundamentally simpler</strong> than the previously mentioned library/framework.</p>
 
-<p>Additionally, we separate the action representation from the actual execution of
-the action, while both <code>React</code> and <code>Angular2</code> directly performs the actions triggered by user
-inputs. There are advantages to that which are not fully exploited yet. On one side orchestrating
-actions (what <a href="https://github.com/redux-saga/redux-saga"><code>redux-saga</code></a> does) becomes possible with a state machine (we offer the <code>FSM</code> combinator for this), which, while a low-level tool, compensates with its genericity.</p>
+<p>We separate the action representation from the actual execution of the action, while both <code>React</code> and <code>Angular2</code> directly performs the actions triggered by user inputs. There are advantages to that which are not fully exploited yet. On the one hand, orchestrating actions (what <a href="https://github.com/redux-saga/redux-saga"><code>redux-saga</code></a> does) becomes possible with a state machine (we offer the <code>FSM</code> combinator for this), which, while a low-level tool, compensates with its genericity. On the other hand, this simplifies testing by not having to mock action handlers.</p>
 
 <h1 id="conclusion-3">Conclusion</h1>
+
+<p><code>React</code> and <code>Angular2</code> are library/framework which are either full-featured or come with a
+extensive list of complements (plugins, libraries, compilers, dev tools, etc.) tackling a lot of
+the issues that developers face today. They recognize the value of the stream abstraction and
+are flexible enough to allow for a limited but valuable use of abstractions and architectures
+based on top of streams.</p>
+
+<p>Fully stream-based architectures, in comparison, are still in the infancy of their development and
+have to be further developed to reach a similar stage of maturity.  In the web user-interface
+space, <code>cyclejs</code> is such an architecture, on top of which we built our component model. We
+believe that our component model makes for an easier way to write applications, but above all to
+understand them, reason about them, and maintain them. The key reason behind our optimism is the
+inherent declarativeness of our approach based on functional equations.</p>
+
+<p>Nonetheless, a lot more must be done to make the life of the programmer easier. Among the top
+priorities is the development of productivity tooling. Our architecture allows for visualizing the
+component tree, automatic logging of the data flowing through the components, which in turn should allow
+interactive tracing and debugging of an application.  Equally, updating the architecture to
+handle concurrency in a simpler way can bring significant benefits for those applications which
+are highly concurrent. Those two aras should be the next focus of our efforts.</p>
 
     </div>
     <nav>

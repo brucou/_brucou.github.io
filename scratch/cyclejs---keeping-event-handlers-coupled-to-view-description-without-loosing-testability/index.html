@@ -6,7 +6,8 @@
 		<meta name="generator" content="Hugo 0.31.1" />
 		<title>cyclejs - coupling event handlers to view description, while keeping testability - Technuflexions</title>
 
-		<meta name="description" content="Having event handlers declared together with the view  In sources, inject a subject factory In component, with that subject factory, create subject  subject will have automatically generatd unique id from the trace settings property  In view, with helper function, link the event listener to the subject in component, returns the subject when testing, send values through the subject  think some more I am close - conclusion : whatever I do is the same as what I have, - event@selector is necessary to test anyways.">
+		<meta name="description" content="Having event handlers declared together with the view  In sources, inject a subject factory In component, with that subject factory, create subject  subject will have automatically generatd unique id from the trace settings property  In view, with helper function, link the event listener to the subject in component, returns the subject when testing, send values through the subject  think some more I am close
+ conclusion : whatever I do is the same as what I have, event@selector is necessary to test anyways.">
 
 
 		
@@ -93,45 +94,76 @@
 <li>when testing, send values through the subject</li>
 </ul>
 
-<p>think some more I am close
-- conclusion : whatever I do is the same as what I have,
-- event@selector is necessary to test anyways. Even if I remove it from implementation, I need it
- for test, so it is all the same to keep it separated or joined.
-  - so keep mock : <code>DOM!event@selector</code>
-  - BUT change syntax to remove subject factory declaration in runTestScenario.
-  - example : <code>handler!event@selector</code> -&gt; factory will be for events (E) -&gt; new Subject()
-  - example : <code>document!property@selector</code> -&gt; factory will be for state (S) -&gt; new
-     - the latter means I need to change document driver to have common syntax to access DOM state
-     - possibly reimplementing the DOM interface, so us 80-20 approach
-     - for the 20, well, test by hand or with selenium
-- BUT maybe it is worth to have the factor as dependency in sources
-  - sources.eventHandler(selector, event) curried to accept only selector
-  - in the snabbdom, change module listener to accept {handlers : {event : curriedHandler}
-    - instead of <code>on</code> so no telescoping, and fit the naming of the source
-  - in the implementation of module apply curriedHandler to <code>[event]</code>, and attach handler which
-  passes the event to the subject as any handler
-  - pass the subject as output
-  - BENEFITS :
-    - no more DOM driver, just snabbdom!
-    - BUT : we still have to declare handler on body! do it through a specific driver -&gt; so DOM
-    driver again? no, there is always a body so should be simple. How to manage the lifecycle?
-    body never goes away. Same : explicit removal, just like explicit creation
-      - NO, can work with same curried API? TO THINK ABOUT
-        - YES : pass the subject as argument in the body driver, i.e. just like snabbdom does,
-        but isntead of snabbdom driver, body driver
-    - KEEP document driver to query DOM state, call it domQuery driver? like domainQuery driver?
-      - YES, same as domainQuery, a factory which returns a shared replay stream, mock as usual
-        - instead of getCurrent(domain entity) I will have dom.getCurrent(selector, property)
-  - handler driver : that is a subject factory, <code>makeHandlerDriver(subjectFactory)</code>
-  - FOR TESTS:
-    - example : <code>handler!event@selector</code> -&gt; factory will be for events (E) -&gt; new Subject()
-    - example : <code>document!property@selector</code> -&gt; factory will be for state (S) -&gt; new ReplaySubject(1)
-       - be careful in implementation vs. test
-         - if test returns stream (replayed), then <code>sources.document</code> must also return a stream. To
-          keep semantics, that stream should have only one value and be queried with <code>withLatestFrom</code>
-          always, or sample (beware of termination semantics, there is only one value). Ok, that
-          is how it works, query driver returns a stream no matter what
-SOLVED!!! I can test and I get rid of the dom driver. I also solve the body selector problem</p>
+<p>think some more I am close</p>
+
+<ul>
+<li>conclusion : whatever I do is the same as what I have,</li>
+<li>event@selector is necessary to test anyways. Even if I remove it from implementation, I need it
+for test, so it is all the same to keep it separated or joined.
+
+<ul>
+<li>so keep mock : <code>DOM!event@selector</code></li>
+<li>BUT change syntax to remove subject factory declaration in runTestScenario.</li>
+<li>example : <code>handler!event@selector</code> -&gt; factory will be for events (E) -&gt; new Subject()</li>
+<li>example : <code>document!property@selector</code> -&gt; factory will be for state (S) -&gt; new
+
+<ul>
+<li>the latter means I need to change document driver to have common syntax to access DOM state</li>
+<li>possibly reimplementing the DOM interface, so us 80-20 approach</li>
+<li>for the 20, well, test by hand or with selenium</li>
+</ul></li>
+</ul></li>
+
+<li><p>BUT maybe it is worth to have the factor as dependency in sources</p>
+
+<ul>
+<li>sources.eventHandler(selector, event) curried to accept only selector</li>
+<li>in the snabbdom, change module listener to accept {handlers : {event : curriedHandler}</li>
+<li>instead of <code>on</code> so no telescoping, and fit the naming of the source</li>
+<li>in the implementation of module apply curriedHandler to <code>[event]</code>, and attach handler which
+passes the event to the subject as any handler</li>
+<li>pass the subject as output</li>
+<li>BENEFITS :</li>
+<li>no more DOM driver, just snabbdom!</li>
+<li>BUT : we still have to declare handler on body! do it through a specific driver -&gt; so DOM
+driver again? no, there is always a body so should be simple. How to manage the lifecycle?
+body never goes away. Same : explicit removal, just like explicit creation
+
+<ul>
+<li>NO, can work with same curried API? TO THINK ABOUT</li>
+<li>YES : pass the subject as argument in the body driver, i.e. just like snabbdom does,
+but isntead of snabbdom driver, body driver</li>
+</ul></li>
+<li>KEEP document driver to query DOM state, call it domQuery driver? like domainQuery driver?
+
+<ul>
+<li>YES, same as domainQuery, a factory which returns a shared replay stream, mock as usual</li>
+<li>instead of getCurrent(domain entity) I will have dom.getCurrent(selector, property)</li>
+</ul></li>
+<li>handler driver : that is a subject factory, <code>makeHandlerDriver(subjectFactory)</code></li>
+<li>FOR TESTS:</li>
+<li>example : <code>handler!event@selector</code> -&gt; factory will be for events (E) -&gt; new Subject()</li>
+<li>example : <code>document!property@selector</code> -&gt; factory will be for state (S) -&gt; new ReplaySubject(1)
+
+<ul>
+<li>be careful in implementation vs. test
+
+<ul>
+<li>if test returns stream (replayed), then <code>sources.document</code> must also return a stream. To
+keep semantics, that stream should have only one value and be queried with <code>withLatestFrom</code>
+always, or sample (beware of termination semantics, there is only one value). Ok, that
+is how it works, query driver returns a stream no matter what
+SOLVED!!! I can test and I get rid of the dom driver. I also solve the body selector problem</li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p>React</p>
+
+<ul>
+<li>does not allow to define handler on body either</li>
+</ul></li>
+</ul>
 
 	<nav>
 	

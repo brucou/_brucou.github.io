@@ -29,7 +29,8 @@ Target audience This blog is not intended for a massive audience, though it aims
       <pubDate>Fri, 12 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://brucou.github.io/scratch/cyclejs---keeping-event-handlers-coupled-to-view-description-without-loosing-testability/</guid>
-      <description>Having event handlers declared together with the view  In sources, inject a subject factory In component, with that subject factory, create subject  subject will have automatically generatd unique id from the trace settings property  In view, with helper function, link the event listener to the subject in component, returns the subject when testing, send values through the subject  think some more I am close - conclusion : whatever I do is the same as what I have, - event@selector is necessary to test anyways.</description>
+      <description>Having event handlers declared together with the view  In sources, inject a subject factory In component, with that subject factory, create subject  subject will have automatically generatd unique id from the trace settings property  In view, with helper function, link the event listener to the subject in component, returns the subject when testing, send values through the subject  think some more I am close
+ conclusion : whatever I do is the same as what I have, event@selector is necessary to test anyways.</description>
     </item>
     
     <item>

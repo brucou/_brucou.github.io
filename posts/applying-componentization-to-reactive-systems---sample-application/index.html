@@ -334,10 +334,6 @@ interest is modelized better by an event or a behaviour, and to apply the corres
 of a large portion of bugs encountered when manipulating streams.</li>
 </ul>
 
-<p>events and behaviours, and enforce their usage, effectively prohibiting direct manipulation of
-the underlying streams. We do not follow this option however, to avoid adding extra syntax. We
-might reconsider later on, based on feedback.</p>
-
 <p>For the full code and running demo, see <a href="https://github.com/brucou/component-combinators/tree/project-management-app-step-1/examples/AllInDemo">here</a>.</p>
 
 <p>This example allows us to illustrate an important componentization tip.</p>
@@ -1383,7 +1379,7 @@ dividing the target reactive system into smaller components, and expliciting the
 <ol>
 <li id="fn:behaviour">The reason why we need both the route change event and the route state is that sometimes we want to get the current route without reacting to a route change, and the best way to achieve this is to use <code>shareReplay(1)</code> in connection with <code>sample</code> or <code>withLatestFrom</code>. 
  <a class="footnote-return" href="#fnref:behaviour"><sup>[return]</sup></a></li>
-<li id="fn:marker">A good way to enforce this is to build on top of the stream library constructors for 
+<li id="fn:marker">A good way to enforce this is to build on top of the stream library constructors for events and behaviours, and enforce their usage, effectively prohibiting direct manipulation of the underlying streams. We do not follow this option however, to avoid adding extra syntax. We might reconsider later on, based on feedback.
  <a class="footnote-return" href="#fnref:marker"><sup>[return]</sup></a></li>
 <li id="fn:routechange">The corresponding change could be anticipated by designing the main panel to allow for parameterization of these routes. This would ensure that a change in <code>SidePanel</code> does not entail a change in <code>MainPanel</code> implementation, but rather a change in parameterization (we have decided not to refactor our sample application in that direction though, to not distract the learner with implementation details)
  <a class="footnote-return" href="#fnref:routechange"><sup>[return]</sup></a></li>

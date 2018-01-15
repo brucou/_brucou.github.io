@@ -185,6 +185,12 @@
   </url>
   
   <url>
+    <loc>http://brucou.github.io/scratch/cyclejs---towards-model-based-testing/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://brucou.github.io/categories/</loc>
     <changefreq>weekly</changefreq>
     <priority>0</priority>

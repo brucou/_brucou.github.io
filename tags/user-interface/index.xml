@@ -40,7 +40,7 @@ This covers the case of components which do not output action sinks but intermed
       
       <guid>http://brucou.github.io/scratch/gui_testing/</guid>
       <description>Defining the problem To generate a set of test cases, test designers attempt to cover all the functionality of the system and fully exercise the GUI itself. The difficulty in accomplishing this task is three-fold:
- to deal with domain size and with sequences. In addition, the tester faces more difficulty when they have to do regression testing. in addition to testing behaviour, the tester must also test for visual appearance  Size of the domain and sequences Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested.</description>
+ to deal with domain size and with sequences the tester faces more difficulty when he has to do regression testing in addition to testing behaviour, the tester may also have to test for visual appearance  Size of the domain and sequences Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested.</description>
     </item>
     
     <item>

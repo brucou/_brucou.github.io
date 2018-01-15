@@ -33,7 +33,7 @@ cf. Concepts, Techniques, and Models of Computer Programming ou PROGRAMMATION Co
     </item>
     
     <item>
-      <title>Bloggin with hugo</title>
+      <title>Blogging with hugo</title>
       <link>http://brucou.github.io/scratch/using-hugo-for-my-blog/</link>
       <pubDate>Sat, 09 Dec 2017 00:00:00 +0000</pubDate>
       
@@ -49,7 +49,7 @@ cf. Concepts, Techniques, and Models of Computer Programming ou PROGRAMMATION Co
       
       <guid>http://brucou.github.io/scratch/gui_testing/</guid>
       <description>Defining the problem To generate a set of test cases, test designers attempt to cover all the functionality of the system and fully exercise the GUI itself. The difficulty in accomplishing this task is three-fold:
- to deal with domain size and with sequences. In addition, the tester faces more difficulty when they have to do regression testing. in addition to testing behaviour, the tester must also test for visual appearance  Size of the domain and sequences Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested.</description>
+ to deal with domain size and with sequences the tester faces more difficulty when he has to do regression testing in addition to testing behaviour, the tester may also have to test for visual appearance  Size of the domain and sequences Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested.</description>
     </item>
     
     <item>
@@ -60,6 +60,16 @@ cf. Concepts, Techniques, and Models of Computer Programming ou PROGRAMMATION Co
       <guid>http://brucou.github.io/scratch/testing_strategies/</guid>
       <description>Testing strategy Given the large size (infinite) of the domain of the function under test, the following hypothesis based on the knowledge of the implementation (gray-box testing) will be used to reduce when deemed convenient the size of the test space :
  T1 : Independence hypothesis Testing against A | B is sufficient to guarantee behaviour on A x B (independence of A and B) T2 : Continuity hypothesis When we have to test against a set of possible values, we will only test the limit conditions, assuming that passing those tests implies a correct behaviour for the other values.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://brucou.github.io/scratch/cyclejs---towards-model-based-testing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/scratch/cyclejs---towards-model-based-testing/</guid>
+      <description>Testing process Reviewing runTestScenario  In fact we don&amp;rsquo;t really want time diagrams We do want predictability of inputs so we will send each input one after one, separating data from event symbol  Example:
+const testSpace = { scenario1 : { caseA : { events : &#39;iccsctttscscS&#39;, eventData : [ iData, cData, cData, sData, cData, tData, ... ] } } } const eventSymbols = { i : eventSimulatorI, c : eventSimulatorC, .</description>
     </item>
     
   </channel>

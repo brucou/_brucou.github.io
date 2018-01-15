@@ -39,7 +39,8 @@ cf. Concepts, Techniques, and Models of Computer Programming ou PROGRAMMATION Co
       
       <guid>http://brucou.github.io/posts/component-models-for-user-interfaces-implementation---a-comparison/</guid>
       <description>Abstract In the previous articles, we have presented our proposed component model for user interfaces implementation, which relies on a cyclejs architecture, and is based on streams and reactive programming techniques.
-We will now compare our proposed component model to Angular2 and React component models. We will not compare it to cyclejs component model as it does not have a proper one : while it is possible to breakdown a component into smaller components, there is no generic or structured mechanism to glue them together &amp;mdash; it has to be done manually each time.</description>
+We will, in this article, compare our proposed component model to Angular2 and React component models1 along a few axes. The comparison will help us identify areas for future work : tooling, testing, and concurrency model.
+Angular2 component model Description A component controls a patch of screen called a view.</description>
     </item>
     
     <item>
@@ -70,7 +71,7 @@ This covers the case of components which do not output action sinks but intermed
       
       <guid>http://brucou.github.io/scratch/gui_testing/</guid>
       <description>Defining the problem To generate a set of test cases, test designers attempt to cover all the functionality of the system and fully exercise the GUI itself. The difficulty in accomplishing this task is three-fold:
- to deal with domain size and with sequences. In addition, the tester faces more difficulty when they have to do regression testing. in addition to testing behaviour, the tester must also test for visual appearance  Size of the domain and sequences Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested.</description>
+ to deal with domain size and with sequences the tester faces more difficulty when he has to do regression testing in addition to testing behaviour, the tester may also have to test for visual appearance  Size of the domain and sequences Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested.</description>
     </item>
     
     <item>

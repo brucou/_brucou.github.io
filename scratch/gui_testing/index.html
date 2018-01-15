@@ -7,7 +7,7 @@
 		<title>GUI testing - Technuflexions</title>
 
 		<meta name="description" content="Defining the problem To generate a set of test cases, test designers attempt to cover all the functionality of the system and fully exercise the GUI itself. The difficulty in accomplishing this task is three-fold:
- to deal with domain size and with sequences. In addition, the tester faces more difficulty when they have to do regression testing. in addition to testing behaviour, the tester must also test for visual appearance  Size of the domain and sequences Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested.">
+ to deal with domain size and with sequences the tester faces more difficulty when he has to do regression testing in addition to testing behaviour, the tester may also have to test for visual appearance  Size of the domain and sequences Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested.">
 
 
 		
@@ -89,14 +89,14 @@ the system and fully exercise the GUI itself. The difficulty in accomplishing th
 three-fold:</p>
 
 <ul>
-<li>to deal with domain size and with sequences.</li>
-<li>In addition, the tester faces more difficulty when they have to do regression testing.</li>
-<li>in addition to testing behaviour, the tester must also test for visual appearance</li>
+<li>to deal with domain size and with sequences</li>
+<li>the tester faces more difficulty when he has to do regression testing</li>
+<li>in addition to testing behaviour, the tester may also have to test for visual appearance</li>
 </ul>
 
 <h2 id="size-of-the-domain-and-sequences">Size of the domain and sequences</h2>
 
-<p>Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested. A relatively small program such as Microsoft WordPad has 325 possible GUI operations<sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup> In a large program, the number of operations can easily be an order of magnitude larger.</p>
+<p>Unlike a CLI (command line interface) system, a GUI has many operations that need to be tested. A relatively small program such as Microsoft WordPad has 325 possible GUI operations<sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup>. In a large program, the number of operations can easily be an order of magnitude larger.</p>
 
 <p>The second problem is the sequencing problem. Some functionality of the system may only be accomplished with a sequence of GUI events. For example, to open a file a user may have to first click on the <code>File</code> menu, then select the <code>Open</code> operation, use a dialog box to specify the file name, and focus the application on the newly opened window. Increasing the number of possible operations increases the sequencing problem exponentially. This can become a serious issue when the tester is creating test cases manually.</p>
 
@@ -117,11 +117,18 @@ three-fold:</p>
 <li>navigation</li>
 <li>actions and their visual trigger (button, form etc.)</li>
 <li>visual feedback to user actions (error messages, etc.)</li>
+<li>accessibility</li>
+</ul></li>
+<li>structure
+
+<ul>
+<li>layout</li>
+<li>gui elements chosen to produce the user interface</li>
 </ul></li>
 <li>look
 
 <ul>
-<li>style, layout, alignment, content, colour, size, scrollbar, readability, etc.</li>
+<li>style, alignment, content, colour, size, scrollbar, readability, etc.</li>
 </ul></li>
 </ul>
 
@@ -129,7 +136,7 @@ three-fold:</p>
 
 <ul>
 <li>regression testing, as described previously. Any changes, even small, in the visual appearance can lead to the invalidation of many tests down the road</li>
-<li>visual appearance itself may respond to a complex logic (responsive design, media-query, etc.) which have to be simulated, extending by then considerably the test domain</li>
+<li>visual appearance itself may respond to a complex logic (responsive design, media-query, etc.) which has to be simulated, extending by then considerably the test domain</li>
 </ul>
 
 <h1 id="test-methods">Test methods</h1>
@@ -141,8 +148,7 @@ three-fold:</p>
 <li><strong>Automated record and replay</strong>. Mainly done by automation tools. This is done in two parts. During <code>Record</code>, test steps are captured by the automation tool. During <code>playback</code>, the recorded test steps are executed on the application under test.</li>
 <li><strong>Automated inputs</strong>. Similar to the previous testing method, this method allows to simulate programmatically user inputs, and observe the output of the application under test.</li>
 <li><strong>Model-based testing</strong>.
-Under this method, the expected behaviour of the GUI is predicted by a formal model incorporating a representation of GUI inputs and state. The actual GUI behaviour is checked to be consistent with
-the expected behaviour.</li>
+Under this method, the expected behaviour of the GUI is predicted by a formal model incorporating a representation of GUI inputs and state. The actual GUI behaviour is checked to be consistent with the expected behaviour.</li>
 <li><strong>Visual testing</strong> (a.k.a. visual checking or visual regression testing). The term Visual Testing (VT) is used to refer to that part of GUI testing concerned with testing the visual properties of GUI elements and Visual Defect (VD) is the term that will be used to refer for those defects reported by this type of testing<sup class="footnote-ref" id="fnref:2"><a rel="footnote" href="#fn:2">2</a></sup>.</li>
 </ul>
 
@@ -182,7 +188,7 @@ the expected behaviour.</li>
 			<img class="icon-text" src="/img/prev.svg"/>Testing strategy</a>
 	
 	
-		<a class="next-post" href="http://brucou.github.io/scratch/using-hugo-for-my-blog/">Bloggin with hugo<img class="icon-text" src="/img/next.svg"/>
+		<a class="next-post" href="http://brucou.github.io/scratch/using-hugo-for-my-blog/">Blogging with hugo<img class="icon-text" src="/img/next.svg"/>
 		</a>
 	
 	</nav>

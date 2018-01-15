@@ -72,7 +72,7 @@ For instance, when the interaction between systems becomes too complex (too many
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			14 min read
+			13 min read
 	</h5>
 	
 </hgroup>
@@ -339,41 +339,19 @@ a CD player :</p>
 
 <h2 id="reactive-systems-as-a-system-of-equations">Reactive systems as a system of equations</h2>
 
-<ul>
-<li>equations:
-
-<ul>
-<li>states_i are behaviours</li>
-<li>sum of states_i = states</li>
-<li>each behaviour depends on some pieces of state and events</li>
-<li>actions depends on some pices of state and events</li>
-<li>so there is function i -&gt; indices of events and pieces of state it depends on?</li>
-<li>better partition events into individual events, states into behaviours (variables) and
-rewrite the equations</li>
-<li>with monoid, actions = U actions_a</li>
-<li>actions = U f_a(events, states)</li>
-<li>same hypothesis for events and states
-
-<ul>
-<li>actions =  U f_a(U{E_a} events_e, U{S_a} states_s)</li>
-</ul></li>
-<li>we have transformed the specification into a series of equations between events and behaviours</li>
-</ul></li>
-</ul>
-
-<p>Assuming a monoid operation which allows to decompose actions into pieces, we can write $actions
-= \cup_A actions_a$. Assuming that the same goes for events, and states :</p>
+<p>Assuming a monoid operation which allows to decompose actions into a sum of pieces, we can write
+$actions = \cup_A actions_a$. Assuming that the same goes for events, and states :</p>
 
 <p>$$\begin{aligned}
-actions  &amp; = \cup_A actions_a \\<br />
-         &amp; = \cup_A f_a(states, events) \\<br />
-         &amp; = \cup_A f_a(\cup_{S_a} states_s, \cup_{E_a} events_e)
+actions  &amp; = \bigcup_A actions_a \\<br />
+         &amp; = \bigcup_A f_a(states, events) \\<br />
+         &amp; = \bigcup_A f_a(\bigcup_{S_a} states_s, \bigcup_{E_a} events_e)
 \end{aligned}
 $$</p>
 
-<p>In FRP, $states_s$ are variables called behaviours, while $events_e$ and are $actions_a$ are
-events. We then rewrote our equation into a series of equations $actions_a = f_a(\cup_{S_a} states_s, \cup_{E_a} events_e)$, which computes actions of a given slice from the events and behaviours relevant to that slice.
-For instance :  <code>api_call = f({origin, destination, dates}, search_click)</code>, <code>retry = g(api_call_response))</code>, <code>show_payment_screen = h(api_call_response)</code>.</p>
+<p>In FRP, $states_s$ are variables called behaviours, while $events_e$ and $actions_a$ are
+events. We then rewrite our equation into a series of equations $actions_a = f_a(\cup_{S_a} states_s, \cup_{E_a} events_e)$, which computes actions of a given slice from the events and behaviours relevant to that slice.
+For instance :  <code>api_call = f({origin, destination, dates}, search_click)</code>, <code>retry = g(null, api_call_response)</code>, <code>show_payment_screen = h(null, api_call_response)</code>.</p>
 
 <p>Dataflow languages, such as Lucid Synchrone, use such an equational approach both for specification and implementation of reactive systems<sup class="footnote-ref" id="fnref:synchronous"><a rel="footnote" href="#fn:synchronous">4</a></sup>. The approach used by Lucid Synchrone and the like is particularly interesting for user interfaces in safety-critical domain (avionics, automotive, medicine, nuclear plants&hellip;) with stringent certification requirements. By keeping the implementation close to the specification, restricting the target implementation language and defining formal semantics for it, it is possible to guarantee liveliness and safety properties of the implemented system.</p>
 
@@ -499,10 +477,11 @@ f : fetch remote data
 
 <h1 id="conclusion">Conclusion</h1>
 
-<p>User interfaces are reactive systems and as such can be specified by means of its events/actions interface with the external systems of interest, and a pure reactive function mapping the actions of the user on the user interface to actions on the interfaced system.<br />
-Implementation techniques leveraging functional programming techniques, can lead to an implementation closer to the specification, easier to reason about and maintain. In the best case, implementations may be automatically generated from the specifications and amenable to formal verification.</p>
+<p>User interfaces are reactive systems and as such can be specified by means of its events/actions interface with the external systems of interest, and a pure reactive function mapping the actions of the user on the user interface to actions on the interfaced system.</p>
 
-<h1 id="recommended-bibliography">Recommended bibliography</h1>
+<p>Implementation techniques leveraging functional programming techniques, can lead to an implementation closer to the specification, easier to reason about and maintain. In the best case, implementations may be automatically generated from the specifications and amenable to formal verification.</p>
+
+<h1 id="bibliography">Bibliography</h1>
 
 <ul>
 <li><a href="https://www.di.ens.fr/~pouzet/bib/chap_lucid_synchrone_english_iste08.pdf"><strong>Synchronous Functional Programming: The Lucid Synchrone Experiment</strong></a>
@@ -523,10 +502,9 @@ Rationale behind functional synchronous programming for reactive systems, domain
 </blockquote>
 
 <ul>
-<li><p><a href="https://mitpress.mit.edu/books/concepts-techniques-and-models-computer-programming"><strong>Concepts, Techniques, and Models of Computer Programming</strong></a> &mdash; chapter 4, in particular
-section 4.3.4.</p></li>
-
-<li><p><a href="https://www.tablesgenerator.com/markdown_tables">markdown tables helper</a></p></li>
+<li><a href="https://mitpress.mit.edu/books/concepts-techniques-and-models-computer-programming"><strong>Concepts, Techniques, and Models of Computer Programming</strong></a>
+chapter 4, in particular section 4.3.4.</li>
+<li><a href="https://www.tablesgenerator.com/markdown_tables">markdown tables helper</a></li>
 </ul>
 <div class="footnotes">
 
@@ -582,7 +560,7 @@ section 4.3.4.</p></li>
 <li><a href="#visualization">Visualization</a></li>
 </ul></li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#recommended-bibliography">Recommended bibliography</a></li>
+<li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>
     </div>

@@ -271,7 +271,7 @@ For instance, when the interaction between systems becomes too complex (too many
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://brucou.github.io/scratch/cyclejs---towards-model-based-testing/</guid>
-      <description>Testing process Reviewing runTestScenario  In fact we don&amp;rsquo;t really want time diagrams We do want predictability of inputs so we will send each input one after one, separating data from event symbol  Example:
+      <description>Testing process Reviewing runTestScenario  In fact we don&amp;rsquo;t really want time diagrams We do want predictability of order of inputs so we will send each input one after one, separating data from event symbol  Example:
 const testSpace = { scenario1 : { caseA : { events : &#39;iccsctttscscS&#39;, eventData : [ iData, cData, cData, sData, cData, tData, ... ] } } } const eventSymbols = { i : eventSimulatorI, c : eventSimulatorC, .</description>
     </item>
     

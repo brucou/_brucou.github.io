@@ -72,7 +72,7 @@ For instance, when the interaction between systems becomes too complex (too many
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			13 min read
+			14 min read
 	</h5>
 	
 </hgroup>
@@ -328,10 +328,7 @@ described by the following equations, which are those corresponding to a class o
 
 <p>Knowing that state transducers are translators between input symbols and output symbols, it seems logical that they can be used for specifying and implementing reactive systems. As a matter of fact, a reactive system translates the actions of the user on the user interface to actions on the interfaced system.</p>
 
-<p>A major reference for specification and implementation techniques based on the state machine formalism can be found in <em>Constructing the User Interface With State charts</em> by Ian Horrocks<sup class="footnote-ref" id="fnref:Horrocks"><a rel="footnote" href="#fn:Horrocks">3</a></sup>.
-Alternatively, an introduction to the technique can be found in this <a href="https://medium.com/@asolove/pure-ui-control-ac8d1be97a8d">medium article</a></p>
-
-<p><strong>TODO</strong> : add my code example of the CD player instead</p>
+<p>A major reference for specification and implementation techniques based on the state machine formalism can be found in <em>Constructing the User Interface With State charts</em> by Ian Horrocks<sup class="footnote-ref" id="fnref:Horrocks"><a rel="footnote" href="#fn:Horrocks">3</a></sup>. Alternatively, an introduction to the technique can be found in this <a href="https://medium.com/@asolove/pure-ui-control-ac8d1be97a8d">medium article</a>.</p>
 
 <h3 id="example-1">Example</h3>
 
@@ -342,14 +339,43 @@ a CD player :</p>
 
 <h2 id="reactive-systems-as-a-system-of-equations">Reactive systems as a system of equations</h2>
 
-<p>The $states$ stream can often conveniently be broken down in several streams, each carrying a specific portion of the reactive system&rsquo;s state. If that split is well done, one can write :</p>
+<ul>
+<li>equations:
 
 <ul>
-<li>$states_i = next_i(states, events)$</li>
-<li>$actions_i = f_i(states_i, events)$</li>
+<li>states_i are behaviours</li>
+<li>sum of states_i = states</li>
+<li>each behaviour depends on some pieces of state and events</li>
+<li>actions depends on some pices of state and events</li>
+<li>so there is function i -&gt; indices of events and pieces of state it depends on?</li>
+<li>better partition events into individual events, states into behaviours (variables) and
+rewrite the equations</li>
+<li>with monoid, actions = U actions_a</li>
+<li>actions = U f_a(events, states)</li>
+<li>same hypothesis for events and states
+
+<ul>
+<li>actions =  U f_a(U{E_a} events_e, U{S_a} states_s)</li>
+</ul></li>
+<li>we have transformed the specification into a series of equations between events and behaviours</li>
+</ul></li>
 </ul>
 
-<p>Dataflow languages, such as Lucid Synchrone, use such an approach both for specification and implementation of reactive systems<sup class="footnote-ref" id="fnref:synchronous"><a rel="footnote" href="#fn:synchronous">4</a></sup>. The approach used by Lucid Synchrone and the like is particularly interesting for user interfaces in safety-critical domain (avionics, automotive, medicine, nuclear plants&hellip;) with stringent certification requirements. By keeping the implementation close to the specification, restricting the target implementation language and defining formal semantics for it, it is possible to guarantee liveliness and safety properties of the implemented system.</p>
+<p>Assuming a monoid operation which allows to decompose actions into pieces, we can write $actions
+= \cup_A actions_a$. Assuming that the same goes for events, and states :</p>
+
+<p>$$\begin{aligned}
+actions  &amp; = \cup_A actions_a \\<br />
+         &amp; = \cup_A f_a(states, events) \\<br />
+         &amp; = \cup_A f_a(\cup_{S_a} states_s, \cup_{E_a} events_e)
+\end{aligned}
+$$</p>
+
+<p>In FRP, $states_s$ are variables called behaviours, while $events_e$ and are $actions_a$ are
+events. We then rewrote our equation into a series of equations $actions_a = f_a(\cup_{S_a} states_s, \cup_{E_a} events_e)$, which computes actions of a given slice from the events and behaviours relevant to that slice.
+For instance :  <code>api_call = f({origin, destination, dates}, search_click)</code>, <code>retry = g(api_call_response))</code>, <code>show_payment_screen = h(api_call_response)</code>.</p>
+
+<p>Dataflow languages, such as Lucid Synchrone, use such an equational approach both for specification and implementation of reactive systems<sup class="footnote-ref" id="fnref:synchronous"><a rel="footnote" href="#fn:synchronous">4</a></sup>. The approach used by Lucid Synchrone and the like is particularly interesting for user interfaces in safety-critical domain (avionics, automotive, medicine, nuclear plants&hellip;) with stringent certification requirements. By keeping the implementation close to the specification, restricting the target implementation language and defining formal semantics for it, it is possible to guarantee liveliness and safety properties of the implemented system.</p>
 
 <h3 id="example-2">Example</h3>
 
@@ -408,7 +434,45 @@ let node vend drink cost v = (o1, o2) where
 
 <h3 id="an-imperative-language-approach">An imperative language approach</h3>
 
-<p>A similar, though more relaxed approach, is taken by <code>cyclejs</code> which further collapses the $states$ stream into the $actions$ streams, by considering that state change is itself an action over the internal state of the system. The previous equations are then reduced to $actions_i = f_i(states, events)$<sup class="footnote-ref" id="fnref:cycle"><a rel="footnote" href="#fn:cycle">6</a></sup>. To keep the equivalence to the original formulation, this approach however requires to clearly and consistently define the timing of the internal state update action vs. actions on the interfaced external systems : the internal state update must be executed before the next event is processed<sup class="footnote-ref" id="fnref:instantStateUpdate"><a rel="footnote" href="#fn:instantStateUpdate">7</a></sup>. In the cycle framework, <code>App :: Sources -&gt; Sinks</code>, where <code>Sources</code> contains any necessary accessor/factory methods for the state of the system and events admitted by the system, and <code>Sinks</code> holds the actions triggered by the events.</p>
+<p>A similar, though more relaxed approach, is taken by <code>cyclejs</code> which further collapses the $states$ stream into the $actions$ streams, by considering that state change is itself an action over the internal state of the system. To keep the equivalence to the original formulation, this approach however requires to clearly and consistently define the timing of the internal state update action vs. actions on the interfaced external systems : the internal state update must be executed before the next event is processed<sup class="footnote-ref" id="fnref:instantStateUpdate"><a rel="footnote" href="#fn:instantStateUpdate">6</a></sup>. In the cycle framework, <code>App :: Sources -&gt; Sinks</code>, where <code>Sources</code> contains any necessary accessor/factory methods for the state of the system and events admitted by the system, and <code>Sinks</code> holds the actions triggered by the events.</p>
+
+<p>Here is an example of cyclejs code, showing the split of the actions into two action streams,
+each computed from its corresponding events and behaviours :</p>
+
+<pre><code class="language-javascript">function NavigationItem(sources, settings) {
+  const { url$ } = sources;
+  const { project: { title, link } } = settings;
+  const linkSanitized = link.replace(/\//i, '_');
+
+  const events = {
+    // NOTE : we avoid having to isolate by using the link which MUST be unique over the whole
+    // application (unicity of a route)
+    click : sources.DOM.select(`.navigation-section__link.${linkSanitized}`).events('click')
+  };
+  const state$ = url$
+    .map(url =&gt; url.indexOf(link) &gt; -1)
+    .shareReplay(1);
+
+  const actions = {
+    domUpdate : state$.map(isLinkActive =&gt; {
+      const isLinkActiveClass = isLinkActive ? '.navigation-section__link--active' : '';
+
+      return a(
+        `${isLinkActiveClass}.navigation-item.navigation-section__link.${linkSanitized}`,
+        { attrs: { href: link }, slot: 'navigation-item' },
+        title)
+    }),
+    router : events.click
+      .do(preventDefault)
+      .map(always('/' + link + '/'))
+  }
+
+  return {
+    [DOM_SINK]: actions.domUpdate,
+    router: actions.router
+  }
+}
+</code></pre>
 
 <h2 id="visualization">Visualization</h2>
 
@@ -479,8 +543,6 @@ section 4.3.4.</p></li>
  <a class="footnote-return" href="#fnref:synchronous"><sup>[return]</sup></a></li>
 <li id="fn:lucid">Note the use of recursivity to equationally define the operator <code>coffee</code> : use of <code>rec</code> and <code>last</code>. Also, the keyword <code>node</code> is used to indicate <em>combinatorial</em> streams (vs. sequential streams), which are streams whose current value depends on past values. 
  <a class="footnote-return" href="#fnref:lucid"><sup>[return]</sup></a></li>
-<li id="fn:cycle">cycle however gives up on the purity of $f$ in exchange for a familiar interface for componentization - components are simply functions ; but keeps discriminating between action and action representation.
- <a class="footnote-return" href="#fnref:cycle"><sup>[return]</sup></a></li>
 <li id="fn:instantStateUpdate">so that we maintain $states_n = next(states_{n-1}, events_{n-1})$. If the $n$th event would be processed before $state_n$ is set through the equation, the $next$ function could be computing an invalid state for the reactive system.
  <a class="footnote-return" href="#fnref:instantStateUpdate"><sup>[return]</sup></a></li>
 </ol>

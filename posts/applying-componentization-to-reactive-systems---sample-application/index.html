@@ -1190,26 +1190,34 @@ which event handler and element are coupled into a separate variable.</p>
 <pre><code class="language-javascript">function NavigationItem(sources, settings) {
   const { url$ } = sources;
   const { project: { title, link } } = settings;
-  const linkSelector = '.navigation-section__link.' + link.replace(/\//i, '_');
+  const linkSanitized = link.replace(/\//i, '_');
 
+  const events = {
+    // NOTE : we avoid having to isolate by using the link which MUST be unique over the whole
+    // application (unicity of a route)
+    click : sources.DOM.select(`.navigation-section__link.${linkSanitized}`).events('click')
+  };
   const state$ = url$
     .map(url =&gt; url.indexOf(link) &gt; -1)
     .shareReplay(1);
 
-  return {
-    [DOM_SINK]: state$.map(isLinkActive =&gt; {
+  const actions = {
+    domUpdate : state$.map(isLinkActive =&gt; {
       const isLinkActiveClass = isLinkActive ? '.navigation-section__link--active' : '';
 
       return a(
-        `${isLinkActiveClass}.navigation-item${linkSelector}`,
+        `${isLinkActiveClass}.navigation-item.navigation-section__link.${linkSanitized}`,
         { attrs: { href: link }, slot: 'navigation-item' },
         title)
     }),
-    // NOTE : we avoid having to isolate by using the link which MUST be unique over the whole
-    // application (unicity of a route)
-    router: sources.DOM.select(`${linkSelector}`).events('click')
+    router : events.click
       .do(preventDefault)
       .map(always('/' + link + '/'))
+  }
+
+  return {
+    [DOM_SINK]: actions.domUpdate,
+    router: actions.router
   }
 }
 </code></pre>

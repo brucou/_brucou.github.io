@@ -6,7 +6,7 @@
 		<meta name="generator" content="Hugo 0.31.1" />
 		<title> - Technuflexions</title>
 
-		<meta name="description" content="Testing process Reviewing runTestScenario  In fact we don&rsquo;t really want time diagrams We do want predictability of inputs so we will send each input one after one, separating data from event symbol  Example:
+		<meta name="description" content="Testing process Reviewing runTestScenario  In fact we don&rsquo;t really want time diagrams We do want predictability of order of inputs so we will send each input one after one, separating data from event symbol  Example:
 const testSpace = { scenario1 : { caseA : { events : &#39;iccsctttscscS&#39;, eventData : [ iData, cData, cData, sData, cData, tData, ... ] } } } const eventSymbols = { i : eventSimulatorI, c : eventSimulatorC, .">
 
 
@@ -79,7 +79,7 @@ const testSpace = { scenario1 : { caseA : { events : &#39;iccsctttscscS&#39;, ev
 
 <ul>
 <li>In fact we don&rsquo;t really want time diagrams</li>
-<li>We do want predictability of inputs</li>
+<li>We do want predictability of order of inputs</li>
 <li>so we will send each input one after one, separating data from event symbol</li>
 </ul>
 
@@ -112,7 +112,6 @@ const expected = {
 runTestScenario(testData, eventSymbols, functionUnderTest)
   .then(analyzeResults)
   .catch(notifyErrors)
-
 </code></pre>
 
 <ul>
@@ -126,6 +125,19 @@ runTestScenario(testData, eventSymbols, functionUnderTest)
 <ul>
 <li>see how to write <code>eventSimulatorI</code> to allow for <a href="https://brucou.github.io/posts/user-interfaces-as-reactive-systems/#visualization">examples like in doc</a></li>
 <li>or examples like before with <code>DOM!event@selector</code>, and <code>doc!property@selector</code></li>
+</ul>
+
+<h2 id="model-based-testing">model-based testing</h2>
+
+<p>TODO :</p>
+
+<ul>
+<li>explain what it is</li>
+<li>API to design
+
+<ul>
+<li>essentially a search problem, as model is defined as a tree</li>
+</ul></li>
 </ul>
 
 	<nav>

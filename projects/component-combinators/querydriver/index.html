@@ -64,7 +64,7 @@ A typical application is to query a domain object in a bounded context for its c
     <header><hgroup id="brand">
 	<h1>Query driver</h1>
 	<h5> Last modified on
-		Sep 03, 2017
+		Jan 26, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -102,14 +102,16 @@ A typical application is to query a domain object in a bounded context for its c
 <p>The behaviour is as follows :</p>
 
 <ul>
-<li>the <code>getCurrent</code> function matches its <code>context</code> parameter to a <code>get</code> function is <code>config[context]</code></li>
+<li>the <code>getCurrent</code> function in the <code>sources</code> side of the driver matches its <code>context</code> parameter
+to a <code>get</code> function in <code>config[context]</code></li>
 <li>that function is executed with <code>(repository, context, payload)</code>
 
 <ul>
 <li>If the function throws, then the error is passed on through as a rejected promise</li>
-<li>If the function does no throw, it returns a promise, which may be eventually fulfilled or rejected</li>
+<li>If the function does no throw, it returns either a promise, an observable, or another value
+type</li>
 </ul></li>
-<li>the returned promise is wrapped and passed on as a observable</li>
+<li>the returned value is wrapped and passed on as a observable, whatever its original type</li>
 </ul>
 
 <p>It results from the error processing behaviour of <code>getCurrent</code> that the caller must do its own error processing and discriminate between an exception raised by the call (say <q>division by zero</q>), or an error code returned by the attempt to access the resource in the repository (say <q>you are offline</q>, or <q>no user exists for this email</q>).</p>
@@ -133,12 +135,19 @@ A typical application is to query a domain object in a bounded context for its c
 
 <h1 id="example">Example</h1>
 
-<p><strong>TODO TESTS, update ForEachList to reflect get -&gt; getCurrent, that will be the demo</strong></p>
+<p>cf. <a href="https://github.com/brucou/component-combinators/tree/master/examples/AllInDemo/src/domain">AllInDemo</a> and the corresponding demo.</p>
 
 <h1 id="tips">Tips</h1>
 
 <ul>
-<li>It is important to determine whether the queried value corresponds to a behaviour (that should be the case more often than not, so use <code>shareReplay(1)</code> or any relevant memoization mechanism) or an event. In any case, only one value is ever returned by calling that function, i.e. the driver does not emulate a live query. To emulate a live query, the query driver must be paired with the action driver</li>
+<li>It is important to determine whether the queried value corresponds to a behaviour (that should be the case more often than not, so use <code>shareReplay(1)</code> or any relevant memoization mechanism) or an event</li>
+<li>In any case, only one value is ever returned by calling that function, i.e. the driver does not emulate a live query. To emulate a live query, there are commonly two options:
+
+<ul>
+<li>the query driver is paired with the action driver</li>
+<li>the queried value is already a live query (that is the case for instance with <code>firebase</code> or
+any database which already handles live queries)</li>
+</ul></li>
 </ul>
 
     </div>

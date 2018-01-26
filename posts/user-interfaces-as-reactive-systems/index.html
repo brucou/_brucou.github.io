@@ -310,30 +310,40 @@ visualization of such traces.</p>
 </ul>
 
 <p>The $states$ stream hence has a recursive definition. Lazily-evaluated languages will allow for expressing $states$ quite naturally as a fixed point for $x \rightarrow next(x, events)$, while imperative languages may directly use
-equation (1).</p>
+equation (1). We will refer to the <code>next</code> function as the state transition function.</p>
 
-<p>Assuming the function $next$ has been determined, the reactive system behaviour is then entirely
-described by the following equations, which are those corresponding to a class of automata called state transducer<sup class="footnote-ref" id="fnref:transducer"><a rel="footnote" href="#fn:transducer">2</a></sup> :</p>
+<p>Assuming the state transition function has been determined, the reactive system behaviour is
+then entirely described by the following equations, which are those corresponding to a class of automata called state transducer<sup class="footnote-ref" id="fnref:transducer"><a rel="footnote" href="#fn:transducer">2</a></sup> :</p>
 
-<ul>
-<li>$states = next(states, events)$
+<p>$$\begin{cases}
+states &amp;=&amp; next(states, events) \\<br />
+actions &amp;=&amp; f(states, events)
+\end{cases}
+$$</p>
 
-<ul>
-<li>$next$ will be termed here as the state transition function</li>
-</ul></li>
-<li>$actions = f(states, events)$</li>
-</ul>
-
-<p>State transducers are state machines, which have an internal state, and on receiving an input, <strong>may</strong> produce an output and update their internal state. This opens the path to implementing reactive systems with state machines. This further opens the door to a well-studied set of techniques used in that area : tracing, visualization, automatic code generation, model-based testing, formal reasoning.</p>
+<p>State transducers are state machines, which have an internal state, and on receiving an input, may produce an output and update their internal state. This opens the path to implementing reactive systems with state machines. This further opens the door to a well-studied set of techniques used in that area : tracing, visualization, automatic code generation, model-based testing, formal reasoning.</p>
 
 <p>Knowing that state transducers are translators between input symbols and output symbols, it seems logical that they can be used for specifying and implementing reactive systems. As a matter of fact, a reactive system translates the actions of the user on the user interface to actions on the interfaced system.</p>
 
-<p>A major reference for specification and implementation techniques based on the state machine formalism can be found in <em>Constructing the User Interface With State charts</em> by Ian Horrocks<sup class="footnote-ref" id="fnref:Horrocks"><a rel="footnote" href="#fn:Horrocks">3</a></sup>. Alternatively, an introduction to the technique can be found in this <a href="https://medium.com/@asolove/pure-ui-control-ac8d1be97a8d">medium article</a>.</p>
+<p>A major reference for specification and implementation techniques based on the state machine formalism can be found in <em>Constructing the User Interface With Statecharts</em> by Ian Horrocks<sup class="footnote-ref" id="fnref:Horrocks"><a rel="footnote" href="#fn:Horrocks">3</a></sup>. Alternatively, an introduction to the technique can be found in this <a href="https://medium.com/@asolove/pure-ui-control-ac8d1be97a8d">medium article</a>.</p>
+
+<p>A typical application area for statecharts is rapid prototyping of embedded systems as they occur
+ in avionics and automobile industry. Among other things, their success comes from two facts :</p>
+
+<ul>
+<li>it is an easy to learn language for design specialists who have more often a degree in
+electrical or electronic engineering than a solid background in computer science. Those engineers
+have a considerably better intuition of the meaning of automata than of algebraic
+specification techniques, for instance.</li>
+<li>statecharts are available as description technique in commercial products (StateMate, Rhapsody, Stateflow, Yakindu Statechart Tools, visualSTATE, and many more).</li>
+</ul>
 
 <h3 id="example-1">Example</h3>
 
 <p>Here is, extracted from Ian Horrocks&rsquo; seminal book, an example of state charts specification for
-a CD player :</p>
+a CD player. We reproduce here the state chart which specifies visually the state transition
+function. Another document (not reproduced here) would specify the actual actions to perform on
+transitioning, entering or exiting control states:</p>
 
 <p><img src="http://i.imgur.com/ygsOVi9.jpg" alt="CD player statechart specification" /></p>
 

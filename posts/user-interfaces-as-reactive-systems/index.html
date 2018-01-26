@@ -350,8 +350,17 @@ actions  &amp; = \bigcup_A actions_a \\<br />
 $$</p>
 
 <p>In FRP, $states_s$ are variables called behaviours, while $events_e$ and $actions_a$ are
-events. We then rewrite our equation into a series of equations $actions_a = f_a(\cup_{S_a} states_s, \cup_{E_a} events_e)$, which computes actions of a given slice from the events and behaviours relevant to that slice.
-For instance :  <code>api_call = f({origin, destination, dates}, search_click)</code>, <code>retry = g(null, api_call_response)</code>, <code>show_payment_screen = h(null, api_call_response)</code>.</p>
+events. We then rewrite our equation into a series of equations $actions_a = f_a(\cup_{S_a} states_s, \cup_{E_a} events_e)$, which computes actions of a given slice from the events and behaviours relevant to that slice.</p>
+
+<p>For instance, considering a reservation system with $events = \{search\_click, api\_call\_response\}$, and
+$states =\{origin, destination, dates, cart\}$:</p>
+
+<p>$$\begin{cases}
+api\_call &amp; = f(\{origin, destination, dates\}, search\_click) \\<br />
+retry &amp; = g(null, api\_call\_response) \\<br />
+show\_payment\_screen &amp; = h(cart, api\_call\_response)
+\end{cases}
+$$</p>
 
 <p>Dataflow languages, such as Lucid Synchrone, use such an equational approach both for specification and implementation of reactive systems<sup class="footnote-ref" id="fnref:synchronous"><a rel="footnote" href="#fn:synchronous">4</a></sup>. The approach used by Lucid Synchrone and the like is particularly interesting for user interfaces in safety-critical domain (avionics, automotive, medicine, nuclear plants&hellip;) with stringent certification requirements. By keeping the implementation close to the specification, restricting the target implementation language and defining formal semantics for it, it is possible to guarantee liveliness and safety properties of the implemented system.</p>
 

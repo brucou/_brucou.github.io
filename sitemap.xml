@@ -10,6 +10,27 @@
   </url>
   
   <url>
+    <loc>http://brucou.github.io/projects/component-combinators/mocking-the-dom-driver/</loc>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://brucou.github.io/projects/component-combinators/mocking-the-document-driver/</loc>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://brucou.github.io/projects/component-combinators/mocking-the-query-driver/</loc>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://brucou.github.io/scratch/cyclejs---keeping-event-handlers-coupled-to-view-description-without-loosing-testability/</loc>
     <lastmod>2018-01-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -88,7 +109,7 @@
   
   <url>
     <loc>http://brucou.github.io/projects/component-combinators/querydriver/</loc>
-    <lastmod>2018-01-26T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -165,7 +186,7 @@
   
   <url>
     <loc>http://brucou.github.io/posts/user-interfaces-as-reactive-systems/</loc>
-    <lastmod>2018-01-25T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -204,7 +225,7 @@
   
   <url>
     <loc>http://brucou.github.io/projects/component-combinators/</loc>
-    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -218,14 +239,14 @@
   
   <url>
     <loc>http://brucou.github.io/categories/documentation/</loc>
-    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://brucou.github.io/tags/functional-programming/</loc>
-    <lastmod>2018-01-12T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -253,7 +274,7 @@
   
   <url>
     <loc>http://brucou.github.io/categories/programming/</loc>
-    <lastmod>2018-01-12T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -273,7 +294,7 @@
   
   <url>
     <loc>http://brucou.github.io/tags/reactive-programming/</loc>
-    <lastmod>2018-01-12T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -294,7 +315,7 @@
   
   <url>
     <loc>http://brucou.github.io/tags/user-interface/</loc>
-    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

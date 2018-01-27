@@ -246,12 +246,15 @@
 <p>The marble syntax used for representing input sequences is inspired from
 <code>rxjs5</code>&rsquo;s <a href="https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md">writing marble tests</a>.</p>
 
-<p>In the present context, the syntax is used to denote four meanings :
-- <code>-</code> : empty data slot - no data is emitted by the producer
-- <code>|</code> : completion of the sequence - this is the observable producer signaling <code>complete()</code>
-- <code>#</code> : error - An error terminating the sequence. This is the observable producer signaling <code>error()</code>
-- <code>a</code> (any ONE character) : input value - All other characters than the three
-previously shown represent a value being emitted by the producer signaling <code>next()</code></p>
+<p>In the present context, the syntax is used to denote four meanings :</p>
+
+<ul>
+<li><code>-</code> : empty data slot - no data is emitted by the producer</li>
+<li><code>|</code> : completion of the sequence - this is the observable producer signaling <code>complete()</code></li>
+<li><code>#</code> : error - An error terminating the sequence. This is the observable producer signaling <code>error()</code></li>
+<li><code>a</code> (any ONE character) : input value - All other characters than the three
+previously shown represent a value being emitted by the producer signaling <code>next()</code></li>
+</ul>
 
 <h3 id="examples">Examples</h3>
 

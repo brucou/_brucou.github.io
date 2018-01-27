@@ -7,10 +7,40 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 brucou</copyright>
-    <lastBuildDate>Tue, 02 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 27 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://brucou.github.io/tags/user-interface/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Mocking the DOM driver</title>
+      <link>http://brucou.github.io/projects/component-combinators/mocking-the-dom-driver/</link>
+      <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/projects/component-combinators/mocking-the-dom-driver/</guid>
+      <description>Motivation In the context of our cyclejs-based architecture, updates to the DOM are realized by emitting objects containing a virtual description of the target DOM content, to a dedicated DOM driver. To be able to test applications written within that architecture, we propose a mechanism to mock the DOM driver, hence avoiding the side-effects performed by such driver.
+As of now, We will not seek to mock the DOM update, but we will mock the DOM event handling, in order to be able to simulate inputs arriving through the DOM.</description>
+    </item>
+    
+    <item>
+      <title>Mocking the document driver</title>
+      <link>http://brucou.github.io/projects/component-combinators/mocking-the-document-driver/</link>
+      <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/projects/component-combinators/mocking-the-document-driver/</guid>
+      <description>Motivation In the context of our cyclejs-based architecture, to read DOM state (input field content, text field content, checkbox state, etc.) is realized by means of the document driver. That driver is simply an injection of the global browser&amp;rsquo;s document object. For instance, to read an input field&amp;rsquo;s value, assuming the css selector is selector, can be achieved by sources.document.querySelector(selector).value.
+To be able to test applications written within that architecture, we propose a mechanism to mock the document driver, hence avoiding the side-effects performed by such driver.</description>
+    </item>
+    
+    <item>
+      <title>Mocking the query driver</title>
+      <link>http://brucou.github.io/projects/component-combinators/mocking-the-query-driver/</link>
+      <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/projects/component-combinators/mocking-the-query-driver/</guid>
+      <description>Motivation In the context of our cyclejs-based architecture, to read external system&amp;rsquo;s state (database content, external device, etc.) is realized by means of a domainQuery driver. That driver relies on a domain model abstraction : a query has a context (for example a bounded context, or a domain entity), and parameters. As of now, the domainQuery only allows one type of domain operation (typically a get operation).
+Here is an example of configuration for a domain with two entities (projects and opportunities) :</description>
+    </item>
     
     <item>
       <title>InSlot</title>

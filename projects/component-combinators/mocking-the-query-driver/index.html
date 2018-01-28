@@ -64,7 +64,7 @@ Here is an example of configuration for a domain with two entities (projects and
     <header><hgroup id="brand">
 	<h1>Mocking the query driver</h1>
 	<h5> Last modified on
-		Jan 27, 2018
+		Jan 28, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -72,7 +72,7 @@ Here is an example of configuration for a domain with two entities (projects and
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			3 min read
+			2 min read
 	</h5>
 	
 </hgroup>
@@ -122,10 +122,6 @@ now, the <code>domainQuery</code> only allows one type of domain operation (typi
 <p>In connection with the <code>runTestScenario</code> <a href="https://brucou.github.io/projects/component-combinators/runtestscenario/#mocking">mock factory syntax</a>, we propose here a syntax
  <code>domainQuery!stringifiedParams@context</code> for mocked inputs. This will match a code written as <code>sources.domainQuery.getCurrent(context, parsedParams)</code>, where <code>parsedParams = JSON.parse(stringifiedParams)</code>.</p>
 
-<p>TODO : add hugo shortcode for warning
-Be specially careful that, on stringifying the parameters, there is no <code>!</code> or <code>@</code>  characters
-generated as this would invalidate the mock mechanism.</p>
-
 <h1 id="api">API</h1>
 
 <p>The <code>makeDomainQuerySource</code> function is exported to be used in conjunction with <code>runTestScenario</code>
@@ -165,25 +161,16 @@ helper. For example :</p>
 
 <p>Note the mocked input syntax and the passing of timed diagrams. Also, as of now,
 <code>runTestScenario</code> requires the user to specify a factory for the input streams to which the
-mocked inputs will be sent. In the case of reading state from external systems (i.e. behaviours),
-this would be a <code>() =&gt; new Rx.ReplaySubject(1)</code>. However, the current <code>domainQuery</code> driver does
-not memorize state between calls, i.e. every <code>getCurrent</code> call will query anew the external
-system (unless the <code>domainQuery</code> is configured with a cache - that is the case for instance when
-using firebase which implements live queries). Hence, depending on configuration details of the
-domain query driver, standard and replayed subjects may both have their use. In the previous
-code, we have no live querying, and we use standard subjects.</p>
-
-<p>TODO : that is weak : should be implemented as iterators actually? If a code calls twice the
-<code>getCurrent</code>, I can have two values. Can pass thos two in iterator. Right now I pass a stream, so
- I have to be careful to not query twice the stream before new values come in, and or knwo what
- just rethink it over, too complicatd.</p>
+mocked inputs will be sent. In a live query case, this factory would typically be a <code>() =&gt; new Rx.ReplaySubject(1)</code>. In a standard case, it is not a priori relevant which factory to choose, but it will depend on the specific implementation being mocked.</p>
 
 <h1 id="contracts">Contracts</h1>
 
-<p>TODO : TO b continued</p>
-
 <ul>
-<li>In <code>document!selector@property</code>, both <code>selector</code> and <code>property</code> must be non empty.</li>
+<li>In <code>domainQuery!stringifiedParams@context</code>, both <code>stringifiedParams</code> and <code>context</code> must be non empty.</li>
+<li>both <code>stringifiedParams</code> and <code>context</code> cannot have a <code>@</code> character</li>
+<li><code>context</code> <strong>may</strong> start with <code>LIVE_QUERY_TOKEN</code>. This however must be consistent in the whole
+test parameterization, i.e. it is not allowed in the same test to have the same context with a
+different syntax.</li>
 </ul>
 
 <h1 id="example">Example</h1>

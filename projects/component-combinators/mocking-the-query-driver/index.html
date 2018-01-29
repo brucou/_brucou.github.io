@@ -72,7 +72,7 @@ Here is an example of configuration for a domain with two entities (projects and
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			2 min read
+			3 min read
 	</h5>
 	
 </hgroup>
@@ -161,13 +161,26 @@ helper. For example :</p>
 
 <p>Note the mocked input syntax and the passing of timed diagrams. Also, as of now,
 <code>runTestScenario</code> requires the user to specify a factory for the input streams to which the
-mocked inputs will be sent. In a live query case, this factory would typically be a <code>() =&gt; new Rx.ReplaySubject(1)</code>. In a standard case, it is not a priori relevant which factory to choose, but it will depend on the specific implementation being mocked.</p>
+mocked inputs will be sent. In a live query case, this factory would typically be a <code>() =&gt; new Rx.ReplaySubject(1)</code>. In a standard case, it will usually be a <code>() =&gt; new Rx.Subject()</code>, but it will depend on the particular
+component function under test.</p>
+
+<p>To get a deeper understanding of the consequences of each choice,
+one can refer to the <a href="component-combinatorstestmockDomainQuery.specs.js">corresponding tests</a>,
+and play with changing the type of subjects used, and see how the computed output changes. For
+instance, in the [once query test], changing a standard subject to a memoized subject will lead
+to the last output of <code>ANOTHER_SOURCE</code> to change to <code>${YET_ANOTHER_PREFIX}-${A_STRING}</code> from
+<code>${YET_ANOTHER_PREFIX}-${A_NUMBER}</code>, as the source inputs are <code>null, A_STRING, A_NUMBER</code>. With a
+memoized subject, the memoized input at the moment of execution of <code>getCurrent</code> is used, hence the
+ <code>A_STRING</code>.  With a standard subject, at the moment of execution of <code>getCurrent</code>, the first value
+  emitted (in the future) is taken, hence <code>A_NUMBER</code>.</p>
 
 <h1 id="contracts">Contracts</h1>
 
 <ul>
 <li>In <code>domainQuery!stringifiedParams@context</code>, both <code>stringifiedParams</code> and <code>context</code> must be non empty.</li>
 <li>both <code>stringifiedParams</code> and <code>context</code> cannot have a <code>@</code> character</li>
+<li><code>stringifiedParams</code> must correspond to a JSON string (meaning for instance that <code>undefined</code> is<br />
+not a valid value)</li>
 <li><code>context</code> <strong>may</strong> start with <code>LIVE_QUERY_TOKEN</code>. This however must be consistent in the whole
 test parameterization, i.e. it is not allowed in the same test to have the same context with a
 different syntax.</li>
@@ -175,9 +188,15 @@ different syntax.</li>
 
 <h1 id="example">Example</h1>
 
-<p>cf. <a href="https://github.com/brucou/component-combinators/blob/master/examples/volunteerApplication/test/app.specs.js#L159">tests</a> from an example application.</p>
+<p>cf. <a href="https://github.com/brucou/component-combinators/blob/master/examples/volunteerApplication/test/app.specs.js#L199">tests</a> from an example application.</p>
 
 <h1 id="tips">Tips</h1>
+
+<ul>
+<li>choose carefully the type of subject factory in function of th implementation under test.
+Nothing more frustating than writing tests that are wrong, with an implementation that is right
+(you can&rsquo;t test the tests, so write the tests right).</li>
+</ul>
 
     </div>
     <nav>

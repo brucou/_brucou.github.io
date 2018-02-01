@@ -72,7 +72,7 @@ For instance, when the interaction between systems becomes too complex (too many
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			14 min read
+			15 min read
 	</h5>
 	
 </hgroup>
@@ -83,14 +83,17 @@ For instance, when the interaction between systems becomes too complex (too many
 
 <h1 id="background">Background</h1>
 
-<p>As the name suggests, user interfaces allow a user to interface with other systems, with the idea that this interface will present some sought-for advantages vs. direct interaction with the mentioned systems.<br />
-For instance, when the interaction between systems becomes too complex (too many commands or sequences of commands, too many parameters, outputs difficult to exploit in their raw form, etc.), a user interface can help to reduce the cognitive load and the risk of errors on the user side. As a trivial example, while it is possible for a travel agent to interact directly with the reservation system, doing so through a well-designed user interface allows to have agents with little knowledge of the intricacies of the underlying systems. They can focus instead on mastery of their specific domain (travel packages, customer segments, etc.) and the corresponding user stories, reflected in the user interface (book a flight, cancel a hotel, etc.).</p>
+<p>As the name suggests, user interfaces allow a user to <strong>interface</strong> with other systems, with the idea that this interface will present some sought-for advantages vs. direct interaction with the mentioned systems.<br />
+For instance, when the interaction between systems becomes too complex (too many commands or sequences of commands, too many parameters, outputs difficult to exploit in their raw form, etc.), a user interface can help to reduce the cognitive load and the risk of errors on the user side. As a trivial example, while it is possible for a travel agent to interact directly with the reservation system, doing so through a well-designed user interface allows to have agents with little knowledge of the intricacies of the underlying systems. They can focus instead on mastery of their specific <strong>domain</strong> (travel
+packages, customer segments, etc.) and the <strong>user stories</strong> which the user interface facilitates
+(book a flight, cancel a hotel, etc.).</p>
 
-<p>The user expresses an intent through some input means (key presses, vocal entry, etc.) with a view to realize pre-existing actions on the interfaced systems. Hence user interfaces are reactive systems almost by nature.</p>
+<p>The user expresses an intent through some input means (key presses, vocal entry, etc.) with a view to realize pre-defined actions on the interfaced systems. Hence <strong>user interfaces are reactive systems</strong> almost by nature.</p>
 
-<p>They are additionally concurrent systems, as the user can continue to send orders through the user interface without waiting for the currently processed order to be completed. As such, user interface programming has the added complication of handling concurrency, both at a system and user interface level.</p>
+<p>They are additionally <strong>concurrent systems</strong>, as the user can continue to send orders through the
+user interface without waiting for the currently processed order to be completed. As such, user interface programming has the added complication of handling concurrency, both at a system and user interface level.</p>
 
-<p>Any specification and implementation techniques for user interfaces must then specify a correspondence between user inputs and system actions, and the concurrent behaviour of the system. We will review thereafter specification and implementation techniques.</p>
+<p>Any specification and implementation techniques for user interfaces must then specify a <strong>correspondence between user inputs and system actions</strong>, and the concurrent behaviour of the system. We will review thereafter specification and implementation techniques.</p>
 
 <h1 id="specification-and-implementation-techniques">Specification and implementation techniques</h1>
 
@@ -117,11 +120,12 @@ For instance, when the interaction between systems becomes too complex (too many
 <p>Because most reactive systems are stateful, the relation $\sim$ is not in general a <strong>deterministic</strong> (the same output associated for the same input, as opposed to probabilistic functions) <strong>function</strong> (which can only associate <strong>ONE</strong> output to an input).</p>
 
 <p>Many frameworks for implementing user interfaces (<code>Angular2</code>, <code>Ember</code>,
-<code>Ractive</code>, <code>React</code>, etc.) make use of callback <strong>procedures</strong><sup class="footnote-ref" id="fnref:defProcedure"><a rel="footnote" href="#fn:defProcedure">1</a></sup>, or event handlers, which, when triggered by an event, perform the corresponding action. A few important issues stem from that choice :</p>
+<code>Ractive</code>, <code>React</code>, etc.) make use of callback <strong>procedures</strong><sup class="footnote-ref" id="fnref:defProcedure"><a rel="footnote" href="#fn:defProcedure">1</a></sup>, or event handlers, which, when triggered by an event, directly <strong>perform</strong> the corresponding action. A few important issues stem from that choice :</p>
 
 <ul>
 <li>having the procedure directly handling in the same bundle different concerns such as input validation, performing triggered actions, error management, updating local state, makes it harder to trace, debug and reason about the program execution. The concurrent nature of user interfaces magnifies this issue.</li>
-<li>procedures also do not compose as easily as pure functions, which limits the use of componentization techniques to reduce complexity and increase reuse.</li>
+<li>procedures also do not compose as easily as pure functions, which limits the use of componentization techniques to reduce complexity and increase reuse. As a matter of fact, <code>React</code>&rsquo;s componentization model is limited to
+addressing the view concern.</li>
 <li>while generally optimized, efficient, and thorough, the low-level description such frameworks
 offer is very far from the specification of the systems, making implementation error-prone and certification activities very difficult.</li>
 </ul>
@@ -149,16 +153,15 @@ visualization of such traces.</p>
 <ul>
 <li>$f$ is a pure function</li>
 <li>$state$ subsumes all the variability resulting from the environment and the reactive system&rsquo;s specifications, so that $f$ is pure</li>
-<li>$f$ will be termed here as the reactive function</li>
 </ul>
 
-<p>If we index time chronologically by a natural integer, so that the index $n$ correspond to the nth event occurring, we have :</p>
+<p>$f$ will be termed here as the <strong>reactive function</strong>. If we index time chronologically by a natural integer, so that the index $n$ corresponds to the $n^{th}$ event occurring, we have :</p>
 
 <ul>
 <li>$(action_n,\ state_{n+1}) = f(state_n,\ event_n) $ where :
 
 <ul>
-<li>$n$ is the $n$th event processed by the reactive system</li>
+<li>$n$ is the $n^{th}$ event processed by the reactive system</li>
 <li>$state_n$ is the state of the reactive system <strong>when the $n$th event is processed</strong></li>
 <li>we hence have an implicit temporal relation here between the event occurrence and the state used to compute the reaction of the system.</li>
 </ul></li>
@@ -310,7 +313,7 @@ visualization of such traces.</p>
 </ul>
 
 <p>The $states$ stream hence has a recursive definition. Lazily-evaluated languages will allow for expressing $states$ quite naturally as a fixed point for $x \rightarrow next(x, events)$, while imperative languages may directly use
-equation (1). We will refer to the <code>next</code> function as the state transition function.</p>
+equation (1). We will refer to the <code>next</code> function as the <strong>state transition function</strong>.</p>
 
 <p>Assuming the state transition function has been determined, the reactive system behaviour is
 then entirely described by the following equations, which are those corresponding to a class of automata called state transducer<sup class="footnote-ref" id="fnref:transducer"><a rel="footnote" href="#fn:transducer">2</a></sup> :</p>
@@ -341,16 +344,17 @@ specification techniques, for instance.</li>
 <h3 id="example-1">Example</h3>
 
 <p>Here is, extracted from Ian Horrocks&rsquo; seminal book, an example of state charts specification for
-a CD player. We reproduce here the state chart which specifies visually the state transition
-function. Another document (not reproduced here) would specify the actual actions to perform on
-transitioning, entering or exiting control states:</p>
+a CD player. We reproduce here the state chart which synthesizes visually the state transition
+function. Another document (not reproduced here) would specify the actual actions, and the
+finer-grained modification to the state machine&rsquo;s state to perform on transitioning, entering or
+exiting control states:</p>
 
 <p><img src="http://i.imgur.com/ygsOVi9.jpg" alt="CD player statechart specification" /></p>
 
 <h2 id="reactive-systems-as-a-system-of-equations">Reactive systems as a system of equations</h2>
 
-<p>Assuming a monoid operation which allows to decompose actions into a sum of pieces, we can write
-$actions = \cup_A actions_a$. Assuming that the same goes for events, and states :</p>
+<p>Assuming a monoid operation $\cup$ which allows to decompose actions into a sum of pieces, we can
+write $actions = \cup_A actions_a$. Assuming that the same goes for events, and states :</p>
 
 <p>$$\begin{aligned}
 actions  &amp; = \bigcup_A actions_a \\<br />
@@ -360,7 +364,9 @@ actions  &amp; = \bigcup_A actions_a \\<br />
 $$</p>
 
 <p>In FRP, $states_s$ are variables called behaviours, while $events_e$ and $actions_a$ are
-events. We then rewrite our equation into a series of equations $actions_a = f_a(\cup_{S_a} states_s, \cup_{E_a} events_e)$, which computes actions of a given slice from the events and behaviours relevant to that slice.</p>
+events. We then rewrite our equation into a series of equations $actions_a = f_a(\cup_{S_a} states_s, \cup_{E_a} events_e)$, which computes actions of a given slice $a$ from the events $E_a$ and behaviours $S_a$ relevant to that
+slice. As a matter of fact, it is often the case that a given action does not depend on the whole
+ set of events and behaviours but only a subset of such.</p>
 
 <p>For instance, considering a reservation system with $events = \{search\_click, api\_call\_response\}$, and
 $states =\{origin, destination, dates, cart\}$:</p>
@@ -371,6 +377,8 @@ retry &amp; = g(null, api\_call\_response) \\<br />
 show\_payment\_screen &amp; = h(cart, api\_call\_response)
 \end{cases}
 $$</p>
+
+<p>$api\_call$ does not depend on $cart$, nor does it depend on $api\_call\_response$.</p>
 
 <p>Dataflow languages, such as Lucid Synchrone, use such an equational approach both for specification and implementation of reactive systems<sup class="footnote-ref" id="fnref:synchronous"><a rel="footnote" href="#fn:synchronous">4</a></sup>. The approach used by Lucid Synchrone and the like is particularly interesting for user interfaces in safety-critical domain (avionics, automotive, medicine, nuclear plants&hellip;) with stringent certification requirements. By keeping the implementation close to the specification, restricting the target implementation language and defining formal semantics for it, it is possible to guarantee liveliness and safety properties of the implemented system.</p>
 

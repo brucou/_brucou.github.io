@@ -72,7 +72,7 @@ The first figure shows a classification framework for software component models,
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/components">components</a>
-			18 min read
+			19 min read
 	</h5>
 	
 </hgroup>
@@ -97,7 +97,10 @@ The first figure shows a classification framework for software component models,
 
 <p><img src="https://i.imgur.com/t84fq4c.png" alt="Interface specification" /></p>
 
-<p>We will thereafter expose our proposal for a componentization model for implementing reactive systems, based on <code>rxjs</code> as a streaming technology, and <code>cyclejs</code> as an architecture and framework.</p>
+<p>We will thereafter expose our proposal for a componentization model for implementing reactive systems, based on <code>rxjs</code> as a streaming technology,<code>cyclejs</code> as an architecture and framework, and component combintators to break down a reactive application into a component tree
+. Characteristics of a good decomposition will be presented. We will also address how our
+component model handles common cross-cutting concerns, such as state management, concurrency
+control, and error handling.</p>
 
 <h1 id="proposed-component-framework">Proposed component framework</h1>
 
@@ -437,7 +440,7 @@ search-as-you-type component might keep track of the length of the search key, a
  API calls only when that length has reached a minimum value. The length of the entered search key
  would be transient state. Transient state is generally created through the stream <code>scan</code> operator.</p>
 
-<h2 id="concurrency-management">Concurrency management</h2>
+<h2 id="concurrency-control">Concurrency control</h2>
 
 <p>User interfaces are inherently concurrent due to their interfacing with <strong>distributed</strong> systems,
 and the ability for the user to continue to perform inputs triggering new actions irrespectively of
@@ -488,22 +491,20 @@ variable(s) may do (shared-memory concurrency). For more complex control-flow ca
   such, we do not pursue this option here.</p>
 
 <p>Also worth mentioning, <code>cyclejs</code> matches each action handler (driver) to a moniker (sink name).
-This brings the following concurrency issue : if two, somehow dependent actions, have to be executed, they must be collected into a single new action. Imagine a user action which leads to some remote data updates, and then a
+This brings the following concurrency issue : if two, somehow dependent actions, have to be executed, they must be collected into a single new action. Imagine a user action which leads to some remote data updates, <strong>and then</strong> a
 change of route. Passing both actions in the same tick means the change of route might happen even
- if the data update has failed, or before the data update is successfully performed while it was specified to happen only after. In short, sinks best represent <strong>independent</strong> actions. If actions are linked, they must either be
+ if the data update has failed, or before the data update is successfully performed while it should happen only after. In short, sinks best represent <strong>independent</strong> actions. If actions are linked, they must either be
  passed one by one, with the adecuate control flow implemented, or coordinated through a new
  action capturing that dependency in its execution.</p>
 
-<h2 id="error-management">Error management</h2>
+<h2 id="error-handling">Error handling</h2>
 
 <p>Leaving aside unexpected errors, or exceptions, there are expected errors which are part of the
 specification of a reactive system. For instance, a user tries to book a trip but the
 reservation system is not responding, or the seat that was available while browser is no longer
 available when booking. Those errors generally prevent the system to move from one state (<code>booking</code>)
  to another (<code>booked</code>). They can hence use simple state variables in the simplest cases, or a
- full-fledge state machine (<code>FSM</code> combinator) for complex control flows. The <a href="https://github.com/brucou/component-combinators/tree/master/examples/volunteerApplication">example</a> for <code>FSM</code>
- illustrates a multi-step application process, where at every step the back-up of application
- data may fail.</p>
+ full-fledge state machine (<code>FSM</code> combinator) for complex control flows. The <a href="https://github.com/brucou/component-combinators/tree/master/examples/volunteerApplication">example</a> for <code>FSM</code> illustrates the <a href="https://camo.githubusercontent.com/d64fd08f45bd5c28e5cd237ef095f5181c89ea72/687474703a2f2f692e696d6775722e636f6d2f42466a6667575a2e706e67">intricated control flow</a> behind a multi-step application process, where at every step the back-up of application data may fail.</p>
 
 <h1 id="conclusion">Conclusion</h1>
 
@@ -595,8 +596,8 @@ management could be improved to facilitate more user-friendly options, for insta
 <li><a href="#remotely-persisted-state">Remotely persisted state</a></li>
 <li><a href="#transient-state">Transient state</a></li>
 </ul></li>
-<li><a href="#concurrency-management">Concurrency management</a></li>
-<li><a href="#error-management">Error management</a></li>
+<li><a href="#concurrency-control">Concurrency control</a></li>
+<li><a href="#error-handling">Error handling</a></li>
 </ul></li>
 <li><a href="#conclusion">Conclusion</a></li>
 <li><a href="#possible-improvements">Possible improvements</a></li>

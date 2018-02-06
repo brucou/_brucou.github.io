@@ -118,17 +118,22 @@ and events are represented as streams</li>
 <li><code>Sinks</code> holds the computed action representations in response to incoming events</li>
 </ul>
 
-<p>Note that $f$ here is not in general a pure function, as typically $f$ is accessing the external world to read events from it. We will still call $f$ the reactive function, by abuse of language. It would be easy to write <code>f = compose(g, h)</code> where <code>h :: Sources -&gt; Settings -&gt; Events</code> and <code>g :: Events -&gt; Settings -&gt; Sinks</code>, so that <code>g</code> is a pure function. We however follow <code>cyclejs</code> choice here and accept an impure reactive function, for reasons we will detail thereafter.</p>
+<p>In the context of cyclejs, the equation hence changes to $actions = f(sources, settings)$. Note
+that $f$ here is not in general a pure function, as typically $f$ is accessing the external world to read events from it. We will still call $f$ the reactive function, by abuse of language. It would be easy to write <code>f = compose(g, h)</code> where <code>h :: Sources -&gt; Settings -&gt; Events</code> and <code>g :: Events -&gt; Settings -&gt; Sinks</code>, so that <code>g</code> is a pure function. We however follow <code>cyclejs</code> choice here and accept an impure reactive function, for reasons we will detail thereafter.</p>
 
 <p>The component framework exposes an interface to its components by which it receives the actions to be performed : <code>Sinks :: HashMap&lt;SinkName, Sink&gt;</code>, is to be matched with <code>Drivers :: HashMap&lt;SinkName, Driver&gt;</code>, where a <code>Driver :: Sink -&gt; Source</code> takes responsibility for the <strong>execution</strong> of actions passed through the <strong>matching</strong> sink, and passing up the eventual results of such actions as an event into the reactive system.</p>
 
-<p>The component framework also exposes the interface which the reactive system receives its events : <code>Sources :: HashMap&lt;SourceName, Source&gt;</code>, where <code>Source</code> is anything presenting an interface to access <strong>events</strong> and <strong>state</strong> from/of external systems of interest. <code>Source</code> can, for instance, be a parameterizable event factory (events obtained from DOM listeners, etc.). <code>SourceName</code> is a moniker uniquely referencing the corresponding source of events.</p>
+<p>The component framework also exposes the interface by which the reactive system receives its events
+ : <code>Sources :: HashMap&lt;SourceName, Source&gt;</code>, where <code>Source</code> is anything presenting an interface to access <strong>events</strong> and <strong>state</strong> from/of external systems of interest. <code>Source</code> can, for instance, be a parameterizable event factory (events obtained from DOM listeners, etc.). <code>SourceName</code> is a moniker uniquely referencing the corresponding source of events.</p>
 
-<p>The component framework connects together identical <code>SourceName</code> and <code>SinkName</code>, so that a driver corresponding to a given <code>SinkName</code> will output the result of the actions it executes as events with the same moniker as a <code>SourceName</code> (in figure thereafter, represented with same colour).</p>
+<p>The component framework connects together identical <code>SourceName</code> and <code>SinkName</code>, so that a driver corresponding to a given <code>SinkName</code> will output the result of the actions it executes, as events with the same moniker (<code>SourceName</code> &ndash; in figure thereafter, represented
+with same colour).</p>
 
 <p><img src="/img/graphs/cycle_component_framework.png" alt="cyclejs framework" /></p>
 
-<p>In the context of this component framework, component composition is simply function composition, with message-passing/dataflow through streams and a port-based interface emulated by the monikers <code>SinkName</code>, <code>SourceName</code>.</p>
+<p>In the context of this component framework, component composition is simply function composition, with message-passing/dataflow through streams and a port-based interface emulated by the monikers <code>SinkName</code>, <code>SourceName</code>. It is the simplicity of the composition
+interface (standard function composition) which motivates renouncing the purity of the reactive
+function.</p>
 
 <p>We will review in what follows parallel composition, sequential composition, parametricity and genericity, all of which being concerns incorporated into what we term component combinators.</p>
 

@@ -127,7 +127,8 @@
 <li>fill-in personal information</li>
 <li>answer the festival&rsquo;s motivational question</li>
 <li>review all teams which can be joined and join the one he/she is interested in</li>
-<li>for each selected team, the student can review some details about that team and answer a team-specific motivational question
+<li>for each selected team, the volunteer can review some details about that team and answer a
+team-specific motivational question
 
 <ul>
 <li>the volunteers cannot continue to the review step if he has applied to no team</li>
@@ -136,13 +137,17 @@
 <li>from there, the volunteer can either finalize his application, or modify his application</li>
 </ul>
 
-<p>If the student interrupts its application in a given step, it can resume that application at a convenient starting point.
-When reaching the review step, the volunteer can modify his application, choosing the section of the application he wants to modify. When he finishes doing so, the next step must be to go back to the review step, where he sees all information about his application.</p>
+<p>If the volunteer interrupts its application in a given step, it can resume that application at a
+convenient starting point. When reaching the review step, the volunteer can modify his
+application, choosing the section of the application he wants to modify. When he finishes doing so, the next step must be to go back to the review step, where he sees all information about his application.</p>
 
-<p>Other relevant information :
-- 90% of students are using the application on low-tech small-screen mobile.
-- All data about festival and teams is available and stored on a remote repository.
-- When the volunteers&rsquo; application is finalized, the application data is saved in the remote repository.</p>
+<p>Other relevant information :</p>
+
+<ul>
+<li>90% of students are using the application on low-tech small-screen mobile.</li>
+<li>All data about festival and teams is available and stored on a remote repository.</li>
+<li>When the volunteers&rsquo; application is finalized, the application data is saved in the remote repository.</li>
+</ul>
 
 <h3 id="second-iteration-after-user-feedback">Second iteration (after user feedback)</h3>
 
@@ -175,7 +180,7 @@ What makes the problem especially acute is the fact that a set of sequences (usu
 
 <p>This results in discrepancies both between the intended design and the actual design (design bug), and between the actual design and the implementation (implementation bug).</p>
 
-<h2 id="user-interface-design-is-a-creative-iterative-process-which-means-implementation-is-constantly-changing">User interface design is a creative, iterative process which means implementation is constantly changing</h2>
+<h2 id="user-interface-design-is-a-creative-iterative-process-which-means-implementation-is-constantly-changing">User interface design is a creative, iterative process, which means implementation is constantly changing</h2>
 
 <p>The most important function that user interface designers do for their clients is the iterative extraction and refinement of the user needs and their corresponding translation in the interface.</p>
 
@@ -215,13 +220,15 @@ At the same time, processing events triggering actions while another action is e
 <p>However, the functional reactive programming with streams approach suffers from two key issues:</p>
 
 <ul>
-<li>linear, one-way dataflows are expressed easily through combining higher-order stream operators (<code>map</code>, <code>flatMap</code>), simple control flow is made possible by specific operators (<code>filter</code>, <code>switch</code>, <code>fold</code>), complex control flow often requires ad-hoc solutions (jumping, interrupts, conditional branching, looping, etc.)</li>
+<li>linear, one-way dataflows are expressed easily through combining higher-order stream operators (<code>map</code>, <code>flatMap</code>), simple control flow is made possible by specific operators (<code>filter</code>, <code>switch</code>, <code>fold</code>), but complex control flow often requires ad-hoc solutions(jumping, interrupts, conditional branching, looping, etc.)</li>
 <li>streams operators are generally pure functions, hence any desired state must be passed explicitly throughout all the relevant part of the operator chain, and changes to that state must be propagated explicitly at a given point of the operator chain</li>
 </ul>
 
-<p>In short, in the case of wireframe flows featuring complex control flow, the design cannot be easily and automatically reconstructed from the reactive implementation, as the graph flow cannot be easily separated from other implementation concerns (state passing and manipulation, stream breakdown and wiring, etc.).</p>
+<p>In short, in the case of wireframe flows featuring complex control flow, the design cannot be easily and automatically reconstructed from the reactive implementation, as the control flow cannot be easily separated from other implementation concerns (state passing
+and manipulation, stream breakdown and wiring, etc.).</p>
 
-<p>The loss in readability is compounded by a lower maintainability : a small change in the control flow can lead to mistakes in identifying the impacted section of the code, or modifying a comparatively large portion of the code, all of which increases the likelihood of errors.</p>
+<p>The loss in readability is compounded by a lower maintainability : a small change in the control flow can lead to mistakes in identifying the impacted section of the code(a.k.a. <a href="https://en.wikipedia.org/wiki/Program_slicing">program slicing</a>), or
+modifying a comparatively large portion of the code, all of which increases the likelihood of errors.</p>
 
 <p>The ideal implementation which supports well an iterative design process is to associate a small implementation cost to a small change in design, and minimize the risks of errors while doing so (or to sound like a mathematician, the ideal implementation is a continuous function of design).</p>
 
@@ -290,7 +297,7 @@ At the same time, processing events triggering actions while another action is e
 
 <h3 id="design-implementation-test-and-communication">Design, implementation, test and communication</h3>
 
-<p>We have seen that transitions between states hence allow to express complex control flow with a simple vocabulary : state, transitions, guards. State machines are in fact akin to domain-specific languages, where inputs are events, (reactive) sub-routines are transitions, variables are the model, assignments are model updates, branching constructs are control states and guards, the actions being the ouptut of the program.
+<p>We have seen that transitions between states hence allow to express complex control flow with a simple vocabulary : state, transitions, guards. State machines are in fact akin to domain-specific languages, where inputs are events, (reactive) sub-routines are transitions, variables are the model, assignments are model updates, branching constructs are control states and guards, the actions being the output of the program.
 The combination of dataflow (streams) and DSL-controlled flow allow to express a reactive design into an implementation with reasonable ease.</p>
 
 <p>More importantly, the control flow is encoded in a regular object which can be automatically parsed in many ways of interest.</p>
@@ -303,11 +310,13 @@ The combination of dataflow (streams) and DSL-controlled flow allow to express a
 <li>used to generate automatic tests for the state machine (note that this requires additional formalization (refinement of the DSL), more on this in a future section)</li>
 </ul>
 
-<p>Going back to the sample application, here is an example of automatically generated flow graph, in which the error flows have been sliced out :</p>
+<p>Going back to the sample application, here is an example of automatizable flow graph, in which the
+error flows have been segregated :</p>
 
-<p><img src="https://i.imgur.com/ioe8oi6.png" alt="(Automatically generated flow graph)" title="Automatically generated flow graph" /></p>
+<p><img src="https://i.imgur.com/dkbSwEw.png" alt="(Automatically generated flow graph)" title="Automatically generated flow graph" /></p>
 
-<p>It becomes apparent that the state machine representation closely matches the wireframe flows obtained from the design phase. This shows how the systematic way to translate a reactive design into an implementation that is a state machine minimizes implementation bugs, by sticking to the design.</p>
+<p>It becomes apparent that the state machine representation closely matches and refines the wireframe
+flows obtained from the design phase. This shows how the systematic way to translate a reactive design into an implementation that is a state machine minimizes implementation bugs, by sticking to the design.</p>
 
 <p>Design bugs themselves can be reduced (discrepancy between the produced design and the desired specification), as we mentioned before, via rapid prototyping, user feedback and iterating on the design.</p>
 
@@ -326,7 +335,7 @@ In the RTC model, the system processes events in discrete, indivisible RTC steps
 
 <h3 id="behaviour-with-respect-to-incremental-changes-in-design">Behaviour with respect to incremental changes in design</h3>
 
-<p>As we discussed before, a reactive system whose behaviour is encoded in a state machine definition can be executed&rsquo; by a function <code>f</code> such that <code>actions = f(events, stateMachineDefinition)</code> where<code>stateMachineDefinition</code> is of type <code>Record {transitions, eventNames, states, initialModel, initialEvent}</code>.</p>
+<p>As we discussed before, a reactive system whose behaviour is encoded in a state machine definition can be executed by a function <code>f</code> such that <code>actions = f(events, stateMachineDefinition)</code> where<code>stateMachineDefinition</code> is of type <code>Record {transitions, eventNames, states, initialModel, initialEvent}</code>.</p>
 
 <p>incremental changes in the design are then translated into changes in events, states, model, and transitions.</p>
 
@@ -351,7 +360,8 @@ Conversely, adding a control state leads to evaluate the possibility of transiti
 
 <p>Those issues are naturally compounded by the number of states and transitions of the state machines, i.e. the complexity of the control flow that is implemented.</p>
 
-<p>I however empirically found that carefully designing in a context of low-complexity control flow (around 5 states, and 20 transitions as my personal rule of thumb) generally results in a small change in reactive system design being corresponded to a small change in implementation.</p>
+<p>I however empirically found that carefully designing in a context of low-complexity control flow
+(around 5-7 states, and 20-30 transitions as my personal rule of thumb) generally results in a small change in reactive system design being corresponded to a small change in implementation.</p>
 
 <p>The point by and large here, is that when reactive systems are <strong>specified</strong> as state machines (and such is the case of the presented wireframe flows, and of business processes&rsquo; user interface in general), a state machine implementation obviously may have nicer properties than alternative implementations. Because in the end, one of the best things one can do for maintainability is to keep a strong correspondence between the specifications and the code.</p>
 
@@ -363,13 +373,16 @@ Conversely, adding a control state leads to evaluate the possibility of transiti
 
 <h4 id="handling-errors-during-execution">Handling errors during execution</h4>
 
-<p>Error handling is the poor cousin of programming. Programmers often focus on the main path of their program, because :
-- error handling is precisely a disruption of the program control flow that is pretty hard to incorporate while keeping the program readable.
-- errors when they occur often do not have access to the necessary contextual data to take a good decision about their handling. That contextual data is dispersed in miscellaneous parts of the program and often cannot be gathered easily (relevant variables not in closure, unexploitable stack traces, etc.).</p>
+<p>Error handling is the poor cousin of programming. Programmers often focus on the main path of their program, because :</p>
+
+<ul>
+<li>error handling is precisely a disruption of the program control flow that is pretty hard to incorporate while keeping the program readable.</li>
+<li>errors when they occur often do not have access to the necessary contextual data to take a good decision about their handling. That contextual data is dispersed in miscellaneous parts of the program and often cannot be gathered easily (relevant variables not in closure, unexploitable stack traces, etc.).</li>
+</ul>
 
 <p>With state machines, errors related to executed actions (exceptions or returned error codes) can be included in the state machine definition as accepted events and associated to an (error) transition. This allows the system to return to a stable state in case of errors. The occurrence of an error while in a given control state also associate valuable context to an error (the control state but also the quantitative state), which facilitates error recovery. The same action returning error can lead to differentiated treatments, according to where (control state) it occurs.</p>
 
-<p>For instance, in the sample application&rsquo;s implementation, errors occurring while saving the volunteer form data leads to a transition back to the origin state, and an update of the model which encodes the display of a control-state-specific message error in the user interface).</p>
+<p>For instance, in the sample application&rsquo;s implementation, errors occurring while saving the volunteer form data leads to a transition back to the origin state, and an update of the model which encodes the display of a control-state-specific message error in the user interface.</p>
 
 <h4 id="erroneous-inputs">Erroneous inputs</h4>
 
@@ -397,7 +410,7 @@ Conversely, adding a control state leads to evaluate the possibility of transiti
 <li>state machine component is a dataflow component following <code>cyclejs</code> conventions</li>
 </ul>
 
-<p>With this library, it is possible to orchestrate a sequence of screens according to the control logic enclosed in the state machine. The implementation of each screen takes the form of a <code>cyclejs</code> dataflow component which have, access to the state machine model; a predefined interface to the external world; and can pass actions back to the external world (for instance an action interpreter in charge of executing the actions).
+<p>With this library, it is possible to orchestrate a sequence of screens according to the control logic enclosed in the state machine. The implementation of each screen takes the form of a <code>cyclejs</code> dataflow component which has: access to the state machine model; a predefined interface to the external world; and can pass actions back to the external world (for instance an action interpreter in charge of executing the actions).
 This makes this library a good choice to implement wireframe flows such as the ones included for the sample application.</p>
 
 <p>We will make all these assertions more clear by :</p>
@@ -417,11 +430,13 @@ This makes this library a good choice to implement wireframe flows such as the o
 <li>In the context of <code>cyclejs</code>, the input object shape can vary, but invariably offers an interface to listen on specific events. Its type is called <code>Sources</code>.</li>
 </ul>
 
-<p>So we have <code>actions = f(sources)</code>, where <code>f</code> is generally not a pure function, as the mechanics of event subscriptions may feature effectful operations (read effects or else).
-However :
--  the <code>cyclejs</code> dataflow component formulation is sufficiently close from the purely functional reactive <code>actions = f(events)</code> to be useful in practical cases.
-- the presence of a polymorphic <code>sources</code> object and read effects can be worked around at testing time by the usual techniques : mocking, stubbing, etc.
-- <code>cyclejs</code> comes bundled with mocking facilities, and a few action interpreters, to effectively test and run the implemented reactive application</p>
+<p>So we have <code>actions = f(sources)</code>, where <code>f</code> is generally not a pure function, as the mechanics of event subscriptions may feature effectful operations (read effects or else). However :</p>
+
+<ul>
+<li>the <code>cyclejs</code> dataflow component formulation is sufficiently close from the purely functional reactive <code>actions = f(events)</code> to be useful in practical cases.</li>
+<li>the presence of a polymorphic <code>sources</code> object and read effects can be worked around at testing time by the usual techniques : mocking, stubbing, etc.</li>
+<li><code>cyclejs</code> comes bundled with mocking facilities, and a few action interpreters, to effectively test and run the implemented reactive application</li>
+</ul>
 
 <p>We will express our state machine component as a <code>cyclejs</code> dataflow component, with an extra <code>settings</code> parameter for easy parameterization : <code>Component :: Sources -&gt; Settings -&gt; Sinks</code></p>
 
@@ -544,28 +559,40 @@ However :
 
 <ul>
 <li><code>Transitions :: HashMap TransitionName TransitionOptions</code></li>
-<li><code>TransitionOptions :: Record {
-    origin_state :: State // Must exist in StateEntryComponents,
-    event :: EventName // Must exist in Events,
-    target_states :: [Transition]
-  }</code></li>
-<li><code>Transition :: Record {
-event_guard :: EventGuard  | Null,
-re_entry :: Boolean | Null,
-action_request :: ActionRequest | Null,
-transition_evaluation :: [TransEval]
-}</code></li>
-<li><code>TransEval :: Record {
-action_guard :: ActionGuard | Null,
-target_state :: State // Must exist in StateEntryComponents,
-model_update :: FSM_Model -&gt; EventData -&gt; ActionResponse -&gt; Settings -&gt; [UpdateOperation]
-}</code></li>
+<li><code>TransitionOptions :: Record {</code>
+
+<ul>
+<li><code>origin_state :: State // Must exist in StateEntryComponents,</code></li>
+<li><code>event :: EventName // Must exist in Events,</code></li>
+<li><code>target_states :: [Transition]</code></li>
+<li><code>}</code></li>
+</ul></li>
+<li><code>Transition :: Record {</code>
+
+<ul>
+<li><code>event_guard :: EventGuard  | Null,</code></li>
+<li><code>re_entry :: Boolean | Null,</code></li>
+<li><code>action_request :: ActionRequest | Null,</code></li>
+<li><code>transition_evaluation :: [TransEval]</code></li>
+<li><code>}</code></li>
+</ul></li>
+<li><code>TransEval :: Record {</code>
+
+<ul>
+<li><code>action_guard :: ActionGuard | Null,</code></li>
+<li><code>target_state :: State // Must exist in StateEntryComponents,</code></li>
+<li><code>model_update :: FSM_Model -&gt; EventData -&gt; ActionResponse -&gt; Settings -&gt; [UpdateOperation]</code></li>
+<li><code>}</code></li>
+</ul></li>
 <li><code>ActionGuard :: Model -&gt; ActionResponse -&gt; Boolean</code></li>
 <li><code>EventGuard :: Model -&gt; EventData -&gt; Boolean</code></li>
-<li><code>ActionRequest :: Record {
-driver :: SinkName | Null,
-request :: (FSM_Model -&gt; EventData) -&gt; Request
-}</code></li>
+<li><code>ActionRequest :: Record {</code>
+
+<ul>
+<li><code>driver :: SinkName | Null,</code></li>
+<li><code>request :: (FSM_Model -&gt; EventData) -&gt; Request</code></li>
+<li><code>}</code></li>
+</ul></li>
 <li><code>Request : Record {
 context :: *,
 command :: Command,
@@ -590,15 +617,15 @@ err : Error | Null,
 <h4 id="contracts-1">Contracts</h4>
 
 <ul>
-<li>Any state defined in the <code>transitions</code> parameter, <strong>MUST</strong> be corresponded with an entry in the <code>stateEntryComponents</code> parameter.</li>
+<li>Any state defined in the <code>transitions</code> parameter <strong>MUST</strong> be corresponded with an entry in the <code>stateEntryComponents</code> parameter</li>
 <li>if a target state can be the same as an origin state, the <code>re_entry</code> property <strong>MUST</strong>be configured</li>
 <li>if a target state differs from an origin state, the <code>re_entry</code> property <strong>MUST NOT</strong> be configured</li>
 <li>A transition <strong>MAY</strong> have an action response guard</li>
 <li>A transition <strong>MAY</strong> have an event guard</li>
 <li>If a transition between two states have one or several action response guards, then for any incoming events, <strong>at least ONE</strong> of the guards <strong>MUST</strong> pass.</li>
 <li>(events and actions) guard predicates <strong>MUST</strong> be pure functions - or in a more relaxed manner <strong>MAY</strong> have side-effects which do not affect the evaluation of other guards for the same event</li>
-<li>model update functions MUST be pure functions.</li>
-<li>To ensure event guards, action guards, model update functions do not update the state machine model, a clone of that model is passed to those functions (<strong>IMPLEMENTED??</strong>).</li>
+<li>model update functions MUST be pure functions</li>
+<li>To ensure event guards, action guards, model update functions do not update the state machine model, a clone of that model is passed to those functions (<strong>IMPLEMENTED??</strong>)</li>
 <li>All functions part of the transitions configuration must be synchronous functions (event guards, action guards, model updates)</li>
 <li>Run-To-Completion (RTC) semantics : a state machine completes processing of each event before it can start processing the next event
 
@@ -1006,7 +1033,7 @@ export function makeRequestToUpdateUserApplication(model: UserApplicationModelNo
 
 <h3 id="other-transitions">Other transitions</h3>
 
-<p>The full implementation can be found here <strong>TODO : include the repo but without most and with cycle/rxjs - maybe use an old version of cycle?</strong></p>
+<p>The full implementation can be found in the <a href="https://github.com/brucou/component-combinators/tree/master/examples/volunteerApplication">corresponding repo</a></p>
 
 <h2 id="state-entry-components">State entry components</h2>
 
@@ -1196,7 +1223,7 @@ Here <code>updateModelWithAboutValidationMessages</code> is a new cretaed functi
 
 <h3 id="other-transitions-1">Other transitions</h3>
 
-<p>The full implementation can be found here <strong>TODO : include the repo but without most and with cycle/rxjs - maybe use an old version of cycle?</strong></p>
+<p>The full implementation can be found in the <a href="https://github.com/brucou/component-combinators/tree/master/examples/volunteerApplication">corresponding repo</a>.</p>
 
 <h2 id="state-entry-components-1">State entry components</h2>
 
@@ -1230,15 +1257,25 @@ Here <code>updateModelWithAboutValidationMessages</code> is a new cretaed functi
 </ul></li>
 </ul>
 
-<p>We have seen that :
-- changes in the specifications are easily translated into changes in the implementation
-    - most functions are pure functions one single concern, hence it is easy to decide whether to modify and how to modify such functions
-    - event factories have two concerns : capturing the source event, and producing the event data (producing in the way read effects). Given that the source event does not change, changes in the event factories were minimal
-- changes in the <code>model</code> require reviewing all functions taking <code>model</code> as a parameter (event, guards, action requests, entry components). However, because not all functions do not use all parts of the model, we are able to bring down the number of modifications performed on model-related functions.</p>
+<p>We have seen that :</p>
 
-<p>The lesson to be learnt is that special care have to be given to how the <code>model</code> is defined, as it is the key source of complexity left unabridged :
-- writing the model in a way that all functions use all parts of the model gives the worse case for maintainability
-- the model, by nature, gathers several concerns to be transmitted to different parts of the state machine component. It is good practice to isolate early cross-cutting concerns, and separate the concerns which are orthogonal into different properties. This would help ensure that a modification of the model structure have lower impact on the implementation.</p>
+<ul>
+<li>changes in the specifications are easily translated into changes in the implementation
+
+<ul>
+<li>most functions are pure functions with one single concern, hence it is easy to decide whether
+to modify and how to modify such functions</li>
+<li>event factories have two concerns : capturing the source event, and producing the event data (producing in the way read effects). Given that the source event does not change, changes in the event factories were minimal</li>
+</ul></li>
+<li>changes in the <code>model</code> require reviewing all functions taking <code>model</code> as a parameter (event, guards, action requests, entry components). However, because not all functions do not use all parts of the model, we are able to bring down the number of modifications performed on model-related functions.</li>
+</ul>
+
+<p>The lesson to be learnt is that special care have to be given to how the <code>model</code> is defined, as it is the key source of complexity left unabridged :</p>
+
+<ul>
+<li>writing the model in a way that all functions use all parts of the model gives the worse case for maintainability</li>
+<li>the model, by nature, gathers several concerns to be transmitted to different parts of the state machine component. It is good practice to isolate early cross-cutting concerns, and separate the concerns which are orthogonal into different properties. This would help ensure that a modification of the model structure have lower impact on the implementation.</li>
+</ul>
 
 <h1 id="known-limitations">Known limitations</h1>
 
@@ -1256,14 +1293,16 @@ Here <code>updateModelWithAboutValidationMessages</code> is a new cretaed functi
 
 <h2 id="does-not-do-well-with-a-high-number-of-control-states">Does not do well with a high number of control states</h2>
 
-<p>While extended FSMs are an excellent tool for tackling smaller problems, it is also generally known that they tend to become unmanageable even for moderately involved systems. Due to the phenomenon known as &ldquo;state explosion&rdquo;, the complexity of a traditional FSM tends to grow much faster than the complexity of the reactive system it describes.
-The issue is not so much the number of states than the transition topology of the modelized reactive system. Some events can lead to the same action and target state, independently of the current state. This means repeating a transition as many times as there are control states, hence the exponential growth of the complexity.
+<p>While extended FSMs are an excellent tool for tackling smaller problems, it is also generally known that they tend to become unmanageable even for moderately involved systems. Due to the phenomenon known as &ldquo;state explosion&rdquo;, the complexity of a traditional FSM tends to grow much faster than the complexity of the reactive system it describes.</p>
+
+<p>The issue is not so much the number of states than the transition topology of the modelized reactive system. Some events can lead to the same action and target state, independently of the current state. This means repeating a transition as many times as there are control states, hence the exponential growth of the complexity.
 This issue is considerably alleviated with the statecharts formalism (also called Hierarchical State Machines), but we chose to remain at a simpler and more accessible conceptual level of extended state machine. We will see other techniques which helps in practice keep the number of control states low.</p>
 
 <h2 id="run-to-completion-execution-model-can-over-simplify-concurrency-issues">Run-to-Completion execution model can over-simplify concurrency issues</h2>
 
-<p>The key advantage of RTC processing is simplicity. Its biggest disadvantage is that the responsiveness of a state machine is determined by its longest RTC step. Achieving short RTC steps can sometimes significantly complicate real-time designs.
-In a future version of the library, event queuing and convenient interruption policies will be added.</p>
+<p>The key advantage of RTC processing is simplicity. Its biggest disadvantage is that the responsiveness of a state machine is determined by its longest RTC step. Achieving short RTC steps can sometimes significantly complicate real-time designs.</p>
+
+<p>In a future version of the library, event queuing and convenient interruption policies will be added.</p>
 
 <h1 id="how-to">How to</h1>
 
@@ -1277,10 +1316,6 @@ Every state machine has a <code>INIT</code> event which is sent when the state m
 <li>Use ONE event factory which immediately emits an event (i.e. synchronously)
 When a state machine is activated, event factories are immediately executed, and the state machine starts listening on events coming from those event factories. If ONE of those event factories immediately emits an event, that event will immediately be processed (after the initial <code>INIT</code> event kicking off the state machine). It is better to have only one immediate event, as if there would be several, there is no guarantee on the order with which those events would be processed, hence there is no guarantee on their effects.</li>
 </ol>
-
-<h1 id="reusability-to-drop">Reusability TO DROP</h1>
-
-<p><strong>TODO add Angular2 implementation</strong></p>
 
 <h1 id="roadmap">Roadmap</h1>
 
@@ -1351,21 +1386,16 @@ purposes or else</li>
 </ul></li>
 </ul>
 
-<h1 id="references-todo">References TODO</h1>
+<h1 id="references">References</h1>
 
-<p>Challenges of HCI Design and Implementation, Brad A. Myers, 1994
-<a href="https://www.researchgate.net/publication/220383184_Challenges_of_HCI_Design_and_Implementation">https://www.researchgate.net/publication/220383184_Challenges_of_HCI_Design_and_Implementation</a></p>
-
-<p>A_Crash_Course_in_UML_State_Machines (Quantum Leaps)
-<a href="https://classes.soe.ucsc.edu/cmpe013/Spring11/LectureNotes/A_Crash_Course_in_UML_State_Machines.pdf">https://classes.soe.ucsc.edu/cmpe013/Spring11/LectureNotes/A_Crash_Course_in_UML_State_Machines.pdf</a></p>
-
-<p>Design Patterns for Embedded Systems in C: An Embedded Software Engineering Toolkit (Bruce Powel Douglass, 2003)</p>
-
-<p>Hierarchical state machine, World Heritage Encyclopedia
-<a href="http://self.gutenberg.org/articles/Hierarchical_state_machine">http://self.gutenberg.org/articles/Hierarchical_state_machine</a></p>
-
-<p>Readability of source code, Wikipedia
-<a href="https://en.wikipedia.org/wiki/Computer_programming#Readability_of_source_code">https://en.wikipedia.org/wiki/Computer_programming#Readability_of_source_code</a></p>
+<ul>
+<li><a href="https://www.researchgate.net/publication/220383184_Challenges_of_HCI_Design_and_Implementation"><strong>Challenges of HCI Design and Implementation</strong>, Brad A. Myers, 1994</a></li>
+<li><a href="https://classes.soe.ucsc.edu/cmpe013/Spring11/LectureNotes/A_Crash_Course_in_UML_State_Machines.pdf">A_Crash_Course_in_UML_State_Machines (Quantum Leaps)</a></li>
+<li>Design Patterns for Embedded Systems in C: An Embedded Software Engineering Toolkit (Bruce Powel
+Douglass, 2003)</li>
+<li><a href="http://self.gutenberg.org/articles/Hierarchical_state_machine">Hierarchical state machine, World Heritage Encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Computer_programming#Readability_of_source_code">Readability of source code, Wikipedia</a></li>
+</ul>
 <div class="footnotes">
 
 <hr />
@@ -1409,7 +1439,7 @@ purposes or else</li>
 <li><a href="#challenges-of-human-computer-interface-design-and-implementation">Challenges of human-computer interface design and implementation</a>
 <ul>
 <li><a href="#reactive-systems-design-is-hard-to-specify-and-communicate">Reactive systems design is hard to specify and communicate</a></li>
-<li><a href="#user-interface-design-is-a-creative-iterative-process-which-means-implementation-is-constantly-changing">User interface design is a creative, iterative process which means implementation is constantly changing</a></li>
+<li><a href="#user-interface-design-is-a-creative-iterative-process-which-means-implementation-is-constantly-changing">User interface design is a creative, iterative process, which means implementation is constantly changing</a></li>
 <li><a href="#asynchrony-is-tractable-but-concurrency-is-hard">Asynchrony is tractable, but concurrency is hard</a></li>
 <li><a href="#user-interface-must-handle-the-expected-and-the-unexpected-gracefully">User interface must handle the expected and the unexpected gracefully</a></li>
 </ul></li>
@@ -1505,9 +1535,8 @@ purposes or else</li>
 <ul>
 <li><a href="#perform-operations-at-initialization">Perform operations at initialization</a></li>
 </ul></li>
-<li><a href="#reusability-to-drop">Reusability TO DROP</a></li>
 <li><a href="#roadmap">Roadmap</a></li>
-<li><a href="#references-todo">References TODO</a></li>
+<li><a href="#references">References</a></li>
 </ul>
 </nav>
     </div>

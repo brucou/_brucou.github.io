@@ -521,7 +521,8 @@ available when booking. Those errors generally prevent the system to move from o
 <li>highly cohesive, loosely coupled to ensure adaptability<sup class="footnote-ref" id="fnref:adaptability"><a rel="footnote" href="#fn:adaptability">2</a></sup></li>
 </ul>
 
-<p>In our reactive system, <code>cyclejs</code> context: for component construction and interfacing, functions are used, exposing a fixed interface, differentiating parameterization concern and input interface concern in their inputs; a port metaphor is used for interfacing components; combinators are used for parallel and sequential composition; component lifecycle is handled by the framework which by means of <em>start</em> (here <code>run</code>) and <em>stop</em> functionalities.</p>
+<p>In our reactive system, <code>cyclejs</code> context: for component construction and interfacing, functions are used, exposing a fixed interface, differentiating parameterization concern and input interface concern in their inputs; a port metaphor is used for interfacing components; combinators are used for parallel and sequential composition; component lifecycle is handled by the framework by means of <em>start</em> (here <code>run</code>) and <em>stop</em>
+functionalities, and rxjs streams&rsquo; lazy instantiation and automatic completion propagation.</p>
 
 <p>A range of generic combinators have been defined, which allows to handle a series of concerns,
 including sequential composition, state injection, control flow, routing, list management, change

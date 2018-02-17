@@ -7,10 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 brucou</copyright>
-    <lastBuildDate>Sat, 27 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Feb 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://brucou.github.io/categories/documentation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>EFSM combinator - sample application</title>
+      <link>http://brucou.github.io/projects/component-combinators/efsm---documentation/</link>
+      <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/projects/component-combinators/efsm---documentation/</guid>
+      <description>Motivation In a previous article, we introduced the rationale behind using state machines in the context of UI programming. We introduce here our state machine library in the context of our component combinator library for cyclejs. We finish with a roadmap including new features for the next iteration of the library.
+Extended finite state machine library We propose a state machine library which features :
+ streams to represent a possibly infinite sequence of data which can be obtained asynchronously an extended finite state machine with :  transitions associated to asynchronous actions with run-to-completion semantics state entry actions associated to dataflow components  state machine component is a dataflow component following cyclejs conventions  With this library, it is possible to orchestrate a sequence of screens according to the control logic enclosed in the state machine.</description>
+    </item>
+    
+    <item>
+      <title>EFSM combinator - sample application</title>
+      <link>http://brucou.github.io/projects/component-combinators/efsm---example-application/</link>
+      <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/projects/component-combinators/efsm---example-application/</guid>
+      <description>Introduction We presented in previous articles:
+ the case for using state machines for UI programming, our state machine library, in the larger frame of our combinator library  In the present article, we will illustrate our state machine library by implementing an average-complexity example application. We will first introduce the sample application, in its two iterations, including functional specification, lo-fi wireframes, and user experience flowcharts. We will then implement that application in a stepwise manner (though focusing on relevant parts of the application).</description>
+    </item>
     
     <item>
       <title>Mocking the DOM driver</title>
@@ -157,12 +178,12 @@ The Switch component can be viewed as a single-state state machine, whose only e
     </item>
     
     <item>
-      <title>Extended finite state machine</title>
-      <link>http://brucou.github.io/projects/component-combinators/efsm/</link>
+      <title>The case for state machines in UI programming</title>
+      <link>http://brucou.github.io/projects/component-combinators/efsm---the-case-for-ui-programming/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://brucou.github.io/projects/component-combinators/efsm/</guid>
-      <description>Introduction A web application&amp;rsquo;s user interface can be understood as a reactive system which displays a sequence of screens and perform a sequence of commands which are determined unequivocally by user actions, the application domain logic, and contextual data from the application&amp;rsquo;s environment (from miscellaneous databases, sensor inputs, etc.). We aim to show that, under some restrictive conditions, using a state machine to control that sequence, allow for better modelization, specification, testing and implementation of such user interface.</description>
+      <guid>http://brucou.github.io/projects/component-combinators/efsm---the-case-for-ui-programming/</guid>
+      <description>Introduction A web application&amp;rsquo;s user interface can be understood as a reactive system which displays a sequence of screens and perform a sequence of commands which are determined unequivocally by user actions, the application domain logic, and contextual data from the application&amp;rsquo;s environment (miscellaneous databases, sensor inputs, etc.). We aim to show that, under some restrictive conditions, using a state machine to control that sequence, allow for better modelization, specification, testing and implementation of such user interface.</description>
     </item>
     
     <item>

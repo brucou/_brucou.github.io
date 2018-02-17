@@ -10,6 +10,20 @@
   </url>
   
   <url>
+    <loc>http://brucou.github.io/projects/component-combinators/efsm---documentation/</loc>
+    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://brucou.github.io/projects/component-combinators/efsm---example-application/</loc>
+    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://brucou.github.io/projects/component-combinators/mocking-the-dom-driver/</loc>
     <lastmod>2018-01-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -171,8 +185,8 @@
   </url>
   
   <url>
-    <loc>http://brucou.github.io/projects/component-combinators/efsm/</loc>
-    <lastmod>2017-09-24T00:00:00+00:00</lastmod>
+    <loc>http://brucou.github.io/projects/component-combinators/efsm---the-case-for-ui-programming/</loc>
+    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -225,7 +239,7 @@
   
   <url>
     <loc>http://brucou.github.io/projects/component-combinators/</loc>
-    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -239,14 +253,14 @@
   
   <url>
     <loc>http://brucou.github.io/categories/documentation/</loc>
-    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://brucou.github.io/tags/functional-programming/</loc>
-    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -274,7 +288,7 @@
   
   <url>
     <loc>http://brucou.github.io/categories/programming/</loc>
-    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -294,7 +308,7 @@
   
   <url>
     <loc>http://brucou.github.io/tags/reactive-programming/</loc>
-    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -315,7 +329,7 @@
   
   <url>
     <loc>http://brucou.github.io/tags/user-interface/</loc>
-    <lastmod>2018-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

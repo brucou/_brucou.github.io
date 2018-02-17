@@ -86,8 +86,9 @@
 <p>We presented in previous articles:</p>
 
 <ul>
-<li>the case for using <a href="...">state machines for UI programming</a>,</li>
-<li><a href="...">our state machine library</a>, in the larger frame of our combinator library</li>
+<li>the case for using <a href="/projects/component-combinators/efsm---the-case-for-ui-programming/">state machines for UI programming</a>,</li>
+<li><a href="/projects/component-combinators/efsm---documentation/">our state machine library</a>, in the
+larger frame of our combinator library</li>
 </ul>
 
 <p>In the present article, we will illustrate our state machine library by implementing an average-complexity example
@@ -180,6 +181,10 @@ The quantitative state will have to hold all necessary data for each screen to d
 </ul>
 
 <p>Transitions and guards are partly given by the wireframe flows. They will have to be completed so there is no logic hole in the design (i.e. a logic branch which is not considered).</p>
+
+<p>The resulting target workflow is then established :</p>
+
+<p><img src="/img/graphs/sparks application process with errors flow.png" alt="First iteration workflow" /></p>
 
 <h2 id="events">Events</h2>
 
@@ -504,6 +509,10 @@ export const renderComponent = curry(_renderComponent);
 <li>validation messages representing the hints related to the content for each field</li>
 </ul>
 
+<p>The previous workflow is updated as follows :</p>
+
+<p><img src="/img/graphs/sparks%20application%20process%20with%20validation%20and%20errors%20flow.png" alt="Second iteration workflow" /></p>
+
 <h2 id="events-1">Events</h2>
 
 <p>We have to add the input form data validation functionalities. Control flow is decided at the guard level, and will basically include two branches : go to next step if fields valid ; remain in same step if one field is invalid.
@@ -732,7 +741,7 @@ When a state machine is activated, event factories are immediately executed, and
             <img class="icon-text" src="/img/prev.svg"/>Mocking the DOM driver</a>
         
         
-        <a class="next-post" href="http://brucou.github.io/projects/component-combinators/efsm---documentation/">EFSM combinator - sample application<img class="icon-text" src="/img/next.svg"/>
+        <a class="next-post" href="http://brucou.github.io/projects/component-combinators/efsm---documentation/">EFSM combinator - documentation<img class="icon-text" src="/img/next.svg"/>
         </a>
         
     </nav>

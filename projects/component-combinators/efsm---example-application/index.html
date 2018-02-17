@@ -165,8 +165,6 @@ application, choosing the section of the application he wants to modify. When he
 
 <h1 id="sample-application-implementation-first-iteration">Sample application implementation - first iteration</h1>
 
-<p><strong>TODO include graph for both iterations, and then gather all second iterations into their own section, starting with the graph first</strong></p>
-
 <h2 id="modelization">Modelization</h2>
 
 <p>The events to process are pretty obvious from the wireframe flows (button clicks, etc.).
@@ -713,7 +711,7 @@ to modify and how to modify such functions</li>
 <p>While extended FSMs are an excellent tool for tackling smaller problems, it is also generally known that they tend to become unmanageable even for moderately involved systems. Due to the phenomenon known as &ldquo;state explosion&rdquo;, the complexity of a traditional FSM tends to grow much faster than the complexity of the reactive system it describes.</p>
 
 <p>The issue is not so much the number of states than the transition topology of the modelized reactive system. Some events can lead to the same action and target state, independently of the current state. This means repeating a transition as many times as there are control states, hence the exponential growth of the complexity.
-This issue is considerably alleviated with the statecharts formalism (also called Hierarchical State Machines), but we chose to remain at a simpler and more accessible conceptual level of extended state machine. We will see other techniques which helps in practice keep the number of control states low.</p>
+This issue is considerably alleviated with the statecharts formalism (also called Hierarchical State Machines), but we chose to remain at a simpler and more accessible conceptual level of extended state machine. We will see other techniques which help in practice keep the number of control states low.</p>
 
 <h2 id="run-to-completion-execution-model-can-over-simplify-concurrency-issues">Run-to-Completion execution model can over-simplify concurrency issues</h2>
 

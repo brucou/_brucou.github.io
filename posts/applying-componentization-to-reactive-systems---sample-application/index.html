@@ -609,7 +609,7 @@ updated to that value, and a list of <code>NavigationItem</code> will be activat
 
 <p>As it is immediately visible from the example, configuring components to be activated on a given
 route is pretty straight forward. Not immediately visible here, in the case of a route with
-paramter (<code>projects/:projectId</code>), the parameters (<code>projectId</code>) will be passed to downstream
+parameter (<code>projects/:projectId</code>), the parameters (<code>projectId</code>) will be passed to downstream
 components through <code>settings</code>. For more details on the <code>OnRoute</code> combinator, see the
 <a href="/projects/component-combinators/router/">documentation</a>.</p>
 
@@ -728,7 +728,7 @@ those details</li>
     ])
   ]));
 
-export const  =
+export const ProjectTaskList =
   m({}, {}, [ProjectTaskListContainer, [
     InSlot('toggle', [ToggleButton]),
     InSlot('enter-task', [EnterTask]),
@@ -1099,7 +1099,7 @@ through the component&rsquo;s <code>settings</code> property</li>
 
 <ul>
 <li>while doing so, ensure in particular that events are coupled to unique selectors : this is
-particular important when operating within the cycle architecture where events are decoupled
+particularly important when operating within the cycle architecture where events are decoupled
 from the elements that originate them.</li>
 </ul></li>
 <li>compute the necessary pieces of state</li>
@@ -1234,15 +1234,16 @@ process is as follows :</p>
 <li>how is the component combinator to be parameterized ?</li>
 <li>is a container component necessary ?</li>
 <li>what are the contracts which settings or component tree must fulfill?</li>
-<li>how are combined components&rsquo; sinks?</li>
+<li>how are the components&rsquo; sinks combined?</li>
 <li>are default combining functions sufficient ?</li>
-<li>are specific combining functions  necessary ?</li>
+<li>are specific combining functions necessary ?</li>
 </ul></li>
-<li>implement the sought behaviour
+<li>implement the target behaviour
 
 <ul>
 <li>reuse as much as possible existing combinators</li>
-<li>select the most appropriate form of the <code>m</code> combinator (out of the three reducing patterns)
+<li>select, when necessary, the most appropriate form of the <code>m</code> combinator (out of the three
+reducing patterns)
 
 <ul>
 <li>reminder : <code>= m(componentCombinatorSpec, componentCombinatorSettings,
@@ -1355,7 +1356,7 @@ implementing a web application :</p>
 the <code>OnRoute</code> combinator.</li>
 <li><strong>state management</strong> : state can be injected at any point of the component tree and becomes
 visible to any component down the injection point. Alternatively, state can also be kept at the
-global level, through the use of in-memory store.</li>
+root level, through the use of in-memory store.</li>
 <li><strong>change propagation</strong> : at the lowest level, using streams as the corner stone of our
 architecture solves the issue of updating a variable (behaviour) when one of its dependencies
 change. <em>Live queries</em> can then be built on top of read and write drivers as exemplified in the

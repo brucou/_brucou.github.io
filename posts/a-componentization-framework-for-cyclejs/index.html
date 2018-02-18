@@ -309,15 +309,15 @@ team</li>
 
 <h2 id="generic-components-vs-ad-hoc-components">Generic components vs. ad-hoc components</h2>
 
-<p>In the frame of reactive systems, two main drivers lead decomposition :</p>
+<p>Two main drivers lead decomposition :</p>
 
 <ul>
-<li>reusing already existing components
+<li><strong>reusing</strong> already existing components
 
 <ul>
-<li>in the context of reactive system, this mostly involves reusing common presentational/behavioural functionalities : tabbed groups, cards, breadcrumbs, etc. An existing library of reusable components can be leveraged to that effect. Those components however have to be customizable per the actions triggered by user events, or offer an interface decoupled from such actions, i.e. decoupled from the domain at hand.</li>
+<li>in the context of reactive systems, this mostly involves reusing common presentational/behavioural functionalities : tabbed groups, cards, breadcrumbs, etc. An existing library of reusable components can be leveraged to that effect. Those components however have to be customizable per the actions triggered by user events, or offer an interface decoupled from such actions, i.e. decoupled from the domain at hand.</li>
 </ul></li>
-<li>separating concerns
+<li><strong>separating</strong> concerns
 
 <ul>
 <li>typically a graphical application will have events belonging to a specific region of the screen. An obvious divide-and-conquer strategy is to break down the application in such independent regions and assign a component to each of those. A component could for instance handle the navigation concern of the application, while another might handle displaying a domain object and possible interactions with that object, with yet another handling notifications from external systems to the application.</li>
@@ -363,7 +363,7 @@ distinguishing generic UI component from ad-hoc components from container compon
 <ul>
 <li>domain data</li>
 </ul></li>
-<li>Transient state
+<li>Non-persisted state (also termed transient state)
 
 <ul>
 <li>Existence is dependent and connected to the lifecycle of the component which originates it</li>

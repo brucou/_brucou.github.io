@@ -6,9 +6,8 @@
 		<meta name="generator" content="Hugo 0.31.1" />
 		<title>Default merge functions and slotted content - Technuflections</title>
 
-		<meta name="description" content="Motivation We want in this section to describe the default merge functions used by the m component factory, when no such merge function is supplied by the user.
-DOM merge The DOM merge function relating to m :: ComponentDef -&gt; Settings -&gt; [ParentComponent, Array&lt;ChildComponent&gt;]) has the following signature : DOMDefaultMerge :: Nullable&lt;ParentDOMSink&gt;, Array&lt;DOMSink&gt;, Settings, where :
- ParentDOMSink encapsulates the DOM produced by ParentComponent Array&lt;DOMSink&gt; encapsulates the DOM produced by the childrenArray&lt;ChildComponent&gt; Settings follows the usual inheritance rules of settings through the component tree  If the user does not supply a merge function through the ComponentDef parameter, the default one is used.">
+		<meta name="description" content="Motivation We want in this section to describe the default merge functions used by the m component factory when no such merge function is supplied by the user, and the Combine component combinator. As a matter of fact, the following content will focus on m, as Combine(settings, componentTree) is just m({}, settings, componentTree, i.e. the result of partially applying m with no combinator/merge specifications.
+DOM merge The DOM merge function relating to m :: CombineSpecs -&gt; Settings -&gt; [ParentComponent, Array&lt;ChildComponent&gt;]) has the following signature : DOMDefaultMerge :: Nullable&lt;ParentDOMSink&gt;, Array&lt;DOMSink&gt;, Settings, where :">
 
 
 		
@@ -65,7 +64,7 @@ DOM merge The DOM merge function relating to m :: ComponentDef -&gt; Settings -&
     <header><hgroup id="brand">
 	<h1>Default merge functions and slotted content</h1>
 	<h5> Last modified on
-		Dec 26, 2017
+		Feb 18, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -84,11 +83,15 @@ DOM merge The DOM merge function relating to m :: ComponentDef -&gt; Settings -&
 
 <h1 id="motivation">Motivation</h1>
 
-<p>We want in this section to describe the default merge functions used by the <code>m</code> component factory, when no such merge function is supplied by the user.</p>
+<p>We want in this section to describe the default merge functions used by the <code>m</code> component
+factory when no such merge function is supplied by the user, and the <code>Combine</code> component
+combinator. As a matter of fact, the following content will focus on <code>m</code>, as <code>Combine(settings, 
+componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. the result of partially applying
+<code>m</code> with no combinator/merge specifications.</p>
 
 <h2 id="dom-merge">DOM merge</h2>
 
-<p>The <code>DOM</code> merge function relating to <code>m :: ComponentDef -&gt; Settings -&gt; [ParentComponent, Array&lt;ChildComponent&gt;])</code> has the following signature : <code>DOMDefaultMerge :: Nullable&lt;ParentDOMSink&gt;, Array&lt;DOMSink&gt;, Settings</code>, where :</p>
+<p>The <code>DOM</code> merge function relating to <code>m :: CombineSpecs -&gt; Settings -&gt; [ParentComponent, Array&lt;ChildComponent&gt;])</code> has the following signature : <code>DOMDefaultMerge :: Nullable&lt;ParentDOMSink&gt;, Array&lt;DOMSink&gt;, Settings</code>, where :</p>
 
 <ul>
 <li><code>ParentDOMSink</code> encapsulates the DOM produced by <code>ParentComponent</code></li>
@@ -103,28 +106,32 @@ DOM merge The DOM merge function relating to m :: ComponentDef -&gt; Settings -&
 <p>Let&rsquo;s consider <code>m({}, {}, [ParentComponent, [SiblingComponent1, SiblingComponent2]</code> with the following DOMs being produced :</p>
 
 <ul>
-<li><p>ParentComponent</p>
+<li>ParentComponent</li>
+</ul>
 
 <pre><code class="language-html">&lt;div id='#parent'&gt;
-&lt;h2&gt; This is some content included in the parent component's DOM 
-&lt;/h2&gt;
+  &lt;h2&gt; This is some content included in the parent component's DOM 
+  &lt;/h2&gt;
 &lt;/div&gt;
-</code></pre></li>
+</code></pre>
 
-<li><p>SiblingComponent1</p>
+<ul>
+<li>SiblingComponent1</li>
+</ul>
 
 <pre><code class="language-html">&lt;div id='#sibling1'&gt;
-&lt;span&gt; first sibling component's DOM &lt;/span&gt;
+  &lt;span&gt; first sibling component's DOM &lt;/span&gt;
 &lt;/div&gt;
-</code></pre></li>
+</code></pre>
 
-<li><p>SiblingComponent2</p>
+<ul>
+<li>SiblingComponent2</li>
+</ul>
 
 <pre><code class="language-html">&lt;div id='#sibling2'&gt;
-&lt;span&gt; second sibling component's DOM &lt;/span&gt;
+  &lt;span&gt; second sibling component's DOM &lt;/span&gt;
 &lt;/div&gt;
-</code></pre></li>
-</ul>
+</code></pre>
 
 <p>The merged result will be similar to :</p>
 
@@ -148,9 +155,9 @@ DOM merge The DOM merge function relating to m :: ComponentDef -&gt; Settings -&
 
 <p>Let&rsquo;s assume :</p>
 
-<ol>
+<ul>
 <li>parent component DOM</li>
-</ol>
+</ul>
 
 <pre><code class="language-html">&lt;div class=&quot;element-details-template&quot;&gt;
   &lt;style&gt;
@@ -194,16 +201,16 @@ DOM merge The DOM merge function relating to m :: ComponentDef -&gt; Settings -&
 
 <p>Let&rsquo;s consider now the slot contents :</p>
 
-<ol>
+<ul>
 <li>child with slot <code>element-name</code></li>
-</ol>
+</ul>
 
-<pre><code class="language-html"> &lt;span slot=&quot;element-name&quot;&gt;slot&lt;/span&gt;
+<pre><code class="language-html">&lt;span slot=&quot;element-name&quot;&gt;slot&lt;/span&gt;
 </code></pre>
 
-<ol>
+<ul>
 <li>child with slot <code>description</code></li>
-</ol>
+</ul>
 
 <pre><code class="language-html">&lt;span slot=&quot;description&quot;&gt;A placeholder inside a web
     component that users can fill with their own markup,
@@ -211,9 +218,9 @@ DOM merge The DOM merge function relating to m :: ComponentDef -&gt; Settings -&
     together.&lt;/span&gt;
 </code></pre>
 
-<ol>
+<ul>
 <li>child with slot <code>attributes</code></li>
-</ol>
+</ul>
 
 <pre><code class="language-html">&lt;dl slot=&quot;attributes&quot;&gt;
     &lt;dt&gt;name&lt;/dt&gt;
@@ -264,16 +271,16 @@ DOM merge The DOM merge function relating to m :: ComponentDef -&gt; Settings -&
 
 <p>When a slot cannot be filled in by a corresponding children DOM (the children DOM simply does not define content for that slot), the slotted content of the parent is used as default. The following describes that behaviour, with the same parent component, but this time children components which will not define content for the <code>attributes</code> slot.</p>
 
-<ol>
+<ul>
 <li>child with slot <code>element-name</code></li>
-</ol>
+</ul>
 
 <pre><code class="language-html"> &lt;span slot=&quot;element-name&quot;&gt;template&lt;/span&gt;
 </code></pre>
 
-<ol>
+<ul>
 <li>child with slot <code>description</code></li>
-</ol>
+</ul>
 
 <pre><code class="language-html">&lt;span slot=&quot;description&quot;&gt;A mechanism for holding client-
     side content that is not to be rendered when a page is

@@ -673,16 +673,16 @@ easy to reason about our component and application.</p>
 <p>Component combinators follow a syntax conceptually similar to <code>JSX</code>. For instance :</p>
 
 <pre><code class="language-javascript">export const SidePanel =
-  m({}, {}, [Div('.app__l-side'), [
+  Combine({}, [Div('.app__l-side'), [
     Navigation({}, [
       NavigationSection({ title: 'Main' }, [
-        m({}, { project: { title: 'Dashboard', link: 'dashboard' } }, [NavigationItem])
+        NavigationItem({ project: { title: 'Dashboard', link: 'dashboard' } }, [])
       ]),
       NavigationSection({ title: 'Projects' }, [
         InSlot('navigation-item', [ListOfItemsComponent])
       ]),
       NavigationSection({ title: 'Admin' }, [
-        m({}, { project: { title: 'Manage Plugins', link: 'plugins' } }, [NavigationItem])
+        NavigationItem({ project: { title: 'Manage Plugins', link: 'plugins' } }, [])
       ]),
     ])
   ]]);
@@ -694,7 +694,7 @@ easy to reason about our component and application.</p>
   &lt;Div class='app__l-side'&gt;
     &lt;Navigation&gt;      
       &lt;NavigationSection title='Main'&gt;
-        &lt;NavigationItem project={ title: 'Dashboard', link: 'dashboard' }\&gt;
+        &lt;NavigationItem project={ title: 'Dashboard', link: 'dashboard' }/&gt;
       &lt;/NavigationSection&gt;
       &lt;NavigationSection title='Projects'&gt;
         &lt;Slot name='navigation-item'&gt;
@@ -702,7 +702,7 @@ easy to reason about our component and application.</p>
         &lt;/Slot&gt;
       &lt;/NavigationSection&gt;
       &lt;NavigationSection title='Admin'&gt;
-        &lt;NavigationItem project={ title: 'Manage Plugins', link: 'plugins' }\&gt;
+        &lt;NavigationItem project={ title: 'Manage Plugins', link: 'plugins' } /&gt;
       &lt;/NavigationSection&gt;
     &lt;/Navigation&gt;
   &lt;/Div&gt;

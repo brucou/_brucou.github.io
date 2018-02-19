@@ -71,7 +71,7 @@
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/components">components</a>
-			32 min read
+			33 min read
 	</h5>
 	
 </hgroup>
@@ -253,11 +253,15 @@ and the methods applicable to them are defined</li>
 
 <p>Our starting code for the <code>App</code> is then :</p>
 
-<pre><code class="language-javascript">App = m({}, {}, [Div('.app'), [
+<pre><code class="language-javascript">App = Combine({}, [Div('.app'), [
                     SidePanel,
                     MainPanel
                   ]])
 </code></pre>
+
+<p>This deserves a few words of explanation. <code>Combine</code> is a combinator which takes some components (let&rsquo;s call them children components), and returns a combined component. That combined component will pass its sources and settings (here <code>{}</code>) to all
+children components to compute their sinks, merge<sup class="footnote-ref" id="fnref:merge"><a rel="footnote" href="#fn:merge">1</a></sup> the resulting non-DOM sinks from the children components, and combine the DOM sinks <a href="/projects/component-combinators/m-component---merge-default-functions/#slotted-dom-merge">à la web components</a>, by dispatching children DOM content into its respective slots (the container component holds the slot definition &ndash; here <code>Div('.app')</code> does not define any
+ slot). The full details of how <code>Combine</code>&rsquo;s merge mechanism works can be found in the <a href="/projects/component-combinators/m-component---merge-default-functions/">corresponding documentation</a>. Note that it is important to understand how <code>Combine</code> merges children sinks, as most of the combinators in the library, merge sinks in the same way.</p>
 
 <p>We are however going to do two things : inject pieces of state that will be used by both
 components, and massage the route input arriving through the router driver in a convenient form
@@ -324,14 +328,12 @@ those sources of events and pieces of state will be used by the whole applicatio
 <ul>
 <li>the querying for domain entities related to the projects and the user through the query
 driver (for instance <code>domainQuery.getCurrent(PROJECTS)</code>)</li>
-<li>the use of <code>Div('.app')</code> as a container for the list of components (main and side
-panels). Full explanation of the feature can be found at the <a href="/projects/component-combinators/m-component---merge-default-functions/#regular-dom-merge">corresponding documentation page</a> (the container here acts as parent component). In short, all DOM trees
-returned by the enclosed components will be inserted within the DOM tree of the container.</li>
-<li>the distinction between the route change event, and the route state which is a behaviour<sup class="footnote-ref" id="fnref:behaviour"><a rel="footnote" href="#fn:behaviour">1</a></sup>. The
+<li>the use of <code>Div('.app')</code> as a container for the list of components (main and side panels). Full explanation of the feature can be found at the <a href="/projects/component-combinators/m-component---merge-default-functions/#regular-dom-merge">corresponding documentation page</a> (the container here acts as parent component). In short, all DOM trees returned by the enclosed components will be inserted within the DOM tree of the container.</li>
+<li>the distinction between the route change event, and the route state which is a behaviour<sup class="footnote-ref" id="fnref:behaviour"><a rel="footnote" href="#fn:behaviour">2</a></sup>. The
 general, and very important rule, is to <strong>systematically</strong> decide whether a reactive entity of
 interest is modelized better by an event or a behaviour, and to apply the corresponding marker
-(<code>share()</code> for events, <code>shareReplay(1)</code> for behaviours)<sup class="footnote-ref" id="fnref:marker"><a rel="footnote" href="#fn:marker">2</a></sup>. Failing to do this is the origin
-of a large portion of bugs encountered when manipulating streams.</li>
+(<code>share()</code> for events, <code>shareReplay(1)</code> for behaviours)<sup class="footnote-ref" id="fnref:marker"><a rel="footnote" href="#fn:marker">3</a></sup>. Failing to do this is the origin
+of a <strong>large portion of bugs</strong> encountered when manipulating streams.</li>
 </ul>
 
 <p>For the full code and running demo, see <a href="https://github.com/brucou/component-combinators/tree/project-management-app-step-1/examples/AllInDemo">here</a>.</p>
@@ -345,7 +347,7 @@ of a large portion of bugs encountered when manipulating streams.</li>
 <ul>
 <li><code>MainPanel</code> can be implemented fairly independently from <code>SidePanel</code></li>
 <li>the only reason for change of <code>SidePanel</code> that would affect <code>MainPanel</code> is a change in the
-route associated to the projects<sup class="footnote-ref" id="fnref:routechange"><a rel="footnote" href="#fn:routechange">3</a></sup></li>
+route associated to the projects<sup class="footnote-ref" id="fnref:routechange"><a rel="footnote" href="#fn:routechange">4</a></sup></li>
 <li>both components share no common events or actions or logic. We took our initial reactive system, split it in two, smaller, largely independent subsystems, whose complexity is strictly lower than the original system, and
 easier to write</li>
 </ul>
@@ -398,7 +400,8 @@ overall application&rsquo;s specifications :</p>
 
 <ul>
 <li><code>projects</code></li>
-<li><code>user</code></li>
+<li><code>user</code>
+<br /></li>
 </ul>
 
 <p>As explained in the previous step, we have already injected those sources at the top level of
@@ -406,21 +409,19 @@ the application. This means that those sources will be available for every compo
 <code>sources.user$</code>, and <code>sources.projects$</code>. We will then seek to write <code>SidePanel</code> as :</p>
 
 <pre><code class="language-javascript">SidePanel =
-  m({}, {}, [Div('.app__l-side'), [
+  Combine({}, [Div('.app__l-side'), [
     Navigation({}, [
       NavigationSection({ title: 'Main' }, [
-        NavigationItem( { project: { title: 'Dashboard', link: 'dashboard' } }, [])
+        NavigationItem({ project: { title: 'Dashboard', link: 'dashboard' } }, [])
       ]),
       NavigationSection({ title: 'Projects' }, [
-        InSlot('navigation-item', [
-          ListOfItemsComponent
-        ])
+        InSlot('navigation-item', [ListOfItemsComponent])
       ]),
       NavigationSection({ title: 'Admin' }, [
-        NavigationItem( { project: { title: 'Manage Plugins', link: 'plugins' } }, [])
+        NavigationItem({ project: { title: 'Manage Plugins', link: 'plugins' } }, [])
       ]),
     ])
-  ])
+  ]]);
 </code></pre>
 
 <p>where :</p>
@@ -500,15 +501,9 @@ sections after displaying the welcome message, and within a styling <code>div</c
 <p>After that, we are ready to define the <code>Navigation</code> combinator :</p>
 
 <pre><code class="language-javascript">function Navigation(navigationSettings, componentArray){
-  return m({}, navigationSettings, [NavigationContainerComponent, componentArray])
+  return Combine(navigationSettings, [NavigationContainerComponent, componentArray])
 }
 </code></pre>
-
-<p>This deserves a few words of explanation. <code>m</code> is a generic combinator which takes an array of
-components, and returns a combined component. That combined component, by default (that is the
-case here, as we pass an empty object as <code>m</code> behaviour&rsquo;s specification), will pass its sources and<br />
-<code>navigationSettings</code> to all children components to compute their sinks, will merge (as in <code>Rx.Observable.merge</code>) the resulting non-DOM sinks from the children components, and merge the DOM sinks <a href="/projects/component-combinators/m-component---merge-default-functions/#slotted-dom-merge">à la web components</a>, i.e.
-dispatching children DOM content into its respective slots, as configured in the <code>NavigationContainerComponent</code>.</p>
 
 <h2 id="navigationsection-combinator">NavigationSection combinator</h2>
 
@@ -528,7 +523,7 @@ dispatching children DOM content into its respective slots, as configured in the
 }
 
 function NavigationSection(navigationSectionSettings, componentArray){
-  return m({}, navigationSectionSettings, [NavigationSectionContainerComponent, componentArray])
+  return Combine(navigationSectionSettings, [NavigationSectionContainerComponent, componentArray])
 }
 </code></pre>
 
@@ -591,7 +586,7 @@ updated to that value, and a list of <code>NavigationItem</code> will be activat
 <p>As per specifications, the main panel is url-driven. This gives us the following breakdown :</p>
 
 <pre><code class="language-javascript">export const MainPanel =
-  m({}, {}, [Div(`.app__l-main`), [
+  Combine({}, [Div(`.app__l-main`), [
     OnRoute({ route: 'dashboard' }, [ProjectsDashboard]),
     OnRoute({ route: 'projects/:projectId' }, [Project]),
     OnRoute({ route: 'plugins' }, [ManagePlugins]),
@@ -687,7 +682,7 @@ will get the project&rsquo;s comments, activities, etc.</p>
 <pre><code class="language-javascript">export const Project =
   InjectSources({ projectFb$: projectsStateFactory }, [Div('.project'), [
     ProjectHeader,
-    m({}, { tabItems }, [TabContainer, [
+    Combine({ tabItems }, [TabContainer, [
       OnRoute({ route: 'tasks' }, [ProjectTaskList]),
       OnRoute({ route: 'task/:nr' }, [Div('.task-details', { slot: 'tab' }), [ProjectTaskDetails]]),
       OnRoute({ route: 'comments' }, [Div('.comments', { slot: 'tab' }), [ProjectComments]]),
@@ -729,7 +724,7 @@ those details</li>
   ]));
 
 export const ProjectTaskList =
-  m({}, {}, [ProjectTaskListContainer, [
+  Combine({}, [ProjectTaskListContainer, [
     InSlot('toggle', [ToggleButton]),
     InSlot('enter-task', [EnterTask]),
     InSlot('tasks', [TaskList])
@@ -1386,6 +1381,8 @@ dividing the target reactive system into smaller components, and expliciting the
 <hr />
 
 <ol>
+<li id="fn:merge">Simple merge is used for non-DOM sinks (as in <code>Rx.Observable.merge</code>). Another example of such simple merge can be found in the <a href="https://github.com/cyclejs-community/cyclejs-utils"><code>cyclejs-utils</code></a> utility library for cycle.
+ <a class="footnote-return" href="#fnref:merge"><sup>[return]</sup></a></li>
 <li id="fn:behaviour">The reason why we need both the route change event and the route state is that sometimes we want to get the current route without reacting to a route change, and the best way to achieve this is to use <code>shareReplay(1)</code> in connection with <code>sample</code> or <code>withLatestFrom</code>. 
  <a class="footnote-return" href="#fnref:behaviour"><sup>[return]</sup></a></li>
 <li id="fn:marker">A good way to enforce this is to build on top of the stream library constructors for events and behaviours, and enforce their usage, effectively prohibiting direct manipulation of the underlying streams. We do not follow this option however, to avoid adding extra syntax. We might reconsider later on, based on feedback.

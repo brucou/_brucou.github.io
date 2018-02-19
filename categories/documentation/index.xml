@@ -101,7 +101,7 @@ This covers the case of components which do not output action sinks but intermed
       
       <guid>http://brucou.github.io/projects/component-combinators/m-component---merge-default-functions/</guid>
       <description>Motivation We want in this section to describe the default merge functions used by the m component factory when no such merge function is supplied by the user, and the Combine component combinator. As a matter of fact, the following content will focus on m, as Combine(settings, componentTree) is just m({}, settings, componentTree, i.e. the result of partially applying m with no combinator/merge specifications.
-DOM merge The DOM merge function relating to m :: CombineSpecs -&amp;gt; Settings -&amp;gt; [ParentComponent, Array&amp;lt;ChildComponent&amp;gt;]) has the following signature : DOMDefaultMerge :: Nullable&amp;lt;ParentDOMSink&amp;gt;, Array&amp;lt;DOMSink&amp;gt;, Settings, where :</description>
+DOM merge The DOM merge function relating to m :: CombineSpecs -&amp;gt; Settings -&amp;gt; [ContainerComponent, Array&amp;lt;ChildComponent&amp;gt;]) has the following signature : DOMDefaultMerge :: Nullable&amp;lt;ParentDOMSink&amp;gt;, Array&amp;lt;DOMSink&amp;gt;, Settings, where :</description>
     </item>
     
     <item>

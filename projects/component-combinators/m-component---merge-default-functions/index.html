@@ -7,7 +7,7 @@
 		<title>Default merge functions and slotted content - Technuflections</title>
 
 		<meta name="description" content="Motivation We want in this section to describe the default merge functions used by the m component factory when no such merge function is supplied by the user, and the Combine component combinator. As a matter of fact, the following content will focus on m, as Combine(settings, componentTree) is just m({}, settings, componentTree, i.e. the result of partially applying m with no combinator/merge specifications.
-DOM merge The DOM merge function relating to m :: CombineSpecs -&gt; Settings -&gt; [ParentComponent, Array&lt;ChildComponent&gt;]) has the following signature : DOMDefaultMerge :: Nullable&lt;ParentDOMSink&gt;, Array&lt;DOMSink&gt;, Settings, where :">
+DOM merge The DOM merge function relating to m :: CombineSpecs -&gt; Settings -&gt; [ContainerComponent, Array&lt;ChildComponent&gt;]) has the following signature : DOMDefaultMerge :: Nullable&lt;ParentDOMSink&gt;, Array&lt;DOMSink&gt;, Settings, where :">
 
 
 		
@@ -91,26 +91,28 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 
 <h2 id="dom-merge">DOM merge</h2>
 
-<p>The <code>DOM</code> merge function relating to <code>m :: CombineSpecs -&gt; Settings -&gt; [ParentComponent, Array&lt;ChildComponent&gt;])</code> has the following signature : <code>DOMDefaultMerge :: Nullable&lt;ParentDOMSink&gt;, Array&lt;DOMSink&gt;, Settings</code>, where :</p>
+<p>The <code>DOM</code> merge function relating to <code>m :: CombineSpecs -&gt; Settings -&gt; [ContainerComponent, Array&lt;ChildComponent&gt;])</code> has the following signature : <code>DOMDefaultMerge :: Nullable&lt;ParentDOMSink&gt;, Array&lt;DOMSink&gt;, Settings</code>, where :</p>
 
 <ul>
-<li><code>ParentDOMSink</code> encapsulates the DOM produced by <code>ParentComponent</code></li>
+<li><code>ParentDOMSink</code> encapsulates the DOM produced by <code>ContainerComponent</code></li>
 <li><code>Array&lt;DOMSink&gt;</code> encapsulates the DOM produced by the children<code>Array&lt;ChildComponent&gt;</code></li>
 <li><code>Settings</code> follows the usual inheritance rules of settings through the component tree</li>
 </ul>
 
-<p>If the user does not supply a merge function through the <code>ComponentDef</code> parameter, the default one is used. The default merge function by default append the DOM trees produced by the children at the end of the parent DOM tree. This behaviour can however be altered if the parent component explicitly makes use of named slots. We proceed with describing those two cases.</p>
+<p>If the user does not supply a merge function through the <code>CombineSpecs</code> parameter, the default one is used. The default merge function by default append the DOM trees produced by the children at the end of the parent DOM tree. This behaviour can however be altered if the parent component explicitly makes use of named slots. We proceed with describing those two cases.</p>
+
+<p><strong>NOTE:</strong> We will sometimes refer to the container component as the parent component.</p>
 
 <h3 id="regular-dom-merge">Regular DOM merge</h3>
 
-<p>Let&rsquo;s consider <code>m({}, {}, [ParentComponent, [SiblingComponent1, SiblingComponent2]</code> with the following DOMs being produced :</p>
+<p>Let&rsquo;s consider <code>m({}, {}, [ContainerComponent, [SiblingComponent1, SiblingComponent2]</code> with the following DOMs being produced :</p>
 
 <ul>
-<li>ParentComponent</li>
+<li>ContainerComponent</li>
 </ul>
 
 <pre><code class="language-html">&lt;div id='#parent'&gt;
-  &lt;h2&gt; This is some content included in the parent component's DOM 
+  &lt;h2&gt; This is some content included in the container component's DOM 
   &lt;/h2&gt;
 &lt;/div&gt;
 </code></pre>
@@ -136,7 +138,7 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 <p>The merged result will be similar to :</p>
 
 <pre><code class="language-html">&lt;div id='#parent'&gt;
-  &lt;h2&gt; This is some content included in the parent component's DOM 
+  &lt;h2&gt; This is some content included in the container component's DOM 
   &lt;/h2&gt;
   &lt;div id='#sibling1'&gt;
     &lt;span&gt; first sibling component's DOM &lt;/span&gt;
@@ -147,7 +149,7 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 &lt;/div&gt;
 </code></pre>
 
-<p><strong>NOTE</strong> : for the edge case when the parent component does not have a selector for the children to be included within (for instance if it is a text node), a dummy <code>div</code> selector is created, whose first children is the text node, and next children are the children DOM trees. For more details look at the tests.</p>
+<p><strong>NOTE</strong> : for the edge case when the container component does not have a selector for the children to be included within (for instance if it is a text node), a dummy <code>div</code> selector is created, whose first children is the text node, and next children are the children DOM trees. For more details look at the tests.</p>
 
 <h3 id="slotted-dom-merge">Slotted DOM merge</h3>
 
@@ -156,7 +158,7 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 <p>Let&rsquo;s assume :</p>
 
 <ul>
-<li>parent component DOM</li>
+<li>container component DOM</li>
 </ul>
 
 <pre><code class="language-html">&lt;div class=&quot;element-details-template&quot;&gt;
@@ -267,9 +269,10 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 &lt;/div&gt;
 </code></pre>
 
-<p>In short, the general case is that the parent defines some slots by name, and replace those slots by the corresponding DOM content found in the children DOM&rsquo;s slots. In this example, all slots are filled, as they can all be found in the children DOMs.</p>
+<p>In short, the general case is that the container defines some slots by name, and replace those slots
+ by the corresponding DOM content found in the children DOM&rsquo;s slots. In this example, all slots are filled, as they can all be found in the children DOMs.</p>
 
-<p>When a slot cannot be filled in by a corresponding children DOM (the children DOM simply does not define content for that slot), the slotted content of the parent is used as default. The following describes that behaviour, with the same parent component, but this time children components which will not define content for the <code>attributes</code> slot.</p>
+<p>When a slot cannot be filled in by a corresponding children DOM (the children DOM simply does not define content for that slot), the slotted content of the container is used as default. The following describes that behaviour, with the same container component, but this time children components which will not define content for the <code>attributes</code> slot.</p>
 
 <ul>
 <li>child with slot <code>element-name</code></li>
@@ -385,9 +388,8 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 <p>See same previous example as a demo of this (<code>&lt;slot id=&quot;panelsSlot&quot;&gt;</code>). Note that using this feature disable the standard DOM merge mechanism described previously.</p>
 
 <ul>
-<li><p>Children DOM contents which are not assigned to any slot (including the unnamed slot) are merged into the parent&rsquo;s DOM using the mechanism described in the <code>standard merge</code> section.</p></li>
-
-<li><p><del>If there&rsquo;s more than one unnamed or named slots, the corresponding children content will be replicated in all corresponding slots.</del></p>
+<li>Children DOM contents which are not assigned to any slot (including the unnamed slot) are merged into the parent&rsquo;s DOM using the mechanism described in the <code>Regular DOM merge</code> section.</li>
+<li><del>If there&rsquo;s more than one unnamed or named slots, the corresponding children content will be replicated in all corresponding slots.</del>
 
 <ul>
 <li><del>this is a difference with the web component slot mechanism where if there&rsquo;s more than one default slot, the first is used.</del></li>
@@ -396,7 +398,7 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 
 <h3 id="vtree-transcription">vTree transcription</h3>
 
-<p>In a <code>vNode</code> context, <code>&lt;slot name=&quot;element-name&quot;&gt;NEED NAME&lt;/slot&gt;</code> would correspond to <code>{children : [none], sel:'div', data : {slot : 'attributes'}}</code>, where <code>none</code> is the <code>vNode</code> corresponding to <code>&lt;p&gt;None&lt;/p&gt;</code>.</p>
+<p>In a <code>vNode</code> context, <code>&lt;slot name=&quot;attributes&quot;&gt;&lt;p&gt;None&lt;/p&gt;&lt;/slot&gt;</code> would correspond to <code>{children : [none], sel:'div', data : {slot : 'attributes'}}</code>, where <code>none</code> is the <code>vNode</code> corresponding to <code>&lt;p&gt;None&lt;/p&gt;</code>.</p>
 
 <h3 id="edge-cases">Edge cases</h3>
 

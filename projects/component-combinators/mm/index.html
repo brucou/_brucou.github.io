@@ -71,7 +71,7 @@
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			12 min read
+			15 min read
 	</h5>
 	
 </hgroup>
@@ -82,7 +82,7 @@
 
 <h1 id="the-case-for-m-the-component-factory">The case for <code>m</code>, the component factory</h1>
 
-<p>In a previous article about componentization frameworks, we saw how parallel and sequential
+<p>In a <a href="/posts/a-componentization-framework-for-cyclejs/">previous article</a> about componentization frameworks, we saw how parallel and sequential
 composition are necessary to assemble components into a larger component. At the core of
 composition is a <code>combine</code> function which takes components and combine them into a target component, i.e <code>combine :: Array&lt;Component&gt; -&gt; Component</code>. That function can take any extra arguments, in which case, by uncurrying, it is always possible to come back the canonical <code>combine</code> form shown previously. As any component used to derive another component can itself have been derived, componentization naturally leads to the manipulation of component trees.</p>
 
@@ -214,8 +214,9 @@ instance useful if the computation of the combined component depends on informat
 component themselves (type, names, number of arguments, number of components, presence of a
 container component, etc.).</p>
 
-<p>However, in our codebase, we found only two cases where we would have needed to recourse to
-this most generic form.</p>
+<p>However, in our codebase, we found very few cases where we would have needed to recourse to
+this most generic form. That form however comes in handy to create generic combinators (<a href="https://github.com/brucou/component-combinators/blob/master/src/components/ForEach/ForEach.js"><code>ForEach</code>
+combinator</a> is such a case).</p>
 
 <h2 id="m-combineallsinksspecs-settings-componenttree-component"><code>m :: CombineAllSinksSpecs -&gt; Settings -&gt; ComponentTree -&gt; Component</code></h2>
 
@@ -254,7 +255,8 @@ this most generic form.</p>
 </ul>
 
 <p>This computation strategy is more frequent than the most generic one, though still relatively
-infrequent.</p>
+infrequent. That form however comes in handy to create generic combinators (<code>Switch</code> combinator
+is such a case).</p>
 
 <h2 id="m-combinepersinkspecs-settings-componenttree-component"><code>m :: CombinePerSinkSpecs -&gt; Settings -&gt; ComponentTree -&gt; Component</code></h2>
 
@@ -262,12 +264,12 @@ infrequent.</p>
 
 <ul>
 <li><code>Sinks :: HashMap&lt;SinkName, Sink&gt;</code></li>
+<li><code>ContainerSink :: Sink</code></li>
 <li><code>Sink :: Stream &lt;*&gt;</code></li>
 <li><code>CombinePerSinkSpecs :: Record {</code>
 
 <ul>
-<li><code>makeOwnSinks :: Sources -&gt; Settings -&gt; Sinks</code></li>
-<li><code>SinkMergeFn :: Sink -&gt; Array&lt;Sink&gt; -&gt; Settings -&gt; Sinks</code></li>
+<li><code>SinkMergeFn :: ContainerSink -&gt; Array&lt;Sink&gt; -&gt; Settings -&gt; Sinks</code></li>
 <li><code>mergeSinks :: HashMap&lt;SinkName, SinkMergeFn&gt;</code></li>
 <li><code>makeLocalSources :: Optional &lt; Sources -&gt; Settings -&gt; Sources &gt;</code></li>
 <li><code>makeLocalSettings :: Optional &lt; Settings -&gt; Settings &gt;</code></li>
@@ -292,36 +294,58 @@ infrequent.</p>
 <ul>
 <li><strong>1-3</strong>. same as in the general signature</li>
 <li><strong>4</strong>. Sinks are computed for each child component from the merged sources, and merged settings.</li>
-<li><strong>5</strong>. For each sink (uniquely identified by <code>sinkName::SinkName</code>) :
+<li><strong>5</strong>. For each sink (uniquely identified by <code>sinkName :: SinkName</code>) :
 
 <ul>
 <li>if there is a merge function defined in <code>mergeSinks</code> for that <code>sinkName</code>, that function is used to compute the resulting combined component sink from the parent&rsquo;s sink, the children components&rsquo; sinks, and the merged settings.</li>
 <li>If not, a default merge function is used :</li>
-<li>Default DOM merge function will merge the <code>VTree</code> from the children components <strong>INSIDE</strong>
-the <code>Vtree</code> from the container component&rsquo;s DOM sink[^2]
+<li>If there is no slots in the container component, default DOM merge function will merge the
+<code>VTree</code> from the children components <strong>INSIDE</strong> the <code>Vtree</code> from the container component&rsquo;s DOM sink
 
 <ul>
-<li><strong>TODO : ADD stuff about the slot mechanism</strong></li>
 <li>if there is no DOM sink at all, it returns <code>null</code></li>
 <li>if there is no container DOM sink, then it returns the children VTrees wrapped in a <code>div</code> VNode</li>
 <li>if there is a container DOM sink, and there is no children DOM sinks, then it returns the parent DOM sink</li>
 <li>if there is a container DOM sink, and there are children DOM sinks, then it returns a VTree in which the children DOM vNodes are children of the parent&rsquo;s vNode
 children vNodes are <strong>appended</strong> to any already existing children of the parent vNode</li>
 </ul></li>
+<li>If there are slots in the container component, default DOM merge function will
+distribute the <code>VTree</code> from the children components according to their respective
+slots</li>
 <li>Default non-DOM merge function will merge the parent&rsquo;s sink together with the children sinks via simple stream merge (i.e. <code>Rx.Observable.merge</code>)</li>
 </ul></li>
 </ul>
+
+<p>Default merge functions have been extracted from patterns from our codebase. While non-DOM sinks
+ever rarely get merged in any other way than a simple observable merge, there are more patterns
+appearing for merging of DOM VTrees. Frequently, children DOM vNodes are merged immediately
+inside a parent DOM&rsquo;s vNodes. In the general case however, children DOM vNodes can be located arbitrarily inside
+the parent DOM&rsquo;s vNodes. Web components faced the same distribution issue and resolved it with a
+slot mechanism, and we reused that. This is how we arrived to our default merge functions :</p>
+
+<ul>
+<li>one unique strategy for non-DOM sinks</li>
+<li>two strategies for DOM sinks (container-based and slot-based)</li>
+</ul>
+
+<p>The <code>CombinePerSinkSpecs</code> covers a large set of patterns of our code base. In fact, the default
+merge behaviour covers a large enough portion of cases which occur when combining components for
+us to create a <code>Combine</code> combinator, simply defined as a partial application of <code>m</code> with no
+specification (empty object passed as first parameter) : <code>Combine(settings, componentTree) = m 
+({}, settings, componentTree)</code>.</p>
 
 <h1 id="examples">Examples</h1>
 
 <p>In this section, we are going to show miscellaneous examples of use of componentization with the<code>m</code> factory.
 Most of those examples will be inspired from already-existent UI component library, such as<code>Semantic UI</code>.</p>
 
+<p>Examples for the DOM merge functions are gathered in a <a href="/projects/component-combinators/m-component---merge-default-functions/">specific article</a>.</p>
+
 <h2 id="event-factory-component">Event factory component</h2>
 
 <ul>
-<li><code>Events = m(eventFactorySpec, eventFactorySettings, componentTree)</code>, or by currying <code>m</code> into
-<code>mEventFactory</code></li>
+<li><code>Events = m(eventFactorySpec, eventFactorySettings, componentTree)</code>, or by partially applying <code>m</code>
+into <code>mEventFactory</code> :</li>
 <li><code>Events = mEventFactory(EventFactorySettings, componentTree)</code></li>
 </ul>
 
@@ -339,7 +363,7 @@ Most of those examples will be inspired from already-existent UI component libra
 <p>This component allows to create events from event sources. For ease of reasoning and
 maintainability, the created events should be coupled to the DOM representation generated by the children component. There is however no enforcement of such property. The created events will be mixed with the sinks returned from the children components.</p>
 
-<p>Contracts:</p>
+<p><strong>Contracts:</strong></p>
 
 <ul>
 <li>an event sink generated from event sources MUST NOT conflict with a sink with the same key from the children component</li>
@@ -370,7 +394,7 @@ maintainability, the created events should be coupled to the DOM representation 
 
 <p>For instance :</p>
 
-<pre><code>{
+<pre><code class="language-javascript">{
   events : {
     DOM : {
       click : {
@@ -391,7 +415,7 @@ children (through settings), children components can reference within their DOM 
 
 <p>For instance :</p>
 
-<pre><code>{
+<pre><code class="language-javascript">{
   events : {
     custom : {
       [eventName] : (sources, settings) =&gt; sources.motionSensor.zipWith(sources.locationSensor)
@@ -406,7 +430,79 @@ children (through settings), children components can reference within their DOM 
 
 <p>cf. <a href="https://github.com/brucou/component-combinators/blob/master/src/components/mEventFactory.js">repo</a></p>
 
-<h2 id="button-component">Button component</h2>
+<pre><code class="language-javascript">const checkEventFactoryPreConditions = checkAndGatherErrors([
+  [hasEventsProperty, `Settings parameter must have an events property!`],
+  [isEventFactoryEventSettings, `settings' events property has unexpected shape!`]
+], `checkEventFactoryPreConditions : fails!`);
+
+/** Settings : 
+ - `{`
+ - `events : {`
+ -   `custom : {eventName : (sources, settings) =&gt;  event$},`
+ -   `DOM : { eventName : {selectorDesc : 'selector}}`
+ -   `}`
+ - `}`
+ * Returns : HashMap&lt;EventName, Observable&gt;
+ */
+function makeEventFactorySinks(sources, settings) {
+  const { events: { custom, DOM } } = settings;
+
+  const customEvents = reduce([...], {}, keys(custom));
+
+  const DOMEvents = reduce([...], {}, keys(DOM));
+
+  assertContract(hasNoDuplicateKeys, [customEvents, DOMEvents], `makeEventFactorySinks : Event definition object leads to at least one event name which is BOTH a custom event and a DOM event! (custom : ${format(customEvents)} ; DOM : ${format(DOMEvents)})`);
+
+  return merge(customEvents, DOMEvents)
+}
+
+function mergeEventFactorySinksWithChildrenSinks(eventSinks, childrenSinks, localSettings) {
+  const childrenSinksArray = flatten(removeNullsFromArray([childrenSinks]))
+  const allSinks = flatten(removeNullsFromArray([eventSinks, childrenSinks]))
+  const eventSinkNames = keys(eventSinks)
+  const childrenSinkNames = getSinkNamesFromSinksArray(childrenSinksArray)
+  const sinkNames = getSinkNamesFromSinksArray(allSinks)
+
+  // We needed to make use of `combineAllSinks` strategy to enforce the following contract
+  // which applies to the container sinks :
+  // Children sinks cannot have the same sink name as event sinks
+  assertContract(hasNoCommonValues, [eventSinkNames, childrenSinkNames],
+    `mEventFactory &gt; mergeEventFactorySinksWithChildrenSinks : found children sinks with 
+           at least one sink name conflicting with an event sink : 
+           ${eventSinkNames} vs. ${childrenSinkNames}`);
+
+  // We guarded against sink telescoping, we just have to merge the events sinks to the sinks 
+  // from the children component and we are done. Default merge is what we want
+  return defaultMergeSinkFn(eventSinks, childrenSinks, localSettings, sinkNames)
+}
+
+const eventFactorySpec = {
+  // No extra sources
+  makeLocalSources: null,
+  // No extra settings
+  makeLocalSettings: null,
+  // We check that the settings have the appropriate shape
+  checkPreConditions: checkEventFactoryPreConditions,
+  checkPostConditions: null,
+  // We merge children sinks with the by-default merge functions
+  mergeSinks: mergeEventFactorySinksWithChildrenSinks
+}
+
+export function mEventFactory(eventFactorySettings, componentTree) {
+  // returns a component which default-merges sinks coming from the children
+  // and adds its events sinks to it
+
+  // NOTE : we could test against eventFactorySettings here, before doing it in `m` too
+  // (fails fast). We will not.
+  // Instead, we will wait for the settings passed to `mEventFactory` at
+  // run time to be merged with the settings passed at creation time. This opens the
+  // possibility to have a factory with some default events, and adding some additional events
+  // at run time via settings
+  return m(eventFactorySpec, eventFactorySettings, [makeEventFactorySinks, componentTree])
+}
+</code></pre>
+
+<h2 id="button-component-combinator">Button component combinator</h2>
 
 <p><code>Button = m(ButtonComponentSpec, ButtonComponentSettings, childrenComponents)</code>
 <code>Button = mButton(ButtonComponentSettings, childrenComponents)</code></p>
@@ -452,12 +548,12 @@ children (through settings), children components can reference within their DOM 
 
 <h3 id="source-code-1">Source code</h3>
 
-<p>Cf. repo</p>
+<p>Cf. <a href="https://github.com/brucou/component-combinators/blob/master/src/components/mButton.js">repo</a></p>
 
 <pre><code class="language-javascript">export function mButton(mButtonSettings, childrenComponents) {
   // returns a DOM tree representation with the specifications passed through settings
   // and enclosing the DOM trees returned by the children components
-  // Other children sinks are default-merged
+  // Non-DOM children sinks are default-merged
 
   return m(mButtonSpec, mButtonSettings, [makeButtonSinks, childrenComponents])
 }
@@ -508,7 +604,6 @@ function makeButtonSinks(sources, settings) {
 
   return sinks
 }
-
 </code></pre>
 
 <p>We hence have :</p>
@@ -594,7 +689,7 @@ Proceedings of the IFIP Tenth World Computing Conference: 1069–1076</li>
 </ul></li>
 <li><a href="#source-code">Source code</a></li>
 </ul></li>
-<li><a href="#button-component">Button component</a>
+<li><a href="#button-component-combinator">Button component combinator</a>
 <ul>
 <li><a href="#description-4">Description</a></li>
 <li><a href="#buttoncomponentsettings">ButtonComponentSettings</a></li>

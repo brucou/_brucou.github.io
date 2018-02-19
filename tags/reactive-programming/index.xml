@@ -300,7 +300,7 @@ For instance, when the interaction between systems becomes too complex (too many
       <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
       
       <guid>http://brucou.github.io/projects/component-combinators/mm/</guid>
-      <description>The case for m, the component factory In a previous article about componentization frameworks, we saw how parallel and sequential composition are necessary to assemble components into a larger component. At the core of composition is a combine function which takes components and combine them into a target component, i.e combine :: Array&amp;lt;Component&amp;gt; -&amp;gt; Component. That function can take any extra arguments, in which case, by uncurrying, it is always possible to come back the canonical combine form shown previously.</description>
+      <description>The case for m, the component factory In a previous article about componentization frameworks, we saw how parallel and sequential composition are necessary to assemble components into a larger component. At the core of composition is a combine function which takes components and combine them into a target component, i.e combine :: Array&amp;lt;Component&amp;gt; -&amp;gt; Component. That function can take any extra arguments, in which case, by partial application, it is always possible to come back the canonical combine form shown previously.</description>
     </item>
     
   </channel>

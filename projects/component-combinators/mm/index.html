@@ -6,7 +6,7 @@
 		<meta name="generator" content="Hugo 0.31.1" />
 		<title>m - the generic component combinator - Technuflections</title>
 
-		<meta name="description" content="The case for m, the component factory In a previous article about componentization frameworks, we saw how parallel and sequential composition are necessary to assemble components into a larger component. At the core of composition is a combine function which takes components and combine them into a target component, i.e combine :: Array&lt;Component&gt; -&gt; Component. That function can take any extra arguments, in which case, by uncurrying, it is always possible to come back the canonical combine form shown previously.">
+		<meta name="description" content="The case for m, the component factory In a previous article about componentization frameworks, we saw how parallel and sequential composition are necessary to assemble components into a larger component. At the core of composition is a combine function which takes components and combine them into a target component, i.e combine :: Array&lt;Component&gt; -&gt; Component. That function can take any extra arguments, in which case, by partial application, it is always possible to come back the canonical combine form shown previously.">
 
 
 		
@@ -84,7 +84,7 @@
 
 <p>In a <a href="/posts/a-componentization-framework-for-cyclejs/">previous article</a> about componentization frameworks, we saw how parallel and sequential
 composition are necessary to assemble components into a larger component. At the core of
-composition is a <code>combine</code> function which takes components and combine them into a target component, i.e <code>combine :: Array&lt;Component&gt; -&gt; Component</code>. That function can take any extra arguments, in which case, by uncurrying, it is always possible to come back the canonical <code>combine</code> form shown previously. As any component used to derive another component can itself have been derived, componentization naturally leads to the manipulation of component trees.</p>
+composition is a <code>combine</code> function which takes components and combine them into a target component, i.e <code>combine :: Array&lt;Component&gt; -&gt; Component</code>. That function can take any extra arguments, in which case, by partial application, it is always possible to come back the canonical <code>combine</code> form shown previously. As any component used to derive another component can itself have been derived, componentization naturally leads to the manipulation of component trees.</p>
 
 <p>The function <code>m</code> is a such a combinator, specialized to the domain of reactive systems&rsquo;s user interface, and which abstracts out a limited set of operations/patterns by which a component tree can be composed.</p>
 

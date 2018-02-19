@@ -6,8 +6,7 @@
 		<meta name="generator" content="Hugo 0.31.1" />
 		<title>m - the generic component combinator - Technuflections</title>
 
-		<meta name="description" content="The case for m, the component factory Componentization pursues three goals :
- reuse - the most important factor of productivity gain separation of concerns - which fosters quality and maintainability using a limited number of operations and atomic components to build a large set of components - reducing complexity and increasing readability  At the core of this approach there is a combining function which takes a number of components and derives a new component, i.">
+		<meta name="description" content="The case for m, the component factory In a previous article about componentization frameworks, we saw how parallel and sequential composition are necessary to assemble components into a larger component. At the core of composition is a combine function which takes components and combine them into a target component, i.e combine :: Array&lt;Component&gt; -&gt; Component. That function can take any extra arguments, in which case, by uncurrying, it is always possible to come back the canonical combine form shown previously.">
 
 
 		
@@ -64,7 +63,7 @@
     <header><hgroup id="brand">
 	<h1>m - the generic component combinator</h1>
 	<h5> Last modified on
-		Dec 29, 2017
+		Feb 19, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -72,7 +71,7 @@
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			12 min read
+			11 min read
 	</h5>
 	
 </hgroup>
@@ -83,33 +82,17 @@
 
 <h1 id="the-case-for-m-the-component-factory">The case for <code>m</code>, the component factory</h1>
 
-<p>Componentization pursues three goals :</p>
+<p>In a previous article about componentization frameworks, we saw how parallel and sequential
+composition are necessary to assemble components into a larger component. At the core of
+composition is a <code>combine</code> function which takes components and combine them into a target component, i.e <code>combine :: Array&lt;Component&gt; -&gt; Component</code>. That function can take any extra arguments, in which case, by uncurrying, it is always possible to come back the canonical <code>combine</code> form shown previously. As any component used to derive another component can itself have been derived, componentization naturally leads to the manipulation of component trees.</p>
 
-<ul>
-<li>reuse - the most important factor of productivity gain</li>
-<li>separation of concerns - which fosters quality and maintainability</li>
-<li>using a limited number of operations and atomic components to build a large
-set of components - reducing complexity and increasing readability</li>
-</ul>
-
-<p>At the core of this approach there is a combining function which takes a number of
-components and derives a new component, i.e <code>combine :: Array&lt;Component&gt; -&gt; Component</code>. That  function can take any extra arguments, in which case, by uncurrying, it is always possible to come back the canonical <code>combine</code> form shown previously.   As any component used to derive another component can itself have been derived,   componentization naturally leads to the manipulation of component trees.</p>
-
-<p>The function <code>m</code> is a such a combinator, specialized to the domain of reactive systems&rsquo;s user   interface, which abstracts out a limited set of operations/patterns by which a component tree can be composed.</p>
-
-<p>The speculated benefits are :</p>
-
-<ul>
-<li>linking a bottom-up user interface design with a bottom-up user-interface implementation</li>
-<li>making the component tree explicit which allows for top-down processing (more on that elsewhere)</li>
-</ul>
+<p>The function <code>m</code> is a such a combinator, specialized to the domain of reactive systems&rsquo;s user interface, and which abstracts out a limited set of operations/patterns by which a component tree can be composed.</p>
 
 <p>In what follows :</p>
 
 <ul>
 <li><code>m</code> will be interchangeably termed as component combinator, component factory, utility function, or helper function.</li>
-<li>In the specified domain, components will be understood as <code>:: Sources -&gt; Settings -&gt;
-Actions</code>, i.e. functions which :
+<li>components will be understood as <code>:: Sources -&gt; Settings -&gt; Actions</code>, i.e. functions which :
 
 <ul>
 <li>take a <code>Sources</code> data structure which contains a way to receive event from event sources</li>
@@ -118,85 +101,45 @@ Actions</code>, i.e. functions which :
 </ul></li>
 </ul>
 
-<p><strong>NOTE</strong> : The type definition for components is adapted from the one used in the reactive framework <code>cyclejs</code>. We added the <code>Settings</code> parameter to cleanly separate the parameterization/configuration concern from the reactive input processing concern. We believe this is an important, though trivial, design change, which allows for better readability. This is as a matter of fact in line with other major componentization efforts such as <code>React</code> which uses <code>props</code>  to that same parameterization effect.</p>
+<p><strong>NOTE</strong> : The type definition for components is adapted from the one used in the reactive framework <code>cyclejs</code>. We added the <code>Settings</code> parameter to cleanly separate the parameterization/configuration concern from the input sourcing concern. We believe this is an important, though trivial, design change, which allows, among other thing, for better readability. This is as a matter of fact in line with other major componentization efforts such as <code>React</code> which uses <code>props</code>  to that same parameterization effect.</p>
 
 <h1 id="api">API</h1>
 
-<p>As explained before, we have <code>combinedComponent = combine (childrenComponents)</code> - (cf. Fig <code>combine</code>).</p>
-
-<p><img src="http://i.imgur.com/C7y9x2A.png" alt="combine" />.</p>
-
-<p>From the signature of the <code>combine</code>, we can deduce that the computation of the actions for the combined component can only involve :</p>
+<p>Abstracting from a large cyclejs codebase (20K+ lines of javascript), we retained a <code>m</code> combinator
+articulated around three computation strategies, from the most generic to the most specific :</p>
 
 <ul>
-<li>computations independent from the children <code>makeOwnSinks:: Sources -&gt; Settings -&gt; Actions</code>
-
-<ul>
-<li>the signature is naturally that of a component, we will call it in what follows the parent component (<code>parentComponent</code>). It is what the <code>combinedComponent</code> is in absence of any children.</li>
-</ul></li>
+<li><code>CombineGenericSpecs</code></li>
+<li><code>CombineAllSinksSpecs</code></li>
+<li><code>CombinePerSinkSpecs</code></li>
 </ul>
 
-<p><img src="http://i.imgur.com/zKruDeA.png" alt="makeOwnSinks" /></p>
+<p>Additionally, examining the patterns in that codebase, and given the specific importance of the
+DOM in a user interface implementation (!), we refined the array of components to incorporate an
+ optional container component, which subjects the rest of the components to convenient rules as per the merging of DOM
+ content (slot-based merge, as specified for web components).</p>
+
+<p>Last, we incorporated other concerns that were frequently recurring in our codebase :</p>
 
 <ul>
-<li>computations dependent on some or all children :
-
-<ul>
-<li>the most general form is <code>computeSinks :: parentComponent -&gt; Array&lt;Component&gt; -&gt; Sources -&gt;  Settings -&gt; Actions</code></li>
-</ul></li>
+<li>parameterization of the <code>m</code> combinator</li>
+<li>contract checking (preconditions, postconditions)</li>
+<li>sources and settings preprocessing (we did not include sinks postprocessing (other than the
+aforementioned postconditions checking), as this was relatively infrequently appearing in our codebase)</li>
 </ul>
 
-<p><img src="http://i.imgur.com/huxKPTJ.png" alt="computeSinks" /></p>
-
-<ul>
-<li>when <code>Actions</code> combine well together (monoidal type), a common pattern is to build the combined actions from the list of both children actions and parent actions through merge. When  the <code>Sources</code> data structure only serves to generate children component actions, the general form can be specialized to :
-<code>mergeSinks :: Actions -&gt; Array&lt;Actions&gt; -&gt; Settings -&gt; Actions</code></li>
-</ul>
-
-<p><img src="http://i.imgur.com/hW97jzn.png" alt="mergeSinks - function" /></p>
-
-<ul>
-<li>going further in the specialization, under the additional hypothesis that <code>Actions</code> can be  broken down into a product type, i.e. for instance, <code>Actions :: HashMap&lt;ActionName,  ActionStream&gt;</code>, where a given <code>ActionStream</code> can only be merged with another <code>ActionStream</code> of  the same action name, we derive the most specialized form :
-
-<ul>
-<li><code>mergeSinks :: MergeActionsSpecs -&gt; Actions -&gt; Array&lt;Actions&gt; -&gt; Settings -&gt; Actions</code>, where
-
-<ul>
-<li><code>MergeActionsSpecs :: HashMap&lt;ActionName, MergeActionStreamsFn&gt;</code>, where</li>
-<li><code>MergeActionStreamsFn :: ActionStream -&gt; Array&lt;ActionStream&gt; -&gt; Settings -&gt; ActionStream</code></li>
-</ul></li>
-</ul></li>
-</ul>
-
-<p><img src="http://i.imgur.com/kv87fhl.png" alt="mergeSinks - specs" /></p>
-
-<p>The API of <code>m</code> derives directly from these considerations.</p>
-
-<p>The <code>m</code> factory function have several signatures according to the form chosen to specify the combining function :</p>
-
-<ul>
-<li>generic form</li>
-<li>specialized form</li>
-<li>most-specialized form</li>
-</ul>
-
-<p>Other specification parameters for the combining function are the same for all forms :</p>
-
-<ul>
-<li>contract checking</li>
-<li>sources and settings adjustment</li>
-</ul>
-
-<p>In addition to the combining function specification, the <code>m</code> factory also receives settings which parameterize its behavior, and naturally the array of components from which it computes its combined component.</p>
+<p>The API of <code>m</code> hence derives directly from these considerations.</p>
 
 <p>In what follows :</p>
 
 <ul>
-<li>the array of components will be termed as component tree,</li>
-<li>the component tree will enclose a parent component (root), and children components (leaves)</li>
-<li>the component returned by the <code>m</code> factory will be called combined component.</li>
+<li>the component returned by the <code>m</code> factory will be called combined component</li>
+<li>the container component, when present, will sometimes be called the parent component</li>
+<li>the remnant of the component will be called children components</li>
 <li>We will use <code>Sinks</code> as a type synonym for <code>Actions</code>, and <code>Sink</code> as a type synonym for <code>ActionStream</code>. This is to reuse the terminology put in vogue by <code>cyclejs</code>.</li>
 </ul>
+
+<p>Let&rsquo;s go over the three computation strategies for <code>m</code>.</p>
 
 <h2 id="m-combinegenericspecs-settings-componenttree-component"><code>m :: CombineGenericSpecs -&gt; Settings -&gt; ComponentTree -&gt; Component</code></h2>
 
@@ -204,8 +147,8 @@ Actions</code>, i.e. functions which :
 
 <ul>
 <li><code>Component :: Sources -&gt; Settings -&gt; Sinks</code></li>
-<li><code>ComponentTree :: ChildrenComponents | [ParentComponent, ChildrenComponents]</code></li>
-<li><code>ParentComponent:: Component</code></li>
+<li><code>ComponentTree :: ChildrenComponents | [ContainerComponent, ChildrenComponents]</code></li>
+<li><code>ContainerComponent :: Component</code></li>
 <li><code>ChildrenComponents :: Array&lt;Component&gt;</code></li>
 <li><code>CombineGenericSpecs :: Record {</code>
 
@@ -225,13 +168,17 @@ Actions</code>, i.e. functions which :
 
 <h3 id="description">Description</h3>
 
-<p>The <code>m</code>  factory returns a component computed as follows :</p>
+<p>The <code>CombineGenericSpecs</code> computation strategy is summarized in the following figure :</p>
+
+<p><img src="/img/graphs/m%20-%20CombineGenericSpecs.png" alt="m - CombineGenericSpecs" /></p>
+
+<p>As a matter of fact, the <code>m</code> factory returns a component computed as follows :</p>
 
 <ol>
 <li>contracts are checked
 
 <ul>
-<li>if one contract fails, an exception is raised</li>
+<li>if at least one contract fails, an exception is raised</li>
 </ul></li>
 <li>additional sources and settings are generated via <code>makeLocalSources</code>, and <code>makeLocalSettings</code>
 
@@ -267,8 +214,8 @@ settings prioritization).</li>
 <li><code>CombineAllSinksSpecs :: Record {</code>
 
 <ul>
-<li><code>makeOwnSinks :: Sources -&gt; Settings -&gt; Sinks</code></li>
-<li><code>mergeSinks :: parentComponent -&gt; Array&lt;Sinks&gt; -&gt; Settings -&gt; Sinks</code></li>
+<li><code>makeOwnSinks :: Sources -&gt; Settings -&gt; ParentSinks</code></li>
+<li><code>mergeSinks :: ParentSinks -&gt; Array&lt;Sinks&gt; -&gt; Settings -&gt; Sinks</code></li>
 <li><code>makeLocalSources :: Optional &lt; Sources -&gt; Settings -&gt; Sources &gt;</code></li>
 <li><code>makeLocalSettings :: Optional &lt; Settings -&gt; Settings &gt;</code></li>
 <li><code>checkPreConditions :: Optional &lt; Sources -&gt; Settings -&gt; Boolean &gt;</code></li>

@@ -237,14 +237,22 @@ $combine([adaptInput, f, adaptOutput])$.</p>
 type of composition :</p>
 
 <ul>
+<li><strong>Parallel composition</strong>
+
+<ul>
 <li>merge reactive functions</li>
 <li>switch reactive functions according to events</li>
 <li>recursively switching reactive functions according to route (i.e. nested routing)</li>
 <li>merge a list of reactive functions based on a template and incoming array</li>
 <li>extend a reactive function to process additional events or add extra parameterization</li>
 <li>build a set of reactive functions into a state machine</li>
-<li>sequential composition of &ldquo;reactive&rdquo; functions (in quotes here, because the
-sequentially composed functions are not necessarily reactive functions in the sense that some may not compute actions but intermediary results which serve to compute actions)</li>
+</ul></li>
+<li><strong>Sequential composition</strong> of &ldquo;reactive&rdquo; functions (in quotes here, because the
+sequentially composed functions are not necessarily reactive functions in the sense that some may not compute actions but intermediary results which serve to compute actions)
+
+<ul>
+<li><code>Pipe</code> combinator</li>
+</ul></li>
 </ul>
 
 <h2 id="example">Example</h2>

@@ -63,7 +63,7 @@
     <header><hgroup id="brand">
 	<h1>m - the generic component combinator</h1>
 	<h5> Last modified on
-		Feb 19, 2018
+		Feb 20, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -135,7 +135,7 @@ aforementioned postconditions checking), as this was relatively infrequently app
 <ul>
 <li>the component returned by the <code>m</code> factory will be called combined component</li>
 <li>the container component, when present, will sometimes be called the parent component</li>
-<li>the remnant of the component will be called children components</li>
+<li>the remnant of the components will be called children components</li>
 <li>We will use <code>Sinks</code> as a type synonym for <code>Actions</code>, and <code>Sink</code> as a type synonym for <code>ActionStream</code>. This is to reuse the terminology put in vogue by <code>cyclejs</code>.</li>
 </ul>
 
@@ -249,7 +249,7 @@ combinator</a> is such a case).</p>
 <p>As a matter of fact, the <code>m</code> factory returns a component computed as follows :</p>
 
 <ul>
-<li><strong>1-3</strong>. same as in the general signature</li>
+<li><strong>1-3</strong>. same as in the <code>CombineGenericSpecs</code> strategy</li>
 <li><strong>4</strong>. Sinks are computed for each component from the merged sources and merged settings.</li>
 <li><strong>5</strong>. Those sinks are later reduced by <code>mergeSinks</code> into the combined component sinks.</li>
 </ul>
@@ -292,7 +292,7 @@ is such a case).</p>
 <p>As a matter of fact, the <code>m</code> factory returns a component computed as follows :</p>
 
 <ul>
-<li><strong>1-3</strong>. same as in the general signature</li>
+<li><strong>1-3</strong>. same as in the <code>CombineGenericSpecs</code> strategy</li>
 <li><strong>4</strong>. Sinks are computed for each child component from the merged sources, and merged settings.</li>
 <li><strong>5</strong>. For each sink (uniquely identified by <code>sinkName :: SinkName</code>) :
 
@@ -331,7 +331,7 @@ slot mechanism, and we reused that. This is how we arrived to our default merge 
 <p>The <code>CombinePerSinkSpecs</code> covers a large set of patterns of our code base. In fact, the default
 merge behaviour covers a large enough portion of cases which occur when combining components for
 us to create a <code>Combine</code> combinator, simply defined as a partial application of <code>m</code> with no
-specification (empty object passed as first parameter) : <code>Combine(settings, componentTree) = m 
+specification (empty object passed as first parameter) : <code>Combine(settings, componentTree) = m
 ({}, settings, componentTree)</code>.</p>
 
 <h1 id="examples">Examples</h1>
@@ -428,14 +428,15 @@ children (through settings), children components can reference within their DOM 
 
 <h3 id="source-code">Source code</h3>
 
-<p>cf. <a href="https://github.com/brucou/component-combinators/blob/master/src/components/mEventFactory.js">repo</a></p>
+<p>cf. <a href="https://github.com/brucou/component-combinators/blob/master/src/components
+/mEventFactory.js">repo</a> and <a href="https://github.com/brucou/component-combinators/blob/master/test/mEventFactory.specs.js">tests</a>.</p>
 
 <pre><code class="language-javascript">const checkEventFactoryPreConditions = checkAndGatherErrors([
   [hasEventsProperty, `Settings parameter must have an events property!`],
   [isEventFactoryEventSettings, `settings' events property has unexpected shape!`]
 ], `checkEventFactoryPreConditions : fails!`);
 
-/** Settings : 
+/** Settings :
  - `{`
  - `events : {`
  -   `custom : {eventName : (sources, settings) =&gt;  event$},`
@@ -467,11 +468,11 @@ function mergeEventFactorySinksWithChildrenSinks(eventSinks, childrenSinks, loca
   // which applies to the container sinks :
   // Children sinks cannot have the same sink name as event sinks
   assertContract(hasNoCommonValues, [eventSinkNames, childrenSinkNames],
-    `mEventFactory &gt; mergeEventFactorySinksWithChildrenSinks : found children sinks with 
-           at least one sink name conflicting with an event sink : 
+    `mEventFactory &gt; mergeEventFactorySinksWithChildrenSinks : found children sinks with
+           at least one sink name conflicting with an event sink :
            ${eventSinkNames} vs. ${childrenSinkNames}`);
 
-  // We guarded against sink telescoping, we just have to merge the events sinks to the sinks 
+  // We guarded against sink telescoping, we just have to merge the events sinks to the sinks
   // from the children component and we are done. Default merge is what we want
   return defaultMergeSinkFn(eventSinks, childrenSinks, localSettings, sinkNames)
 }
@@ -548,7 +549,8 @@ export function mEventFactory(eventFactorySettings, componentTree) {
 
 <h3 id="source-code-1">Source code</h3>
 
-<p>Cf. <a href="https://github.com/brucou/component-combinators/blob/master/src/components/mButton.js">repo</a></p>
+<p>Cf. <a href="https://github.com/brucou/component-combinators/blob/master/src/components/mButton.js">repo</a>
+ and <a href="https://github.com/brucou/component-combinators/blob/master/test/mButton.specs.js">tests</a>.</p>
 
 <pre><code class="language-javascript">export function mButton(mButtonSettings, childrenComponents) {
   // returns a DOM tree representation with the specifications passed through settings

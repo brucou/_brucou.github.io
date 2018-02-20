@@ -64,7 +64,7 @@ DOM merge The DOM merge function relating to m :: CombineSpecs -&gt; Settings -&
     <header><hgroup id="brand">
 	<h1>Default merge functions and slotted content</h1>
 	<h5> Last modified on
-		Feb 18, 2018
+		Feb 20, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -85,7 +85,7 @@ DOM merge The DOM merge function relating to m :: CombineSpecs -&gt; Settings -&
 
 <p>We want in this section to describe the default merge functions used by the <code>m</code> component
 factory when no such merge function is supplied by the user, and the <code>Combine</code> component
-combinator. As a matter of fact, the following content will focus on <code>m</code>, as <code>Combine(settings, 
+combinator. As a matter of fact, the following content will focus on <code>m</code>, as <code>Combine(settings,
 componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. the result of partially applying
 <code>m</code> with no combinator/merge specifications.</p>
 
@@ -112,7 +112,7 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 </ul>
 
 <pre><code class="language-html">&lt;div id='#parent'&gt;
-  &lt;h2&gt; This is some content included in the container component's DOM 
+  &lt;h2&gt; This is some content included in the container component's DOM
   &lt;/h2&gt;
 &lt;/div&gt;
 </code></pre>
@@ -138,7 +138,7 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 <p>The merged result will be similar to :</p>
 
 <pre><code class="language-html">&lt;div id='#parent'&gt;
-  &lt;h2&gt; This is some content included in the container component's DOM 
+  &lt;h2&gt; This is some content included in the container component's DOM
   &lt;/h2&gt;
   &lt;div id='#sibling1'&gt;
     &lt;span&gt; first sibling component's DOM &lt;/span&gt;

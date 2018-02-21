@@ -134,11 +134,14 @@ with same colour).</p>
 
 <p><img src="/img/graphs/cycle_component_framework.png" alt="cyclejs framework" /></p>
 
-<p>In the context of this component framework, component composition is simply function composition, with message-passing/dataflow through streams and a port-based interface emulated by the monikers <code>SinkName</code>, <code>SourceName</code>. It is the simplicity of the composition
-interface (standard function composition) which motivates renouncing the purity of the reactive
-function.</p>
+<p>In the context of cyclejs, component composition can be based on standard function
+composition, with message-passing/dataflow through streams and a port-based interface emulated by the monikers <code>SinkName</code>, <code>SourceName</code>. It is the simplicity of that interface (standard function composition) which motivates renouncing the purity
+ of the reactive function.</p>
 
-<p>We will review in what follows parallel composition, sequential composition, parametricity and genericity, all of which being concerns incorporated into what we term component combinators.</p>
+<p>In the context of our component model, component composition is performed via what we term
+component combinators. We will review in what follows parallel composition, sequential composition,
+parametricity and genericity, all of which being concerns incorporated into the component
+combinators.</p>
 
 <h2 id="parallel-composition">Parallel composition</h2>
 
@@ -167,8 +170,8 @@ function.</p>
 <p>Note that :</p>
 
 <ul>
-<li>the <code>combine</code> function can take any extra arguments, in which case, by uncurrying, it is always possible to come back the canonical <code>combine</code> form shown previously.</li>
-<li>As any component used to derive another component can itself have been derived, parallel composition naturally leads to the manipulation of component trees</li>
+<li>the <code>combine</code> function can take any extra arguments, in which case, by partial application, it is always possible to come back the canonical <code>combine</code> form shown previously.</li>
+<li>As any component used to derive another component can itself have been derived, parallel composition naturally leads to component trees</li>
 </ul>
 
 <p>There are usually many ways to perform that decomposition. The idea in every case is to reach functions $f_{m.n&hellip;}$ whose complexity is easily manageable. If we understand that part of complexity of such functions emanates from the top-level $f$, while another part stems from the interaction of $f_{m.n&hellip;}$s with the larger reactive system, we see that there is a sweet spot where the function is &lsquo;small&rsquo; enough to be manageable but not too small so it has to be coupled with many other functions to achieve a given functionality (<strong>coupling increases complexity</strong>).</p>
@@ -428,9 +431,10 @@ conveniently modelized as a behaviour.</p>
 
 <p><img src="/img/graphs/state_injection.png" alt="state management" /></p>
 
-<p>Note that the new pieces of state computed by the state injection combinator are <strong>added</strong> to
-existing pieces of state, and can be generated from already generated pieces of state, or through
-some factory in <code>Sources</code> (<code>Query</code> driver for instance - see yellow pills for component <code>D</code>).</p>
+<p>Note that the new pieces of state computed by the state injection combinators (<code>InjectSources</code>,
+<code>InjectSourcesAndSettings</code>) are <strong>added</strong> to existing pieces of state, and can be generated from
+already generated pieces of state, or through some factory in <code>Sources</code> (<code>Query</code> driver for
+instance - see yellow pills for component <code>D</code>).</p>
 
 <h3 id="remotely-persisted-state">Remotely persisted state</h3>
 
@@ -446,7 +450,7 @@ some factory in <code>Sources</code> (<code>Query</code> driver for instance - s
 place. Transient state has no need to be kept around and is recreated when needed. As an example, a
 search-as-you-type component might keep track of the length of the search key, and perform search
  API calls only when that length has reached a minimum value. The length of the entered search key
- would be transient state. Transient state is generally created through the stream <code>scan</code> operator.</p>
+ would be transient state. Transient state may be created through the stream <code>scan</code> operator.</p>
 
 <h2 id="concurrency-control">Concurrency control</h2>
 

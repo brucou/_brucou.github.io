@@ -63,7 +63,7 @@
     <header><hgroup id="brand">
 	<h1>m - the generic component combinator</h1>
 	<h5> Last modified on
-		Feb 20, 2018
+		Feb 25, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -92,12 +92,13 @@ composition is a <code>combine</code> function which takes components and combin
 
 <ul>
 <li><code>m</code> will be interchangeably termed as component combinator, component factory, utility function, or helper function.</li>
-<li>components will be understood as <code>:: Sources -&gt; Settings -&gt; Actions</code>, i.e. functions which :
+<li>components will be understood as <code>:: Sources -&gt; Settings -&gt; Commands</code>, i.e. functions which :
 
 <ul>
 <li>take a <code>Sources</code> data structure which contains a way to receive event from event sources</li>
 <li>take a <code>Settings</code> data structure which allows to parameterize the behaviour of the component</li>
-<li>return an <code>Actions</code> data structure which encodes the actions to be performed by the reactive system under study.</li>
+<li>return an <code>Commands</code> data structure which encodes the actions to be performed by the reactive
+system under study.</li>
 </ul></li>
 </ul>
 
@@ -136,7 +137,7 @@ aforementioned postconditions checking), as this was relatively infrequently app
 <li>the component returned by the <code>m</code> factory will be called combined component</li>
 <li>the container component, when present, will sometimes be called the parent component</li>
 <li>the remnant of the components will be called children components</li>
-<li>We will use <code>Sinks</code> as a type synonym for <code>Actions</code>, and <code>Sink</code> as a type synonym for <code>ActionStream</code>. This is to reuse the terminology put in vogue by <code>cyclejs</code>.</li>
+<li>We will use <code>Sinks</code> as a type synonym for <code>Commands</code>, and <code>Sink</code> as a type synonym for <code>CommandStream</code>. This is to reuse the terminology put in vogue by <code>cyclejs</code>.</li>
 </ul>
 
 <p>Let&rsquo;s go over the three computation strategies for <code>m</code>.</p>
@@ -188,12 +189,8 @@ components.
 
 <ul>
 <li>If not present, no extra sources are added.</li>
-<li><code>makeLocalSources</code> is called with the sources passed to the combined component and the fully merged settings (i.e. include also settings from <code>makeLocalSettings</code>)
-
-<ul>
-<li>Note that so far there has been no cases where an extra source might depend on settings. We expect the local sources factory to be independent of any settings but keep the door open, should that case occur.</li>
-</ul></li>
-<li>In case of conflict, the local sources factory has the lowest precedence vs. the factory sources</li>
+<li><code>makeLocalSources</code> is called with the sources passed to the combined component and the fully merged settings (i.e. include also settings from <code>makeLocalSettings</code>)<sup class="footnote-ref" id="fnref:localSources"><a rel="footnote" href="#fn:localSources">1</a></sup></li>
+<li>In case of conflict, the &lsquo;local sources&rsquo; factory has the lowest precedence vs. the factory sources</li>
 </ul></li>
 <li><code>makeLocalSettings</code> returns the extra settings to inject to the settings passed in parameter
 to the computed combined component.</li>
@@ -337,7 +334,8 @@ specification (empty object passed as first parameter) : <code>Combine(settings,
 <h1 id="examples">Examples</h1>
 
 <p>In this section, we are going to show miscellaneous examples of use of componentization with the<code>m</code> factory.
-Most of those examples will be inspired from already-existent UI component library, such as<code>Semantic UI</code>.</p>
+Most of those examples will be inspired from already-existent UI component library, such as
+<a href="https://semantic-ui.com/"><code>Semantic UI</code></a>.</p>
 
 <p>Examples for the DOM merge functions are gathered in a <a href="/projects/component-combinators/m-component---merge-default-functions/">specific article</a>.</p>
 
@@ -641,6 +639,15 @@ Proceedings of the IFIP Tenth World Computing Conference: 1069–1076</li>
 <li>Ernst, Erik. &ldquo;Separation of concerns.&rdquo; Proceedings of the AOSD 2003 Workshop on Software-Engineering Properties of Languages for Aspect Technologies (SPLAT), Boston, MA, USA. 2003.
 <a href="https://pdfs.semanticscholar.org/c052/f9d0e7e4c89a9d7abd36ffed4051ec59bb64.pdf">https://pdfs.semanticscholar.org/c052/f9d0e7e4c89a9d7abd36ffed4051ec59bb64.pdf</a></li>
 </ul>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:localSources">Note that so far there has been no cases where an extra source might depend on settings. We expect the local sources factory to be independent of any settings but keep the door open, should that case occur.
+ <a class="footnote-return" href="#fnref:localSources"><sup>[return]</sup></a></li>
+</ol>
+</div>
 
     </div>
     <nav>

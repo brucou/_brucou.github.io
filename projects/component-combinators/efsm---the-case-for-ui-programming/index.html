@@ -63,7 +63,7 @@
     <header><hgroup id="brand">
 	<h1>The case for state machines in UI programming</h1>
 	<h5> Last modified on
-		Feb 17, 2018
+		Feb 25, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -186,9 +186,12 @@ modifying a comparatively large portion of the code, all of which increases the 
 <li><em>Actions</em> taken during transitions</li>
 </ul>
 
-<p>An extended state machines adds :
-- <em>Guards</em> which are predicates which enable a transition when satisfied
-- <em>Variables</em> that hold values needed by actions and guards between events. The set of those variables is referred to as <em>model</em>.</p>
+<p>An extended state machines adds :</p>
+
+<ul>
+<li><em>Guards</em> which are predicates which enable a transition when satisfied</li>
+<li><em>Variables</em> that hold values needed by actions and guards between events. The set of those variables is referred to as <em>model</em>.</li>
+</ul>
 
 <p>The events that drive finite state machines can be external to the computer, originating from a keyboard, mouse, timer, or network activity, or they can be internal to the computer, originating from other parts of the application program, or other applications.</p>
 
@@ -254,7 +257,7 @@ The combination of dataflow (streams) and DSL-controlled flow allow to express a
 <p><img src="https://i.imgur.com/dkbSwEw.png" alt="(Automatically generated flow graph)" title="Automatically generated flow graph" /></p>
 
 <p>It becomes apparent that the state machine representation closely matches and refines the wireframe
-flows obtained from the design phase. This shows how the systematic way to translate a reactive design into an implementation that is a state machine minimizes implementation bugs, by sticking to the design.</p>
+flows obtained from the design phase (represented in green). This shows how the systematic way to translate a reactive design into an implementation that is a state machine minimizes implementation bugs, by sticking to the design.</p>
 
 <p>Design bugs themselves can be reduced (discrepancy between the produced design and the desired specification), as we mentioned before, via rapid prototyping, user feedback and iterating on the design.</p>
 
@@ -295,7 +298,7 @@ Conversely, adding a control state leads to evaluate the possibility of transiti
 
 <p>One can argue that incremental design changes which affect the whole state (control state and model) are not incremental. They often reflect either a poor state machine design (which does not stick closely enough to the reactive system design) or a significant change in the reactive system behaviour.</p>
 
-<h4 id="conclusion">Conclusion</h4>
+<h4 id="summary">Summary</h4>
 
 <p>Those issues are naturally compounded by the number of states and transitions of the state machines, i.e. the complexity of the control flow that is implemented.</p>
 
@@ -402,7 +405,7 @@ Douglass, 2003)</li>
 <li><a href="#control-state-changes">Control state changes</a></li>
 <li><a href="#model-changes">Model changes</a></li>
 <li><a href="#multiple-type-of-changes">Multiple type of changes</a></li>
-<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#summary">Summary</a></li>
 </ul></li>
 <li><a href="#robustness">Robustness</a>
 <ul>

@@ -72,7 +72,7 @@ The Switch component can be viewed as a single-state state machine, whose only e
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			6 min read
+			7 min read
 	</h5>
 	
 </hgroup>
@@ -197,6 +197,21 @@ The Switch component can be viewed as a single-state state machine, whose only e
 <li>One should strive for having a relatively low number of discretized switch values as there is a performance cost which is linear with the number of such values. As a matter of fact, all predicates matching switched components to their discretized values are executed, for every incoming value of the switch source.</li>
 <li>One can have several fulfilled predicates for a given incoming value of the switch source. This means that several components could be activated for a given incoming value, but different conditions, which allows to implement more complex logic. This is however to use wisely, as the ability to reason about behaviour suffers somewhat. For instance, when several components can be activated for the same incoming value, and order of activation of those component matter, such ordering requirement is essentially hidden as implementation detail in the source code.</li>
 <li>One can also implement a <code>eqFn</code> such that a <code>Case</code> component is activated for a set of values instead of just one value. Alternatively, a <code>on</code> source can be computed in a way that assign a unique identifier to a given set of values. Using <code>eqFn</code> should however be more versatile, as one can specify a different <code>eqFn</code> for each <code>Case</code> component.</li>
+<li>It is NOT possible to implement a <code>default</code> case by using an <code>eqFn</code> which always
+returns true. In case no non-default case is satisfied, the behaviour would be the sought-for;
+however, if one non-default case is satisfied, the default case will ALSO be executed, which
+desviates from the sought-for semantics! It is however possible to have an <code>eqFn</code> which returns
+true iff none of the other case branches&rsquo;predicate is fulfilled. This however has consequences
+for maintainability : modifying predicates for any non-default branch means one MUST update the
+default branch predicate&hellip;</li>
+<li>If no branch is fulfilled, the <code>Switch</code> DOM sink will emit an empty <code>&lt;div&gt;&lt;/div&gt;</code>. This serves
+to display initial DOM content even when no case predicate has yet been matched. As a matter of
+fact, DOM is at first an uninitialized behaviour, and the DOM merge function (i.e. <code>$.combineLatest
+(dom1, dom2)</code> blocks till <strong>both</strong> <code>dom1</code> and <code>dom2</code> emits their initial value). Considering for
+instance <code>Combine({}, [Comp1, Switch({...}, [Case({...}, [Comp2])...])])</code>, the chosen semantics
+allow to have <code>Comp1</code> displayed on first emission of the switched source, even if the value
+emitted did not match any case predicate.</li>
+<li><strong>NOTE TO SELF</strong> : why not start by default every DOM sink with null??</li>
 </ul>
 
     </div>

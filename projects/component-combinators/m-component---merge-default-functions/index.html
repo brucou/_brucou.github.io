@@ -64,7 +64,7 @@ DOM merge The DOM merge function relating to m :: CombineSpecs -&gt; Settings -&
     <header><hgroup id="brand">
 	<h1>Default merge functions and slotted content</h1>
 	<h5> Last modified on
-		Feb 20, 2018
+		Apr 16, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -72,7 +72,7 @@ DOM merge The DOM merge function relating to m :: CombineSpecs -&gt; Settings -&
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			6 min read
+			8 min read
 	</h5>
 	
 </hgroup>
@@ -330,6 +330,8 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 <h3 id="rules">Rules</h3>
 
 <ul>
+<li>named slots are slot to which a string is associated to, including the empty string. In
+particular, <code>slot=''</code> is a valid <strong>named</strong> slot</li>
 <li>there can be several children defining content for one given slot. For example, this is a valid proposition :</li>
 </ul>
 
@@ -382,27 +384,70 @@ componentTree)</code> is just <code>m({}, settings, componentTree</code>, i.e. t
 </code></pre>
 
 <ul>
-<li>an <q>unnamed</q> slot can be used to enclose the children DOMs which are not assigned a slot</li>
+<li>an <q>unnamed</q> slot at parent level can be used to enclose the children DOMs which are not
+assigned a slot</li>
 </ul>
 
 <p>See same previous example as a demo of this (<code>&lt;slot id=&quot;panelsSlot&quot;&gt;</code>). Note that using this feature disable the standard DOM merge mechanism described previously.</p>
 
 <ul>
-<li>Children DOM contents which are not assigned to any slot (including the unnamed slot) are merged into the parent&rsquo;s DOM using the mechanism described in the <code>Regular DOM merge</code> section.</li>
-<li><del>If there&rsquo;s more than one unnamed or named slots, the corresponding children content will be replicated in all corresponding slots.</del>
+<li>If there is no unnamed slot used at parent level, children DOM contents which are not assigned to
+any named slot are merged into the parent&rsquo;s DOM using the mechanism described in the <code>Regular DOM 
+merge</code> section.
+
+<ul>
+<li>! This means in particular that slotted children DOM contents will be lost if the parent does
+not have the matching slots !! I decided against enforcing a contract requesting children
+slots to have a match at the parent site, as there might be cases when one wants to switch
+content on and off, based precisely on this behaviour (that said, avoid it if there are more
+readable alternative).</li>
+</ul></li>
+
+<li><p><del>If there&rsquo;s more than one unnamed or named slots, the corresponding children content will be replicated in all corresponding slots.</del></p>
 
 <ul>
 <li><del>this is a difference with the web component slot mechanism where if there&rsquo;s more than one default slot, the first is used.</del></li>
+</ul></li>
+
+<li><p>children DOM content can <strong>never</strong> have three or more slots with the same name</p></li>
+
+<li><p>children DOM content can have two slots with the same name <strong>if and only if</strong> the first
+occurrence is at vNode&rsquo;s root level. The first slot will be marking the location of the content to
+distribute to the parent container when the vNode is seen as a child, the second slot will mark the
+location of the content to include when the vNode is seen as a parent container. This is a
+special case which was made necessary when implementing tree visualization : a node in a tree
+data structure is both a child and a parent!</p>
+
+<ul>
+<li><code>{el, sel, data : {slot : MY_SLOT}, children: [{el, sel, children: [], data : {slot : 
+MY_SLOT}}]}</code> is a valid <code>vNode</code></li>
+<li><code>{el, sel, data :{}, children : [{el, sel, data : {slot : MY_SLOT}, children: [{el, sel, 
+children: [], data : {slot : MY_SLOT}}]}]}</code> is not a valid <code>vNode</code></li>
 </ul></li>
 </ul>
 
 <h3 id="vtree-transcription">vTree transcription</h3>
 
-<p>In a <code>vNode</code> context, <code>&lt;slot name=&quot;attributes&quot;&gt;&lt;p&gt;None&lt;/p&gt;&lt;/slot&gt;</code> would correspond to <code>{children : [none], sel:'div', data : {slot : 'attributes'}}</code>, where <code>none</code> is the <code>vNode</code> corresponding to <code>&lt;p&gt;None&lt;/p&gt;</code>.</p>
+<ul>
+<li>In a <code>vNode</code> context, <code>&lt;slot name=&quot;attributes&quot;&gt;&lt;p&gt;None&lt;/p&gt;&lt;/slot&gt;</code> would correspond to
+<code>{children : [none], sel:'div', data : {slot : 'attributes'}}</code>, where <code>none</code> is the <code>vNode</code> corresponding to <code>&lt;p&gt;None&lt;/p&gt;</code>.</li>
+<li>a vNode featuring an <strong>unnamed</strong> slot is for instance <code>{..., data : {slot : undefined}, ...}</code> or
+<code>{..., data : {}, ...}</code></li>
+<li>this <code>{..., data : {slot : ''}}</code> is a valid <strong>named</strong> slot</li>
+</ul>
 
 <h3 id="edge-cases">Edge cases</h3>
 
-<p>cf. tests</p>
+<p>cf. tests.</p>
+
+<p>There are a number of edge cases, occurring from the complexity of slotted merge. We sum them up
+here as a reminder :</p>
+
+<ul>
+<li>named slot whose associated name is an empty string (to avoid, unless you have a very good reason)</li>
+<li>named slots for children content, but no matching slot on parent container</li>
+<li>parent container is a text vNode (to avoid as well, unless a good reason)</li>
+</ul>
 
 <h1 id="references">References</h1>
 

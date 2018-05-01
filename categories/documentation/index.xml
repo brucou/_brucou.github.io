@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 brucou</copyright>
-    <lastBuildDate>Sun, 18 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://brucou.github.io/categories/documentation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>InjectCircularSources</title>
+      <link>http://brucou.github.io/projects/component-combinators/injectcircularsources/</link>
+      <pubDate>Thu, 12 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/projects/component-combinators/injectcircularsources/</guid>
+      <description>Motivation The InjectCircularSources component allows to inject a behaviour source (or simply behaviour) and/or an event source into children components, both of which can be instrumented through processing commands received through the relevant sinks.
+The InjectCircularSources responds to the need to have encapsulated components, which holds and manage their own state independently, and are able to interact with the external world with the help of a command processor, which receives, interprets, executes and returns the results of incoming commands.</description>
+    </item>
     
     <item>
       <title>Combine</title>

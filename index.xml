@@ -24,6 +24,16 @@ Target audience This blog is not intended for a massive audience, though it aims
     </item>
     
     <item>
+      <title>InjectCircularSources</title>
+      <link>http://brucou.github.io/projects/component-combinators/injectcircularsources/</link>
+      <pubDate>Thu, 12 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/projects/component-combinators/injectcircularsources/</guid>
+      <description>Motivation The InjectCircularSources component allows to inject a behaviour source (or simply behaviour) and/or an event source into children components, both of which can be instrumented through processing commands received through the relevant sinks.
+The InjectCircularSources responds to the need to have encapsulated components, which holds and manage their own state independently, and are able to interact with the external world with the help of a command processor, which receives, interprets, executes and returns the results of incoming commands.</description>
+    </item>
+    
+    <item>
       <title>Combine</title>
       <link>http://brucou.github.io/projects/component-combinators/combine/</link>
       <pubDate>Sun, 18 Feb 2018 00:00:00 +0000</pubDate>

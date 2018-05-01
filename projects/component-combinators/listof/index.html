@@ -64,7 +64,7 @@ Practically speaking, this is akin to a for loop on an input array. While it is 
     <header><hgroup id="brand">
 	<h1>ListOf</h1>
 	<h5> Last modified on
-		Jan 06, 2018
+		Mar 22, 2018
 		-
 			
 			<a href="/tags/functional%20programming">functional programming</a>
@@ -107,7 +107,8 @@ Practically speaking, this is akin to a for loop on an input array. While it is 
 <ul>
 <li>The source array is specified by <code>list</code> property in settings, in the form of a string which is the name of the property to be found in the <code>Settings</code> parameter for the component. That property will hold the source array.</li>
 <li>The parameterizing array item is specified by <code>as</code> property in settings. The component will be executed with the property whose name is specified in <code>as</code> passed in its settings.</li>
-<li>the optional setting property <code>buildActionsFromChildrenSinks</code> has the same function as <code>mergeSinks</code> in the <code>m</code> component factory. It can be :
+<li><strong>DEPRECATED &gt; v0.4</strong> the optional setting property <code>buildActionsFromChildrenSinks</code> has the same
+function as <code>mergeSinks</code> in the <code>m</code> component factory. It can be :
 
 <ul>
 <li>a function <code>mergeSinks :: makeOwnSinks -&gt; Array&lt;Sinks&gt; -&gt; Settings -&gt; Sinks</code>
@@ -121,7 +122,7 @@ Practically speaking, this is akin to a for loop on an input array. While it is 
 <li>the hashmap contains for each given sink, a reducing function which takes all such given sink produced by the children component and the parent component (<code>makeOwnSinks</code>) and produces a single reduced sink.</li>
 </ul></li>
 </ul></li>
-<li>the optional setting property <code>actionsMap</code> serves to rename sinks returned by the reducing <code>mergeSinks</code> functions, whether user-configured or the default ones. <code>actionsMap</code> simply maps an input sink name (keys of the object) to an output sink name (values of the object).</li>
+<li><strong>DEPRECATED &gt; v0.4</strong> the optional setting property <code>actionsMap</code> serves to rename sinks returned by the reducing <code>mergeSinks</code> functions, whether user-configured or the default ones. <code>actionsMap</code> simply maps an input sink name (keys of the object) to an output sink name (values of the object).</li>
 </ul>
 
 <p>The behaviour is as follows :</p>
@@ -132,10 +133,12 @@ Practically speaking, this is akin to a for loop on an input array. While it is 
 <li>If there are values in the array, the second child component is selected</li>
 <li>for all values in the array, the selected child component will receive that value in the property pointed to by <code>as</code> and be executed</li>
 <li>there will be then be as many resulting children components as there are values in the array (except if there were no values in the array, in which case there is only one child component)</li>
-<li>the resulting children components sinks and the parent component sinks are reduced into what will become the <code>ListOf</code> component sinks, according to the reducing logic specified by <code>buildActionsFromChildrenSinks</code> and <code>actionsMap</code> properties</li>
+<li><strong>DEPRECATED &gt; v0.4</strong> <del>the resulting children components sinks and the parent component sinks
+are reduced into what will become the <code>ListOf</code> component sinks, according to the reducing logic specified by <code>buildActionsFromChildrenSinks</code> and <code>actionsMap</code> properties</del></li>
 </ul>
 
-<p><strong>NOTE</strong> : The sinks reducing function <code>buildActionsFromChildrenSinks</code> is called as such as most often, the children component will return intent sinks, which will be transformed into actions sinks by the reducing function. It seems the chosen name illustrates better the purpose than a more generic name like <code>mergeSinks</code>, which is already used in a number of other places and contexts.</p>
+<p><strong>NOTE</strong> : <strong>DEPRECATED &gt; v0.4</strong> <del>The sinks reducing function <code>buildActionsFromChildrenSinks</code> is
+called as such as most often, the children component will return intent sinks, which will be transformed into actions sinks by the reducing function. It seems the chosen name illustrates better the purpose than a more generic name like <code>mergeSinks</code>, which is already used in a number of other places and contexts.</del></p>
 
 <p><strong>NOTE</strong> : The <code>Pipe</code> combinator allows to <a href="https://github.com/cyclejs-community/component-combinators/blob/master/examples/AllInDemo/src/.MainPanel/..Project/...ProjectTaskList/TaskList.js#L65">perform the same</a> conversion of intents sinks into action sinks.</p>
 

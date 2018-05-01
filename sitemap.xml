@@ -10,6 +10,13 @@
   </url>
   
   <url>
+    <loc>http://brucou.github.io/projects/component-combinators/injectcircularsources/</loc>
+    <lastmod>2018-04-30T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://brucou.github.io/projects/component-combinators/combine/</loc>
     <lastmod>2018-02-19T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -116,7 +123,7 @@
   
   <url>
     <loc>http://brucou.github.io/projects/component-combinators/m-component---merge-default-functions/</loc>
-    <lastmod>2018-02-20T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -151,7 +158,7 @@
   
   <url>
     <loc>http://brucou.github.io/projects/component-combinators/listof/</loc>
-    <lastmod>2018-01-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-03-22T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -172,7 +179,7 @@
   
   <url>
     <loc>http://brucou.github.io/projects/component-combinators/switch/</loc>
-    <lastmod>2017-09-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-03-22T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -246,7 +253,7 @@
   
   <url>
     <loc>http://brucou.github.io/projects/component-combinators/</loc>
-    <lastmod>2018-02-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -260,14 +267,14 @@
   
   <url>
     <loc>http://brucou.github.io/categories/documentation/</loc>
-    <lastmod>2018-02-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://brucou.github.io/tags/functional-programming/</loc>
-    <lastmod>2018-02-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -295,7 +302,7 @@
   
   <url>
     <loc>http://brucou.github.io/categories/programming/</loc>
-    <lastmod>2018-02-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -315,7 +322,7 @@
   
   <url>
     <loc>http://brucou.github.io/tags/reactive-programming/</loc>
-    <lastmod>2018-02-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -336,7 +343,7 @@
   
   <url>
     <loc>http://brucou.github.io/tags/user-interface/</loc>
-    <lastmod>2018-02-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

@@ -72,7 +72,7 @@ Practically speaking, given a component which is parameterized by a value, the F
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			3 min read
+			4 min read
 	</h5>
 	
 </hgroup>
@@ -135,8 +135,9 @@ Practically speaking, given a component which is parameterized by a value, the F
 <h3 id="contracts">Contracts</h3>
 
 <ul>
-<li>the source configured through the <code>from</code> property MUST be found as a property of the <code>sources</code> parameter.</li>
-<li>there must be at least one child component</li>
+<li>the source configured through the <code>from</code> property MUST be found as a property of the <code>sources</code>
+parameter and MUST be an observable (and SHOULD be an event source)</li>
+<li>there MUST be at least one child component</li>
 </ul>
 
 <h1 id="example">Example</h1>
@@ -148,6 +149,18 @@ Practically speaking, given a component which is parameterized by a value, the F
 <ul>
 <li>If it is necessary to implement a logic by which the component switching should only trigger on <strong>CHANGES</strong> of the incoming value, that logic could be implemented with appending a <code>distinctUntilChanged</code> to the <code>ForEach</code> source.</li>
 <li>For each incoming value of the source, the component is switched off and then on again. This means any non-persisted state local to the component will be reinitialized. In this case this behaviour is not desired, a turn-around is to persist the local state to retrieve it between switches.</li>
+<li>The <code>from</code> source used to parameterize the <code>ForEach</code> combinator <strong>should</strong> be an event source
+(i.e. not a behaviour source). It is possible however that it would still work correctly for behaviour
+sources, but that is not tested against.</li>
+<li>A common gotcha is to reuse the <code>from</code> event source used to parameterize the <code>ForEach</code> combinator
+in the children components. The correct way to get the <strong>current</strong> value from the <code>from</code> source is to
+get it from the <code>settings</code> parameter. The <code>from</code> event source when accessed by the children
+component, will have its &lsquo;time&rsquo; stepped forward, meaning that <code>sources[from]</code> in <code>function(sources, 
+settings)</code> will pass only the values emitted <strong>after</strong> the current value stored in settings.
+Naturally this applies to any dependent source derived from <code>sources[from]</code>. There is no easy way
+to type-check nor contract-check against that, so one has to be specially careful here. It is
+very easy to use a source derived at some location up the component tree, and then try to use that
+again down the <code>ForEach</code> component tree. This clumsy one still falls into that trap.</li>
 </ul>
 
     </div>

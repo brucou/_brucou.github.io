@@ -163,6 +163,7 @@ returns an updated behaviour value. That value is cached prior to scheduling its
 <li>this allows in particular to have commands whose semantics include operations on a delta vs.
 the current behaviour value. That is, instead of computing the new value entirely from
 scratch, it can be computed as an update of a portion of the current value.</li>
+<li>More prosaically, the behavior updating function can be seen as a reducer</li>
 </ul></li>
 <li>scheduling of update/results
 

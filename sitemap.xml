@@ -17,6 +17,13 @@
   </url>
   
   <url>
+    <loc>http://brucou.github.io/projects/czech/p%C5%99ijedu-do-%C4%8Deska-a-jsem-nerv%C3%B3zn%C3%AD.-na-kub%C4%9B-je-pohoda/</loc>
+    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://brucou.github.io/projects/czech/turkmenist%C3%A1n-zak%C3%A1zal-dovoz-bikin-%C4%8Di-kra%C5%A5as%C5%AF-d%C5%AFvod-nen%C3%AD-zn%C3%A1m/</loc>
     <lastmod>2018-05-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -301,14 +308,14 @@
   </url>
   
   <url>
-    <loc>http://brucou.github.io/categories/czech/</loc>
+    <loc>http://brucou.github.io/tags/czech/</loc>
     <lastmod>2018-05-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://brucou.github.io/tags/czech/</loc>
+    <loc>http://brucou.github.io/categories/czech/</loc>
     <lastmod>2018-05-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
@@ -350,14 +357,14 @@
   </url>
   
   <url>
-    <loc>http://brucou.github.io/categories/learning/</loc>
+    <loc>http://brucou.github.io/tags/learning/</loc>
     <lastmod>2018-05-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://brucou.github.io/tags/learning/</loc>
+    <loc>http://brucou.github.io/categories/learning/</loc>
     <lastmod>2018-05-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>

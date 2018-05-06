@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 brucou</copyright>
-    <lastBuildDate>Thu, 12 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 06 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://brucou.github.io/categories/programming/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>From Daniela - seen on facebook</title>
+      <link>http://brucou.github.io/projects/czech/women-to-women-about-czech-man/</link>
+      <pubDate>Sun, 06 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/projects/czech/women-to-women-about-czech-man/</guid>
+      <description>Simono, rozsekla jste mě. Skromně tipuji, že jsem o dost starší, než vy a hledáním NORMÁLNÍHO chlapa jsem strávila většinu života.
+Téměř na prahu neplodnosti, v sedmatřiceti letech, mi po mnohých dramatických bouračkách došlo, že to, co u chlapů považujeme my ženy za NENORMÁLNÍ jsou základní znaky opačného pohlaví, tedy muže.
+Pokud vám na muži vadí to, že chrápe, že se neholí, cintá, sem tam vypije o 6 piv víc, než ustojí, civí na fotbal, olizuje nůž, srká řízek, chová se občas jako idiot, dost často mluví dost sprostě, ještě častěji nemluví vůbec, nechápe vaše náznaky, nepozná špinavou košili, není schopen správně vyhodnotit situaci zasychajícího nádobí ve dřezu, nemá pochopení pro váš premenstruační syndrom, nahlas smrká a občas vám řekne vole, je to asi jako by vám vadilo, že má penis.</description>
+    </item>
     
     <item>
       <title>InjectCircularSources</title>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.31.1" />
+		<title>Tree UI component - Technuflections</title>
+
+		<meta name="description" content="Motivation The tree component aims at displaying tree data structures in a visually meaningful way. It aims to be generic enough to be freely customized, according to the constraints of the chosen visualization. Also it should allow to select plugins, to build a final visualization from a range of visualization additive effects (selectable nodes, foldable nodes, etc.).
+API Tree :: TreeSettings -&gt; Components -&gt; TreeComponent Description Creates a TreeComponent component whose behaviour is parameterized via TreeSettings.">
+
+
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+
+		
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+		
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js"></script>
+		
+		
+
+		
+		<link rel="stylesheet" href="/css/normalize.css"/>
+		<link rel="stylesheet" href="/css/ui.css"/>
+		
+		<style>
+	a { color: ; }
+	blockquote {
+		border-left-color: ;
+		border-right-color: ; }
+	.bar a:hover {
+		color: ;
+		text-decoration: none; }
+	.sep {
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+		margin-left:0;
+		width: 24rem;
+		border-top: 2px solid ; }
+</style>
+
+	</head>
+
+<body>
+<header class="container">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="/">
+				<img class="icon-text" src="/img/prev.svg"/>
+			</a>
+		</li><li><a href="/">Home</a></li><li><a href="/posts/">Archives</a></li><li><a href="/tags/">Tags</a></li><li><a href="/categories/">Categories</a></li><li><a href="/projects/">Projects</a></li><li><a href="/about/">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+    <header><hgroup id="brand">
+	<h1>Tree UI component</h1>
+	<h5> Last modified on
+		May 25, 2018
+		-
+			
+			<a href="/tags/functional%20programming">functional programming</a>
+			
+			<a href="/tags/reactive%20programming">reactive programming</a>
+			
+			<a href="/tags/user%20interface">user interface</a>
+			4 min read
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+    <div class="post-content">
+        
+
+<h1 id="motivation">Motivation</h1>
+
+<p>The tree component aims at displaying tree data structures in a visually meaningful way. It aims
+to be generic enough to be freely customized, according to the constraints of the chosen
+visualization. Also it should allow to select plugins, to build a final visualization
+from a range of visualization additive effects (selectable nodes, foldable nodes, etc.).</p>
+
+<h1 id="api">API</h1>
+
+<h2 id="tree-treesettings-components-treecomponent">Tree :: TreeSettings -&gt; Components -&gt; TreeComponent</h2>
+
+<h3 id="description">Description</h3>
+
+<p>Creates a <code>TreeComponent</code> component whose behaviour is parameterized via <code>TreeSettings</code>. Children
+ components are components specifying appearance and behaviour of the root node, intermediary
+ nodes, and leaf nodes, and dealing with the edge case where the tree to visualize is &lsquo;empty&rsquo; (i.e.
+  <code>null</code> or <code>undefined</code>).</p>
+
+<p>The parametrization is as follows :
+- an array of sink names must be passed to indicate which sinks are to be extracted from the
+<code>Components</code>
+- the <code>treeSource</code> property gives the name of the source which will emit tree data structures
+- the <code>localStateSource</code> property gives the name of the source holding the state of the
+<code>TreeComponent</code>. This may include for instance whether a particular node is folded or expanded.
+- the <code>localTreeSetting</code> property is such that <code>settings[localTreeSettings]</code> contains the actual
+tree to display (reminder : a component is  <code>fn(sources, settings)</code>)
+- <code>defaultUIstateNode</code> is the default UI state for each node when it is first displayed
+- <code>localCommandSpecs</code> specifies a command sink (hence an eponym command result source), and a
+command processing function, receiving, and executing the received commands
+- the incoming value from the <code>from</code> configured source is passed to the children component in their settings in a property configured in the <code>as</code> property of the <code>ForEach</code> component&rsquo;s settings.
+- <code>lenses</code> specifies the specific encoding of the tree (cf. <a href="https://github.com/brucou/functional-rose-tree#concepts"><code>fp-rose-tree</code> library documentation</a>)</p>
+
+<p>The behaviour is as follows :
+- A <code>TreeSource</code> source emits a tree data structure, which can be traversed thanks to the
+parameterized lenses
+- For each new tree, the ui state is re-computed :
+  - new nodes are given the <code>defaultUIstateNode</code> value
+  - existing nodes do not lead to updating the ui state
+  - the accumulated ui state is a hash whose key is a path to the tree, and value is the ui state
+  for the node at that path
+- if the tree data structure is &lsquo;empty&rsquo; (i.e. null or undefined), the <code>TreeEmpty</code> component is
+activated
+- Otherwise, the tree data structure is traversed (post-order traversal), the result of the
+traversal being a component which is build recursively from the tree content by matching the leaf
+ nodes to <code>TreeLeaf</code> component, and the rest of the nodes (including the root node) to <code>TreeNode</code>
+ . That result is then wrapped within the <code>TreeRoot</code> container component.
+   - Ex : a tree like <code>[[N0, [N1, N2], N3]]</code> will correspond to a component of the form&hellip; :</p>
+
+<pre><code>m({...), [ TreeRoot, [
+  m({...}, [TreeLeaf]), 
+  m({...}, [TreeNode, [
+    m({...}, [TreeLeaf]), 
+    m({...}, [TreeLeaf])
+  ]]), 
+  m({...}, [TreeLeaf])
+]])
+</code></pre>
+
+<ul>
+<li>&hellip; with the information about <code>N0</code>, <code>N1</code> etc. passed to <code>TreeNode</code>, <code>TreeLeaf</code> etc. through
+settings</li>
+<li><code>Tree...</code> components can  :
+
+<ul>
+<li>access the tree settings they are passed due to inheritance. In particular, they have access
+to <code>localTreeSettings</code> and <code>localStateSource</code></li>
+<li>access the tree data structure through <code>settings[localTreeSettings]</code>,</li>
+<li>access the path and label for the node they are associated through <code>settings.path</code>, or
+<code>settings.label</code></li>
+<li>access the tree UI state through the <code>sources[localStateSource]</code></li>
+<li>emit commands through the sink with name given by <code>localCommandSpecs.source</code>, and execute
+those commands through the function passed in <code>localCommandSpecs.executeFn</code>. The result of
+these commands is passed back the source with name given by <code>localCommandSpecs.source</code></li>
+<li>A typical use of these commands is to fetch data when some events occurs on a given
+node of the displayed tree</li>
+<li>Note that errors occurring during the execution of commands are passed as is through the
+source, and terminate it (per Rxjs contract). Hence, if an error can be recovered from or
+should be ignored, it is better to encode as a regular message, rather than an error
+notification.</li>
+</ul></li>
+<li>UI state and command sinks are not propagated upstream. Other sinks from the <code>Tree...</code> components
+are passed upstream the component tree.</li>
+</ul>
+
+<h3 id="types">Types</h3>
+
+<ul>
+<li><code>TreeComponent :: Component</code></li>
+<li><code>Components :: [TreeEmpty, TreeRoot, TreeNode, TreeLeaf]</code></li>
+<li><code>TreeEmpty :: Component</code></li>
+<li><code>TreeRoot :: Component</code></li>
+<li><code>TreeNode :: Component</code></li>
+<li><code>TreeLeaf :: Component</code></li>
+<li><code>TreeSettings :: Record {</code></li>
+<li><code>treeSource :: SourceName</code></li>
+<li><code>localStateSource :: SourceName</code></li>
+<li><code>localTreeSetting :: String</code></li>
+<li><code>defaultUIstateNode :: *</code></li>
+<li><code>localCommandSpecs :: Record { source :: SourceName, executeFn :: Command -&gt; 
+Observable&lt;Result&gt;}</code>  <strong>Optional</strong></li>
+<li><code>lenses :: TreeLenses</code></li>
+<li><code>sinkNames :: Array&lt;SinkName&gt;</code></li>
+<li><code>}</code></li>
+</ul>
+
+<h3 id="contracts">Contracts</h3>
+
+<p>TODO</p>
+
+<h1 id="example">Example</h1>
+
+<p>TODO</p>
+
+<h1 id="tips">Tips</h1>
+
+<p>The generic API retained for Tree UI component allows to define plugins reasonably easily, by
+combining core <code>TreeRoot</code>, <code>TreeNode</code>, and <code>TreeLeaf</code> components with plugins&rsquo;.</p>
+
+<p>TODO : example of normal tree, then enhanced with tree with foldable ability</p>
+
+    </div>
+    <nav>
+        
+        <a class="prev-post" href="http://brucou.github.io/projects/component-combinators/injectcircularsources/">
+            <img class="icon-text" src="/img/prev.svg"/>InjectCircularSources</a>
+        
+        
+    </nav>
+</article>
+
+<div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+<ul>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#api">API</a>
+<ul>
+<li><a href="#tree-treesettings-components-treecomponent">Tree :: TreeSettings -&gt; Components -&gt; TreeComponent</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#types">Types</a></li>
+<li><a href="#contracts">Contracts</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#example">Example</a></li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+</nav>
+    </div>
+</div>
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container">
+			<div class="u-footer">
+				
+<a href="mailto:mailto:brucou@github.com"><img class="icon-social" src="/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/brucou"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://stackoverflow.com/users/3743222/user3743222"><img class="icon-social" src="/img/stackoverflow.svg" alt="Stackoverflow"/></a>
+
+<a href="http://brucou.github.io/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+                <p>
+					
+					
+					&copy; 2017 brucou
+					
+					
+				</p>
+				
+				<a href="#">
+					<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+		<script>hljs.initHighlightingOnLoad();</script>
+		
+			<script type="text/javascript">
+              window.MathJax = {
+                showProcessingMessages: false,
+                messageStyle: 'none',
+                tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+              };
+			</script>
+			<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+			<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+            <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+            <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+			<script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+            <script type="text/javascript" src="/dist/even.js?v=2.6.6"></script>
+	</body>
+</html>
+
+

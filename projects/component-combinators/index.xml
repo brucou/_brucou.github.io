@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 brucou</copyright>
-    <lastBuildDate>Thu, 12 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://brucou.github.io/projects/component-combinators/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tree UI component</title>
+      <link>http://brucou.github.io/projects/component-combinators/tree/</link>
+      <pubDate>Fri, 25 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://brucou.github.io/projects/component-combinators/tree/</guid>
+      <description>Motivation The tree component aims at displaying tree data structures in a visually meaningful way. It aims to be generic enough to be freely customized, according to the constraints of the chosen visualization. Also it should allow to select plugins, to build a final visualization from a range of visualization additive effects (selectable nodes, foldable nodes, etc.).
+API Tree :: TreeSettings -&amp;gt; Components -&amp;gt; TreeComponent Description Creates a TreeComponent component whose behaviour is parameterized via TreeSettings.</description>
+    </item>
     
     <item>
       <title>InjectCircularSources</title>

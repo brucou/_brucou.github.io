@@ -99,35 +99,48 @@ from a range of visualization additive effects (selectable nodes, foldable nodes
  nodes, and leaf nodes, and dealing with the edge case where the tree to visualize is &lsquo;empty&rsquo; (i.e.
   <code>null</code> or <code>undefined</code>).</p>
 
-<p>The parametrization is as follows :
-- an array of sink names must be passed to indicate which sinks are to be extracted from the
-<code>Components</code>
-- the <code>treeSource</code> property gives the name of the source which will emit tree data structures
-- the <code>localStateSource</code> property gives the name of the source holding the state of the
-<code>TreeComponent</code>. This may include for instance whether a particular node is folded or expanded.
-- the <code>localTreeSetting</code> property is such that <code>settings[localTreeSettings]</code> contains the actual
-tree to display (reminder : a component is  <code>fn(sources, settings)</code>)
-- <code>defaultUIstateNode</code> is the default UI state for each node when it is first displayed
-- <code>localCommandSpecs</code> specifies a command sink (hence an eponym command result source), and a
-command processing function, receiving, and executing the received commands
-- the incoming value from the <code>from</code> configured source is passed to the children component in their settings in a property configured in the <code>as</code> property of the <code>ForEach</code> component&rsquo;s settings.
-- <code>lenses</code> specifies the specific encoding of the tree (cf. <a href="https://github.com/brucou/functional-rose-tree#concepts"><code>fp-rose-tree</code> library documentation</a>)</p>
+<p>The parametrization is as follows :</p>
 
-<p>The behaviour is as follows :
-- A <code>TreeSource</code> source emits a tree data structure, which can be traversed thanks to the
-parameterized lenses
-- For each new tree, the ui state is re-computed :
-  - new nodes are given the <code>defaultUIstateNode</code> value
-  - existing nodes do not lead to updating the ui state
-  - the accumulated ui state is a hash whose key is a path to the tree, and value is the ui state
-  for the node at that path
-- if the tree data structure is &lsquo;empty&rsquo; (i.e. null or undefined), the <code>TreeEmpty</code> component is
-activated
-- Otherwise, the tree data structure is traversed (post-order traversal), the result of the
+<ul>
+<li>an array of sink names must be passed to indicate which sinks are to be extracted from the
+<code>Components</code></li>
+<li>the <code>treeSource</code> property gives the name of the source which will emit tree data structures</li>
+<li>the <code>localStateSource</code> property gives the name of the source holding the state of the
+<code>TreeComponent</code>. This may include for instance whether a particular node is folded or expanded.</li>
+<li>the <code>localTreeSetting</code> property is such that <code>settings[localTreeSettings]</code> contains the actual
+tree to display (reminder : a component is  <code>fn(sources, settings)</code>)</li>
+<li><code>defaultUIstateNode</code> is the default UI state for each node when it is first displayed</li>
+<li><code>localCommandSpecs</code> specifies a command sink (hence an eponym command result source), and a
+command processing function, receiving, and executing the received commands</li>
+<li>the incoming value from the <code>from</code> configured source is passed to the children component in their settings in a property configured in the <code>as</code> property of the <code>ForEach</code> component&rsquo;s settings.</li>
+<li><code>lenses</code> specifies the specific encoding of the tree (cf. <a href="https://github.com/brucou/functional-rose-tree#concepts"><code>fp-rose-tree</code> library documentation</a>)</li>
+</ul>
+
+<p>The behaviour is as follows :</p>
+
+<ul>
+<li>A <code>TreeSource</code> source emits a tree data structure, which can be traversed thanks to the
+parameterized lenses</li>
+<li>For each new tree, the ui state is re-computed :
+
+<ul>
+<li>new nodes are given the <code>defaultUIstateNode</code> value</li>
+<li>existing nodes do not lead to updating the ui state</li>
+<li>the accumulated ui state is a hash whose key is a path to the tree, and value is the ui state
+for the node at that path</li>
+</ul></li>
+<li>if the tree data structure is &lsquo;empty&rsquo; (i.e. null or undefined), the <code>TreeEmpty</code> component is
+activated</li>
+<li>Otherwise, the tree data structure is traversed (post-order traversal), the result of the
 traversal being a component which is build recursively from the tree content by matching the leaf
- nodes to <code>TreeLeaf</code> component, and the rest of the nodes (including the root node) to <code>TreeNode</code>
- . That result is then wrapped within the <code>TreeRoot</code> container component.
-   - Ex : a tree like <code>[[N0, [N1, N2], N3]]</code> will correspond to a component of the form&hellip; :</p>
+nodes to <code>TreeLeaf</code> component, and the rest of the nodes (including the root node) to <code>TreeNode</code>
+. That result is then wrapped within the <code>TreeRoot</code> container component.
+
+<ul>
+<li>Ex : a tree like <code>[[N0, [N1, N2], N3]]</code> will correspond to a component of the form&hellip; :
+<br /></li>
+</ul></li>
+</ul>
 
 <pre><code>m({...), [ TreeRoot, [
   m({...}, [TreeLeaf]), 
@@ -140,6 +153,7 @@ traversal being a component which is build recursively from the tree content by 
 </code></pre>
 
 <ul>
+<li>Note as each <code>TreeNode</code> acts as a container component for <code>TreeLeaf</code> and downstream <code>TreeNode</code>s</li>
 <li>&hellip; with the information about <code>N0</code>, <code>N1</code> etc. passed to <code>TreeNode</code>, <code>TreeLeaf</code> etc. through
 settings</li>
 <li><code>Tree...</code> components can  :

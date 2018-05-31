@@ -10,6 +10,13 @@
   </url>
   
   <url>
+    <loc>http://brucou.github.io/projects/czech/psy-mame-radeji-nez-lidi-naznacuji-studie/</loc>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://brucou.github.io/projects/component-combinators/tree/</loc>
     <lastmod>2018-05-25T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -289,7 +296,7 @@
   
   <url>
     <loc>http://brucou.github.io/tags/article/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -316,21 +323,21 @@
   
   <url>
     <loc>http://brucou.github.io/tags/czech/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://brucou.github.io/categories/czech/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://brucou.github.io/projects/czech/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -358,21 +365,21 @@
   
   <url>
     <loc>http://brucou.github.io/tags/language/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://brucou.github.io/tags/learning/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://brucou.github.io/categories/learning/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -386,7 +393,7 @@
   
   <url>
     <loc>http://brucou.github.io/tags/news/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -427,14 +434,14 @@
   
   <url>
     <loc>http://brucou.github.io/tags/study/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://brucou.github.io/tags/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -448,7 +455,7 @@
   
   <url>
     <loc>http://brucou.github.io/tags/tools/</loc>
-    <lastmod>2018-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

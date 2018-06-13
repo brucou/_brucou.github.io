@@ -128,7 +128,8 @@ For practical purposes, the set of traces being generally infinite, gray-box tes
 ## ... but stream-based implementations often obfuscate the user interface design
 However, the functional reactive programming with streams approach suffers from two key issues:
 
-- linear, one-way dataflows are expressed easily through combining higher-order stream operators (`map`, `flatMap`), simple control flow is made possible by specific operators (`filter`, `switch`, `fold`), complex control flow often requires ad-hoc solutions (jumping, interrupts, conditional branching, looping, etc.)
+- linear, one-way dataflows are expressed easily through combining higher-order stream operators 
+(`map`, `flatMap`), simple control flow is made possible by specific operators (`filter`, `switch`, `fold`), complex control flow (jumping, interrupts, conditional branching, looping, etc.) often requires ad-hoc solutions 
 - streams operators are generally pure functions, hence any desired state must be passed explicitly throughout all the relevant part of the operator chain, and changes to that state must be propagated explicitly at a given point of the operator chain
 
 In short, in the case of wireframe flows featuring complex control flow, the design cannot be easily and automatically reconstructed from the reactive implementation, as the graph flow cannot be easily separated from other implementation concerns (state passing and manipulation, stream breakdown and wiring, etc.).

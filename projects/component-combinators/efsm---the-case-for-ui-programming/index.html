@@ -71,7 +71,7 @@
 			<a href="/tags/reactive%20programming">reactive programming</a>
 			
 			<a href="/tags/user%20interface">user interface</a>
-			18 min read
+			17 min read
 	</h5>
 	
 </hgroup>
@@ -239,17 +239,14 @@ modifying a comparatively large portion of the code, all of which increases the 
 
 <h3 id="design-implementation-test-and-communication">Design, implementation, test and communication</h3>
 
-<p>We have seen that transitions between states hence allow to express complex control flow with a simple vocabulary : state, transitions, guards. State machines are in fact akin to domain-specific languages, where inputs are events, (reactive) sub-routines are transitions, variables are the model, assignments are model updates, branching constructs are control states and guards, the actions being the output of the program.
-The combination of dataflow (streams) and DSL-controlled flow allow to express a reactive design into an implementation with reasonable ease.</p>
-
-<p>More importantly, the control flow is encoded in a regular object which can be automatically parsed in many ways of interest.</p>
+<p>We have seen that transitions between states hence allow to express complex control flow with a simple vocabulary : state, transitions, guards. More importantly, the control flow is encoded in a regular object which can be automatically parsed in many ways of interest.</p>
 
 <p>Among key examples, the state machine definition (<code>:: Record {transitions, eventNames, states, initialModel, initialEvent}</code>) can be :</p>
 
 <ul>
 <li>used by <code>f</code> to compute the actions from the events, i.e to produce an executable version of the state machine</li>
 <li>automatically parsed into a graphical representation of all or a slice of the behaviour (removing error handling flows for instance) of the state machine</li>
-<li>used to generate automatic tests for the state machine (note that this requires additional formalization (refinement of the DSL), more on this in a future section)</li>
+<li>used to generate automatic tests for the state machine</li>
 </ul>
 
 <p>Going back to the <a href="https://github.com/brucou/component-combinators/tree/master/examples/volunteerApplication">sample application</a>, here is an example of automatizable flow graph, in which the error flows have been segregated :</p>
@@ -264,7 +261,7 @@ flows obtained from the design phase (represented in green). This shows how the 
 <p>Generative testing can be used to increase the test process automatization, reduce test implementation time, and increase confidence in the behaviour of the system.</p>
 
 <p>Last but not least, <a href="https://en.wikipedia.org/wiki/Computer_programming#Readability_of_source_code">readability</a> refers to the ease with which a human reader can
-comprehend the purpose, control flow, and operation of source code. A state-machine-based DSL goes a long way in communicating the intent and meaning of a reactive program.</p>
+comprehend the purpose, control flow, and operation of source code. A state-machine-based design goes a long way in communicating the intent and meaning of a reactive program.</p>
 
 <h3 id="asynchrony-and-concurrency">Asynchrony and concurrency</h3>
 

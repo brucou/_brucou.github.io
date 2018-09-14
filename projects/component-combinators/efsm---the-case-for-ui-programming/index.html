@@ -159,7 +159,7 @@ At the same time, processing events triggering actions while another action is e
 <p>However, the functional reactive programming with streams approach suffers from two key issues:</p>
 
 <ul>
-<li>linear, one-way dataflows are expressed easily through combining higher-order stream operators (<code>map</code>, <code>flatMap</code>), simple control flow is made possible by specific operators (<code>filter</code>, <code>switch</code>, <code>fold</code>), but complex control flow often requires ad-hoc solutions(jumping, interrupts, conditional branching, looping, etc.)</li>
+<li>linear, one-way dataflows are expressed easily through combining higher-order stream operators (<code>map</code>, <code>flatMap</code>), simple control flow is made possible by specific operators (<code>filter</code>, <code>switch</code>, <code>fold</code>), but complex control flow(jumping, interrupts, conditional branching, looping, etc.) often requires ad-hoc solutions</li>
 <li>streams operators are generally pure functions, hence any desired state must be passed explicitly throughout all the relevant part of the operator chain, and changes to that state must be propagated explicitly at a given point of the operator chain</li>
 </ul>
 
